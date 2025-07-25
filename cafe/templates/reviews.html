@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block title %}🌟 Reviews
+{% endblock title %}
+
+{% block body %}
+
+{% if user.is_authenticated %}
+<div class="container py-4 col-md-8">
+    <h3 class="text-center mb-3">Write a review</h3>
+    <form method="POST" action="/reviews">
+        {% csrf_token %}
+        <div class="row align-items-center">
+            <div class="col-md-9">
+                <div class="form-floating">
+                    <input
+            type="text"
+            name="comment"
+            id="form3Example3c"
+            class="form-control"
+            placeholder="Write a comment"
+            maxlength="250"
+            required
+          >
+                    <label for="form3Example3c">Write a comment</label>
+                </div>
+            </div>
+            <div class="col-md-3 d-grid">
+                <button type="submit" class="btn btn-primary">Publish</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+{% endif %}
+
+<!-- 🔍 Search Bar for Reviews -->
+<div class="container mt-3 col-md-6">
+    <label for="searchInput" class="visually-hidden">Search review items</label>
+    <input type="text" id="searchInput" class="form-control" placeholder="🔍 Search reviews">
+    <div id="noReviewResults" class="text-center text-muted mt-3" style="display:none;">No matching reviews found 💬
+    </div>
+</div>
+
+<div class="container" style="padding: 5px;">
+    <h2>Reviews :</h2>
+</div>
+
+{% for r in reviews %}
+<div class="review" style="border: 2px solid black; margin: 5px 100px 50px; padding: 10px;">
+    <h3><b>{{ r.name }}</b></h3>
+    <h4>{{ r.comment }}</h4>
+</div>
+{% endfor %}
+
+{% endblock body %}
+
+{% block js %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+/* global $ */
+    $(function() {
+    $('#searchInput').on('input', function() {
+        var value = $(this).val().toLowerCase().trim();
+        var matchCount = 0;
+
+        $('.review').each(function() {
+            var text = $(this).text().toLowerCase();
+            var matched = text.includes(value);
+            $(this).toggle(matched);
+            if (matched) matchCount++;
+        });
+
+        $('#noReviewResults').toggle(matchCount === 0);
+    });
+});
+</script>
+{% endblock js %}
