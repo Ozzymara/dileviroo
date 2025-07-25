@@ -1,95 +1,51 @@
 """
-URL Configuration for Cafe Application.
+Main URL Configuration for Dileviroo Restaurant Management System.
 
-This module defines the URL routing patterns for the cafe Django application,
-mapping URL paths to their corresponding view functions. It handles all the
-web endpoints for restaurant functionality including menu display, order
-management, user authentication, and administrative features.
+This is the root URL configuration for the Dileviroo project, a comprehensive
+restaurant management system built with Django. It routes URLs to the appropriate
+applications and provides development tools integration.
+
+Project Structure:
+    - Main application: 'cafe' - handles all restaurant functionality
+    - Admin interface: Django's built-in admin for data management
+    - Debug toolbar: Development debugging tools (DEBUG mode only)
 
 URL Patterns:
-    Public URLs:
-        - '' (root): Menu display page
-        - 'offers': Special offers and promotions
-        - 'reviews': Customer reviews display and submission
-        - 'cart': Shopping cart management
+    - '__debug__/': Django Debug Toolbar URLs (development only)
+    - 'admin': Django admin interface for data management
+    - '': Root URL includes cafe application URLs
 
-    Authentication URLs:
-        - 'login': User login page
-        - 'signup': User registration page
-        - 'logout': User logout functionality
+Applications Included:
+    - cafe: Restaurant management (menu, orders, billing, users)
+    - admin: Django administrative interface
+    - debug_toolbar: Development debugging tools
 
-    User-Specific URLs:
-        - 'profile': User profile page (authenticated users)
-        - 'my_orders': User's order history (authenticated users)
-
-    Administrative URLs:
-        - 'all_orders': View all orders (staff only)
-        - 'manage_menu': Add/edit menu items (staff only)
-        - 'delete_dish/<int:item_id>/': Delete menu items (admin only)
-        - 'generate_bill': Generate bills for tables (staff only)
-        - 'view_bills': View all generated bills (admin only)
-
-    Media URLs:
-        - Static media files served in DEBUG mode for development
+The cafe application handles:
+    - Menu item management and display
+    - Customer order processing and tracking
+    - User authentication with phone-based login
+    - Customer review and rating system
+    - Bill generation and management
+    - Administrative functions for restaurant staff
 
 Note:
-    - URLs are designed for a restaurant management system
-    - Some URLs require authentication or specific permissions
-    - Media files are served in development mode only
-    - Commented checkout path suggests future payment integration
+    Debug toolbar is included for development debugging and should be
+    disabled in production environments.
 """
+
+import debug_toolbar
 
 from django.contrib import admin
 from django.urls import path, include
-from cafe import views
-from django.conf import settings
-from django.conf.urls.static import static
+
 
 urlpatterns = [
-    # Main application URLs
-    # path('', views.home, name='home'),  # Commented home page
-    path('', views.menu, name='menu'),  # Root URL displays menu
-
-    # Menu management URLs (admin/staff only)
-    # Delete menu item
-    path('delete_dish/<int:item_id>/', views.delete_dish, name='delete_dish'),
-    # Add new menu items
-    path('manage_menu', views.manage_menu, name='manage_menu'),
-
-    # Public content URLs
-    # Special offers page
-    path('offers', views.offers, name='offers'),
-    # Customer reviews
-    path('reviews', views.reviews, name='reviews'),
-
-    # User account URLs
-    path('profile', views.profile, name='profile'),
-    # User profile (auth required)
-    # User login
-    path('login', views.login_view, name='login'),
-    # User registration
-    path('signup', views.signup, name='signup'),
-    # User logout
-    path('logout', views.Logout, name='logout'),
-
-    # Order management URLs
-    # Shopping cart
-    path('cart', views.cart, name='cart'),
-    # path('checkout', views.checkout, name='checkout'),
-    # Future payment integration
-    # User order history
-    path('my_orders', views.my_orders, name='my_orders'),
-    # All orders (staff only)
-    path('all_orders', views.all_orders, name='all_orders'),
-
-    # Billing URLs (staff/admin only)
-    # Generate table bills
-    path('generate_bill', views.generate_bill, name='generate_bill'),
-    # View all bills
-    path('view_bills', views.view_bills, name='view_bills'),
+    # Development debugging tools (DEBUG mode only)
+    path('__debug__/', include(debug_toolbar.urls)),
+    
+    # Django admin interface for data management
+    path('admin', admin.site.urls),  # ✅ This line is essential
+    
+    # Include all cafe application URLs at root level
+    path('', include('cafe.urls')),
 ]
-
-# Serve media files in development mode
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL,
-                          document_root=settings.MEDIA_ROOT)
