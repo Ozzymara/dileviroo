@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}
+📦 All Orders
+{% endblock title %}
+
+{% block body %}
+
+<!-- 🔍 Search Bar -->
+<div class="container col-md-6 mt-3">
+    <label for="searchInput" class="visually-hidden">Search all orders</label>
+    <input type="text" id="searchInput" class="form-control" placeholder="🔍 Search all orders">
+    <div id="noAdminOrderResults" class="text-center text-muted mt-3" style="display:none;">
+        No matching orders found 🚫
+    </div>
+</div>
+
+<div style="padding: 15px 50px 15px">
+    {% for table, orders in order_by_table.items %}
+    <div style="padding: 15px 5px 15px">
+        {% if table == 'Take Away' %}
+        <h3>{{ table }}</h3>
+        {% else %}
+        <h3>Table No : {{ table }}</h3>
+        {% endif %}
+        <hr>
+        <hr>
+
+        {% for o in orders %}
+        <div class="order-admin-block" style="margin-bottom:25px;">
+            <h4>Order Time: {{ o.order_time }}</h4>
+            {% for item_key, item_values in o.items_json.items %}
+            <p><strong>{{ item_values.1 }} : {{ item_values.0 }}</strong></p>
+            {% endfor %}
+            <p><strong>Total : £{{ o.price }}</strong></p>
+            <p><strong>Name: {{ o.name }}</strong></p>
+            {% if not o.bill_clear %}
+            <button onclick="generateBill('{{table}}')">Generate Bill</button>
+            {% else %}
+            <h5><strong>Bill Cleared</strong></h5>
+            {% endif %}
+        </div>
+        {% endfor %}
+        <hr>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock body %}
+
+{% block js %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    /* global $, window, document */
+    function generateBill(table) {
+    window.location.href = '/generate_bill?table=' + table;
+}
+
+// 🔍 Admin Order Search Logic
+$(document).ready(function() {
+    $('#searchInput').on('keyup', function() {
+        var value = $(this).val().toLowerCase();
+        var matchCount = 0;
+        $('.order-admin-block').each(function() {
+            var text = $(this).text().toLowerCase();
+            var matched = text.includes(value);
+            $(this).toggle(matched);
+            if (matched) matchCount++;
+        });
+        $('#noAdminOrderResults').toggle(matchCount === 0);
+    });
+});
+</script>
+{% endblock js %}
