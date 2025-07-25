@@ -15,6 +15,7 @@
     <link rel="icon" type="image/webp" href="{% static 'logo.webp' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
 
     <style>
         * {
@@ -103,6 +104,36 @@
                 height: 100%;
             }
         }
+
+        /* Social media icons in the footer */
+.social-icon {
+    width: 32px;
+    height: 32px;
+    margin: 0 12px;
+    vertical-align: middle;
+    transition: transform 0.3s ease;
+}
+
+.social-icon:hover {
+    transform: scale(1.2); /* Scale up on hover */
+}
+
+.social-icon:focus {
+    outline: 2px solid var(--accent); /* Add focus outline for accessibility */
+}
+
+/* Responsive footer adjustments */
+@media (max-width: 768px) {
+    footer {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px 10px;
+    }
+
+    .social-icon {
+        margin: 8px;
+    }
+}
     </style>
 </head>
 <main class="flex-grow-1">
@@ -214,11 +245,58 @@
         
     </script>
 </main>
+
 <!--Footer section-->
-<footer class="d-flex justify-content-center mt-5">
+<footer class="text-center py-3 bg-light">
+   <!-- SOCIAL MEDIA ICONS -->
+   <div class="mb-3">
+      <a href="https://www.linkedin.com/"
+         target="_blank"
+         rel="noopener"
+         aria-label="LinkedIn - opens in a new tab">
+      <img src="/dileviroo/static/linkedin.webp"
+         alt="LinkedIn Icon"
+         class="social-icon">
+      </a>
+      <a href="https://github.com/"
+         target="_blank"
+         rel="noopener"
+         aria-label="GitHub - opens in a new tab">
+      <img src="/dileviroo/static/github.webp"
+         alt="GitHub Icon"
+         class="social-icon">
+      </a>
+      <a href="https://www.instagram.com/"
+         target="_blank"
+         rel="noopener"
+         aria-label="Instagram - opens in a new tab">
+      <img src="/dileviroo/static/instagram.webp"
+         alt="Instagram Icon"
+         class="social-icon">
+      </a>
+      <a href="https://x.com/?lang=en"
+         target="_blank"
+         rel="noopener"
+         aria-label="Twitter - opens in a new tab">
+      <img src="/dileviroo/static/twitter.webp"
+         alt="Twitter Icon"
+         class="social-icon">
+      </a>
+      <a href="https://www.youtube.com/"
+         target="_blank"
+         rel="noopener"
+         aria-label="YouTube - opens in a new tab">
+      <img src="/dileviroo/static/youtube.webp"
+         alt="YouTube Icon"
+         class="social-icon">
+      </a>
+   </div>
+   <!-- COPYRIGHT -->
+
+<class="d-flex justify-content-center mt-5">
 
     <div>
-        <a href="https://github.com/Ozzymara/preroku" target="_blank" aria-label="© Dileviroo GitHub page">
+        <a href="https://github.com/Ozzymara/dileviroo" target="_blank" aria-label="© Dileviroo GitHub page">
             <i class="fa-brands" style="color: #2D5D81" aria-hidden="true">
      &copy; Dileviroo -
    </i>
