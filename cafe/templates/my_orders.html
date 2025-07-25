@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}My_orders
+{% endblock title %}
+
+{% block body %}
+
+{% for message in messages %}
+<div class="alert alert-success alert-dismissable fade show" role="alert">
+    <strong>{{message}}</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+
+<h2 style="padding-top:25px; display:grid; place-items:center;">Your Orders</h2>
+
+<!-- 🔍 Search bar for orders -->
+<div class="container col-md-6 mt-3">
+    <label for="searchInput" class="visually-hidden">Search menu items</label>
+    <input type="text" id="searchInput" class="form-control" placeholder="🔍 Search your orders">
+    <div id="noOrderResults" class="text-center text-muted mt-3" style="display:none;">No matching orders found 🧾</div>
+</div>
+
+<div style="padding: 15px 50px 15px;">
+    {% for table, orders in order_by_table.items %}
+    <div style="padding: 15px 5px 15px">
+        <hr>
+        {% for o in orders %}
+        <div class="order-block" style="margin-bottom:25px;">
+            <h5>
+                Order Time: {{ o.order_time }}
+            </h5>
+            {% for item_key, item_values in o.items_json.items %}
+            <b>{{ item_values.1 }} : {{ item_values.0 }}</b><br><br>
+            {% endfor %}
+            <b>Total: £{{ o.price }}</b>
+            <hr>
+        </div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock body %}
+
+{% block js %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+/* global $ */
+    $(function() {
+    $('#searchInput').on('input keyup', function() {
+        var value = $(this).val().toLowerCase().trim();
+        var matchCount = 0;
+        $('.order-block').each(function() {
+            var text = $(this).text().toLowerCase();
+            var matched = text.includes(value);
+            $(this).toggle(matched);
+            if (matched) matchCount++;
+        });
+        $('#noOrderResults').toggle(matchCount === 0);
+    });
+});
+</script>
+{% endblock js %}
