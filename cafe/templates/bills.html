@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block title %}💸 Bill{% endblock title %}
+
+{% block body %}
+
+{% for message in messages %}
+  <div class="alert alert-success alert-dismissable fade show" role="alert">
+    <strong>{{message}}</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+{% endfor %}
+
+<!-- c Bar -->
+<div class="container col-md-6 mt-3">
+  <label for="searchInput" class="visually-hidden">Search bill items</label>
+<input type="text" id="searchInput" class="form-control" placeholder="🔍 Search bills">
+  <div id="noBillResults" class="text-center text-muted mt-3" style="display:none;">No matching bills found 😶‍🌫️</div>
+</div>
+
+<div class="container col-md-6">
+  <div style="display:grid;place-content:center; padding-top:25px">
+    <h3>All Bills :</h3>
+  </div>
+
+  {% for b in bills %}
+  <div class="bill-block" style="margin-bottom:25px;">
+    <table class="table table-bordered border-dark">
+      <thead>
+        <tr>
+          <th>Item name</th>
+          <th>Qty</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item, values in b.order_items.items %}
+        <tr>
+          <td>{{ item }}</td>
+          <td>{{ values.0 }}</td>
+          <td>£{{ values.1 }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div style='padding:50px 0px 10px'>
+      <hr>
+      <h4>Invoice number : {{ b.id }}</h4>
+      <h5>Invoice time : {{ b.bill_time }}</h5>
+      {% if b.name != "Unknown" %}
+        <h5>Name: {{ b.name }}</h5>
+        <h5>Phone: {{ b.phone }}</h5>
+      {% endif %}
+      <h5>Bill Total : £{{ b.bill_total }}</h5>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock body %}
+
+{% block js %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  /* global $, document */
+$(document).ready(function() {
+  $('#billSearchInput').on('keyup', function() {
+    var value = $(this).val().toLowerCase();
+    var matchCount = 0;
+
+    $('.bill-block').each(function() {
+      var text = $(this).text().toLowerCase();
+      var matched = text.includes(value);
+      $(this).toggle(matched);
+      if (matched) matchCount++;
+    });
+
+    $('#noBillResults').toggle(matchCount === 0);
+  });
+});
+</script>
+{% endblock js %}

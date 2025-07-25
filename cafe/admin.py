@@ -1,37 +1,94 @@
 """
-Django Application Configuration for Cafe Application.
+Django Admin Configuration for Cafe Application.
 
-This module defines the configuration for the cafe Django application,
-which handles restaurant management functionality including menu management,
-order processing, user authentication, and billing systems.
+This module configures the Django admin interface for managing cafe-related models
+including menu items, user accounts, orders, ratings, and bills. It provides
+customized admin interfaces with enhanced functionality for restaurant management.
 
-The cafe application provides:
-- Menu item management and display
-- Customer order processing and tracking
-- User authentication with phone-based login
-- Review and rating system
-- Bill generation and management
-- Admin interface for restaurant staff
+Models Registered:
+    - MenuItem: Restaurant menu items with custom display and filtering
+    - User: Custom user model with phone-based authentication
+    - Rating: Customer reviews and ratings
+    - Order: Customer orders with detailed information
+    - Bill: Generated bills for completed orders
 """
 
-from django.apps import AppConfig
+from django.contrib import admin
+from django.contrib.auth import get_user_model
+from django.contrib.auth.admin import UserAdmin
+from .models import MenuItem, Rating, Order, Bill
 
 
-class CafeConfig(AppConfig):
+@admin.register(MenuItem)
+class MenuItemAdmin(admin.ModelAdmin):
     """
-    Configuration class for the Cafe Django application.
-
-    This class defines the basic configuration settings for the cafe app,
-    including the default auto field type and the application name.
-
+    Admin interface configuration for MenuItem model.
+    
+    Provides enhanced admin interface for managing restaurant menu items
+    with display optimization, search functionality, and filtering options.
+    
+    Features:
+        - List display shows key item information (name, price, category)
+        - Search functionality by item name
+        - Filter options by category for easy navigation
+        - Automatic registration with MenuItem model
+    
     Attributes:
-        default_auto_field (str): Specifies the default primary key field type
-                                 for models that don't explicitly define one
-        name (str): The name of the Django application
-
-    Note:
-        This configuration is automatically loaded when the app is included
-        in Django's INSTALLED_APPS setting.
+        list_display (list): Fields to display in the admin list view
+        search_fields (list): Fields to enable search functionality
+        list_filter (list): Fields to provide filtering options
     """
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'cafe'
+    list_display = ['name', 'price', 'category']
+    search_fields = ['name']
+    list_filter = ['category']
+
+
+# Get the custom user model for registration
+User = get_user_model()
+
+
+class CustomUserAdmin(UserAdmin):
+    """
+    Customized admin interface for User model.
+    
+    Extends Django's built-in UserAdmin to accommodate the custom user model
+    that uses phone numbers instead of usernames for authentication.
+    
+    Features:
+        - Orders users by phone number for logical sorting
+        - Inherits all standard UserAdmin functionality
+        - Compatible with phone-based authentication system
+    
+    Attributes:
+        ordering (list): Default ordering for user list (by phone number)
+    
+    Note:
+        Uses phone number as the primary identifier instead of username
+    """
+    ordering = ['phone']
+
+
+# Register the custom user model with the customized admin
+admin.site.register(User, CustomUserAdmin)
+
+# Register remaining models with default admin interface
+"""
+Additional Model Registrations:
+
+Rating: Customer reviews and ratings management
+- Allows admin to view and moderate customer feedback
+- Default admin interface provides basic CRUD operations
+
+Order: Customer order management  
+- Enables admin to view all customer orders
+- Useful for order tracking and customer service
+- Default interface shows all order fields
+
+Bill: Generated bill management
+- Provides access to all generated bills
+- Useful for accounting and financial tracking
+- Default interface displays bill details and totals
+"""
+admin.site.register(Rating)
+admin.site.register(Order) 
+admin.site.register(Bill)
