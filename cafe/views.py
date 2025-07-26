@@ -32,8 +32,9 @@ def menu(request):
     Context:
         items_by_category (dict): Menu items grouped by category
     """
-    # Get all menu items ordered by category and display order
-    menu_items = MenuItem.objects.all().order_by('category', 'list_order')
+    # Get all menu items with images, ordered by list_order for custom ordering
+    menu_items = MenuItem.objects.filter(pic__isnull=False).exclude(
+        pic='').order_by('list_order', 'price', 'name')
     items_by_category = {}
 
     # Group menu items by category for organized display
@@ -82,7 +83,8 @@ def all_orders(request):
             except (json.JSONDecodeError, TypeError, ValueError):
                 ord.items_json = {}
                 # Log parsing error for debugging
-                print(f"⚠️ JSONDecodeError for order {ord.id}: {items_json_str}")  # noqa: E501
+                print(
+                    f"⚠️ JSONDecodeError for order {ord.id}: {items_json_str}")
 
     context = {'order_by_table': order_by_table}
 
@@ -209,13 +211,13 @@ def manage_menu(request):
 
             # Assign list_order based on category for proper menu sorting
             if cat.lower() == 'pizzas':
-                listing_order = 1  # Fix variable name typo
+                listing_order = 1
             elif cat.lower() == 'burgers':
                 listing_order = 2
             elif cat.lower() == 'rice':
-                listing_order = 4
+                listing_order = 3  # Fixed: rice should be 3
             elif cat.lower() == 'kebabs':
-                listing_order = 3
+                listing_order = 4  # Fixed: kebabs should be 4
             elif cat.lower() == 'wraps':
                 listing_order = 5
             elif cat.lower() == 'sides':
@@ -236,11 +238,16 @@ def manage_menu(request):
             )
             dish.save()
             messages.success(request, 'Dish added successfully!')
-            return redirect('menu')
+            return redirect('manage_menu')
+
+    # Get all menu items with images for display
+    items = MenuItem.objects.filter(pic__isnull=False).exclude(
+        pic='').order_by('list_order')
 
     return render(
         request,
         'manage_menu.html',
+        {'items': items}
     )
 
 
@@ -283,8 +290,8 @@ def cart(request):
         request (HttpRequest): The HTTP request object
 
     Returns:
-        HttpResponse: Rendered cart.html
-        template or redirect based on user status
+        HttpResponse: Rendered cart.html template or redirect based on user status # noqa: E501
+
 
     Form Data (POST):
         items_json (str): JSON string of cart items
@@ -324,7 +331,8 @@ def cart(request):
             cart_dict = {}
 
         if not cart_dict or sum(item[0] for item in cart_dict.values()) == 0:
-            messages.error(request, 'Order unsuccessful: Please add items to cart.')  # noqa: E501
+            messages.error(
+                request, 'Order unsuccessful: Please add items to cart.')
             return redirect('cart')
 
         print(f"🧾 Received total from form: {total}")
@@ -440,7 +448,8 @@ def my_orders(request):
                 ord.items_json = json.loads(items_json_str)
             except (json.JSONDecodeError, TypeError, ValueError):
                 ord.items_json = {}  # fallback to empty dict
-                print(f"⚠️ JSONDecodeError for order {ord.id}: {items_json_str}")  # noqa: E501
+                print(
+                    f"⚠️ JSONDecodeError for order {ord.id}: {items_json_str}")
 
     context = {'order_by_table': order_by_table}
 
@@ -638,8 +647,8 @@ def view_bills(request):
     """
     Display all generated bills for admin users.
 
-    Retrieves and displays all bills in the system,
-    ordered by most recent first.
+    Retrieves and displays all bills in the system, ordered by most recent first. # noqa: E501
+
     Restricted to admin users only.
 
     Args:

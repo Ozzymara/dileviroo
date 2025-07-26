@@ -49,7 +49,7 @@
 
 {% for r in reviews %}
 <div class="review" style="border: 2px solid black; margin: 5px 100px 50px; padding: 10px;">
-    <h3><b>{{ r.name }}</b></h3>
+    <h3><b>{% if r.name and r.name.strip %}{{ r.name.strip }}{% else %}Anonymous{% endif %}</b></h3>
     <h4>{{ r.comment }}</h4>
 </div>
 {% endfor %}

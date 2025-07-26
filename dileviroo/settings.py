@@ -29,10 +29,10 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 DEBUG = True
 
 ALLOWED_HOSTS = [
-                '127.0.0.1',
-                'dileviroo-d67d65227b08.herokuapp.com',
-                '.herokuapp.com'
-                ]
+    '127.0.0.1',
+    'dileviroo-d67d65227b08.herokuapp.com',
+    '.herokuapp.com'
+]
 
 # Application definition
 

@@ -65,8 +65,8 @@
 <script>
   /* global $, document */
 $(document).ready(function() {
-  $('#billSearchInput').on('keyup', function() {
-    var value = $(this).val().toLowerCase();
+  $('#searchInput').on('input', function() {
+    var value = $(this).val().toLowerCase().trim();
     var matchCount = 0;
 
     $('.bill-block').each(function() {

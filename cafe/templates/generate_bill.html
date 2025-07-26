@@ -48,9 +48,44 @@
 
 {% block js %}
 <script>
-    /* global window */
-        function printBill() {
+    /* global window, history, sessionStorage, location */
+    function printBill() {
         window.print();
+    }
+    
+    // Check if this bill was already generated in this session
+    const billKey = 'bill_generated_{{ inv_id }}';
+    const currentPath = window.location.pathname;
+    
+    if (sessionStorage.getItem(billKey) === currentPath) {
+        // Bill already generated, redirect to prevent duplicate
+        window.location.href = '/menu';
+    } else {
+        // Mark this bill as generated
+        sessionStorage.setItem(billKey, currentPath);
+    }
+    
+    // Prevent refresh from creating new bill
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
+    
+    // Disable F5 and Ctrl+R
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F5' || (e.ctrlKey && e.key === 'r')) {
+            e.preventDefault();
+            return false;
+        }
+    });
+    
+    // Detect hard refresh and redirect
+    window.addEventListener('beforeunload', function() {
+        sessionStorage.setItem('hard_refresh_' + billKey, 'true');
+    });
+    
+    if (sessionStorage.getItem('hard_refresh_' + billKey) === 'true') {
+        sessionStorage.removeItem('hard_refresh_' + billKey);
+        window.location.href = '/menu';
     }
 </script>
 

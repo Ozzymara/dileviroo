@@ -12,12 +12,21 @@
     </div>
 {% endfor %}
 
+<!-- 🔍 Search Bar for Menu -->
+<div class="container mt-3 col-md-6">
+    <label for="searchInput" class="visually-hidden">Search menu items</label>
+    <input type="text" id="searchInput" class="form-control" placeholder="🔍 Search menu items">
+    <div id="noMenuResults" class="text-center text-muted mt-3" style="display:none;">No matching menu items found 🍽️
+    </div>
+</div>
+
 {% for category, menu_items in items_by_category.items %}
-  <h3 style="margin:40px 25px 5px">{{category}}:</h3>
-<div class="row justify-content-center">
-{%for i in menu_items%}
-<div class="card" style="width: 18rem; margin:20px 20px 10px; ">
-  <img src="{{i.pic.url}}" class="card-img-top" alt="{{i.name}} - {{i.desc}}" style='padding:10px 0px 0px; max-height:250px;'>
+  <div class="category-section" data-category="{{category|lower}}">
+    <h3 style="margin:40px 25px 5px">{{category}}:</h3>
+    <div class="row justify-content-center">
+    {%for i in menu_items%}
+    <div class="card menu-item" style="width: 18rem; margin:20px 20px 10px;" data-name="{{i.name|lower}}" data-desc="{{i.desc|lower}}" data-category="{{category|lower}}">
+  <img src="{{i.pic.url}}" class="card-img-top" alt="`" style='padding:10px 0px 0px; max-height:250px;'>
   <div class="card-body">
     <h4 class="card-title" id="namepr{{i.id}}" >{{i.name}}</h4>
     <h5 class="card-title">£<span id="pricepr{{i.id}}" >{{i.price}}</span></h5>
@@ -34,8 +43,9 @@
     {%endif%}
   </div>
 </div>
-{%endfor%}
-</div>
+    {%endfor%}
+    </div>
+  </div>
 {%endfor%}
 
 <div class="d-flex justify-content-center" 
@@ -52,6 +62,28 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 $(document).ready(function() {
+  // Sort menu items by price then name
+  $('.category-section').each(function() {
+    var $container = $(this).find('.row');
+    var $items = $container.find('.menu-item').detach();
+    
+    $items.sort(function(a, b) {
+      var priceA = parseFloat($(a).find('[id^="pricepr"]').text()) || 0;
+      var priceB = parseFloat($(b).find('[id^="pricepr"]').text()) || 0;
+      var nameA = $(a).find('[id^="namepr"]').text().toLowerCase();
+      var nameB = $(b).find('[id^="namepr"]').text().toLowerCase();
+      
+      // Sort by price first
+      if (priceA !== priceB) {
+        return priceA - priceB;
+      }
+      // Then by name
+      return nameA.localeCompare(nameB);
+    });
+    
+    $container.append($items);
+  });
+
   var cart = JSON.parse(localStorage.getItem('cart')) || {};
   updatecart(cart);
 
@@ -95,6 +127,30 @@ $(document).ready(function() {
     cart[a][0]++;
     document.getElementById('val'+a).innerHTML = cart[a][0];
     updatecart(cart);
+  });
+
+  // Search functionality matching reviews page
+  $('#searchInput').on('input', function() {
+    var value = $(this).val().toLowerCase().trim();
+    var matchCount = 0;
+
+    $('.menu-item').each(function() {
+      var name = $(this).data('name') || '';
+      var desc = $(this).data('desc') || '';
+      var category = $(this).data('category') || '';
+      
+      var matched = name.includes(value) || desc.includes(value) || category.includes(value);
+      $(this).toggle(matched);
+      if (matched) matchCount++;
+    });
+
+    // Hide/show categories based on visible items
+    $('.category-section').each(function() {
+      var visibleItems = $(this).find('.menu-item:visible').length;
+      $(this).toggle(visibleItems > 0);
+    });
+
+    $('#noMenuResults').toggle(matchCount === 0);
   });
 
   var url = window.location.href;

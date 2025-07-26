@@ -1,9 +1,9 @@
 """
 Main URL Configuration for Dileviroo Restaurant Management System.
 
-This is the root URL configuration for the Dileviroo project, a comprehensive
-restaurant management system built with Django. It routes URLs to the appropriate
-applications and provides development tools integration.
+This is the root URL configuration for the Dileviroo project, a comprehensive restaurant management system built with Django. It routes URLs to the appropriate applications and provides development tools integration. # noqa: E501
+
+
 
 Project Structure:
     - Main application: 'cafe' - handles all restaurant functionality
@@ -42,10 +42,10 @@ from django.urls import path, include
 urlpatterns = [
     # Development debugging tools (DEBUG mode only)
     path('__debug__/', include(debug_toolbar.urls)),
-    
+
     # Django admin interface for data management
     path('admin', admin.site.urls),  # ✅ This line is essential
-    
+
     # Include all cafe application URLs at root level
     path('', include('cafe.urls')),
 ]
