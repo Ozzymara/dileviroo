@@ -67,12 +67,12 @@
 
         $('.review').each(function() {
             var text = $(this).text().toLowerCase();
-            var matched = text.includes(value);
+            var matched = value === '' || text.includes(value);
             $(this).toggle(matched);
             if (matched) matchCount++;
         });
 
-        $('#noReviewResults').toggle(matchCount === 0);
+        $('#noReviewResults').toggle(matchCount === 0 && value !== '');
     });
 });
 </script>

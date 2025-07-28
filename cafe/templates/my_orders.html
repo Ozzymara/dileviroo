@@ -48,16 +48,16 @@
 <script>
 /* global $ */
     $(function() {
-    $('#searchInput').on('input keyup', function() {
+    $('#searchInput').on('input', function() {
         var value = $(this).val().toLowerCase().trim();
         var matchCount = 0;
         $('.order-block').each(function() {
             var text = $(this).text().toLowerCase();
-            var matched = text.includes(value);
+            var matched = value === '' || text.includes(value);
             $(this).toggle(matched);
             if (matched) matchCount++;
         });
-        $('#noOrderResults').toggle(matchCount === 0);
+        $('#noOrderResults').toggle(matchCount === 0 && value !== '');
     });
 });
 </script>

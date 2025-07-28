@@ -58,16 +58,16 @@
 
 // 🔍 Admin Order Search Logic
 $(document).ready(function() {
-    $('#searchInput').on('keyup', function() {
-        var value = $(this).val().toLowerCase();
+    $('#searchInput').on('input', function() {
+        var value = $(this).val().toLowerCase().trim();
         var matchCount = 0;
         $('.order-admin-block').each(function() {
             var text = $(this).text().toLowerCase();
-            var matched = text.includes(value);
+            var matched = value === '' || text.includes(value);
             $(this).toggle(matched);
             if (matched) matchCount++;
         });
-        $('#noAdminOrderResults').toggle(matchCount === 0);
+        $('#noAdminOrderResults').toggle(matchCount === 0 && value !== '');
     });
 });
 </script>

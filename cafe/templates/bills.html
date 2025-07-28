@@ -71,12 +71,13 @@ $(document).ready(function() {
 
     $('.bill-block').each(function() {
       var text = $(this).text().toLowerCase();
-      var matched = text.includes(value);
+      var matched = value === '' || text.includes(value);
       $(this).toggle(matched);
       if (matched) matchCount++;
     });
 
-    $('#noBillResults').toggle(matchCount === 0);
+    // Show/hide no results message
+    $('#noBillResults').toggle(matchCount === 0 && value !== '');
   });
 });
 </script>

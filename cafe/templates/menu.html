@@ -139,7 +139,7 @@ $(document).ready(function() {
       var desc = $(this).data('desc') || '';
       var category = $(this).data('category') || '';
       
-      var matched = name.includes(value) || desc.includes(value) || category.includes(value);
+      var matched = value === '' || name.includes(value) || desc.includes(value) || category.includes(value);
       $(this).toggle(matched);
       if (matched) matchCount++;
     });
@@ -147,10 +147,10 @@ $(document).ready(function() {
     // Hide/show categories based on visible items
     $('.category-section').each(function() {
       var visibleItems = $(this).find('.menu-item:visible').length;
-      $(this).toggle(visibleItems > 0);
+      $(this).toggle(value === '' || visibleItems > 0);
     });
 
-    $('#noMenuResults').toggle(matchCount === 0);
+    $('#noMenuResults').toggle(matchCount === 0 && value !== '');
   });
 
   var url = window.location.href;
