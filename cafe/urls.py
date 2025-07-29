@@ -60,6 +60,12 @@ urlpatterns = [
     path('offers', views.offers, name='offers'),  # Special offers page
     path('reviews', views.reviews, name='reviews'),  # Customer reviews
 
+    # Review CRUD operations
+    path('reviews/', views.list_reviews, name='list_reviews'),
+    path('reviews/create/', views.create_review, name='create_review'),
+    path('reviews/edit/<int:review_id>/', views.edit_review, name='edit_review'),
+    path('reviews/delete/<int:review_id>/', views.delete_review, name='delete_review'),
+
     # User account URLs
     # User profile (auth required)
     path('profile', views.profile, name='profile'),

@@ -151,21 +151,21 @@ class Rating(models.Model):
     Model representing customer reviews and ratings.
 
     Stores customer feedback including reviewer name, comment text,
-    and the date the review was submitted.
+    and the date and time the review was submitted.
 
     Attributes:
         name (CharField): Reviewer's name (max 30 characters)
         comment (CharField): Review comment text (max 250 characters)
-        r_date (DateField): Date when review was submitted
+        r_date (DateTimeField): Date and time when review was submitted
 
     Note:
         - Reviews are associated with customer names, not user accounts
         - Used for displaying customer feedback on the website
-        - Date field helps with chronological ordering of reviews
+        - DateTime field helps with chronological ordering of reviews
     """
     name = models.CharField(max_length=30)
     comment = models.CharField(max_length=250)
-    r_date = models.DateField()
+    r_date = models.DateTimeField()
 
     def __str__(self):
         """Return string representation of rating

@@ -5,6 +5,18 @@
 
 {% block body %}
 
+<!-- Display messages at the very top - CRITICAL for success messages -->
+{% if messages %}
+    <div class="container mt-3">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
 {% if user.is_authenticated %}
 <div class="container py-4 col-md-8">
     <h3 class="text-center mb-3">Write a review</h3>
@@ -51,6 +63,27 @@
 <div class="review" style="border: 2px solid black; margin: 5px 100px 50px; padding: 10px;">
     <h3><b>{% if r.name and r.name.strip %}{{ r.name.strip }}{% else %}Anonymous{% endif %}</b></h3>
     <h4>{{ r.comment }}</h4>
+    <small class="text-muted">📅 {{ r.r_date|date:"F j, Y" }} at {{ r.r_date|time:"g:i A" }}</small>
+
+    <!-- Add CRUD buttons only for the user's own reviews -->
+    {% if user.is_authenticated %}
+        {% with current_user_name=user.first_name|add:" "|add:user.last_name %}
+            {% if r.name == current_user_name %}
+                <div class="review-actions" style="margin-top: 10px;">
+                    <a href="{% url 'edit_review' r.id %}" 
+                       class="btn btn-sm btn-primary" 
+                       style="background-color: #007bff; color: white; padding: 5px 10px; text-decoration: none; border-radius: 3px; margin-right: 5px;">
+                        Edit
+                    </a>
+                    <a href="{% url 'delete_review' r.id %}" 
+                       class="btn btn-sm btn-danger" 
+                       style="background-color: #dc3545; color: white; padding: 5px 10px; text-decoration: none; border-radius: 3px;">
+                        Delete
+                    </a>
+                </div>
+            {% endif %}
+        {% endwith %}
+    {% endif %}
 </div>
 {% endfor %}
 

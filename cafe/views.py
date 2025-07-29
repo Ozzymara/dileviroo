@@ -9,7 +9,12 @@ import ast
 
 from itertools import groupby
 from django.db.models import Sum
-from .models import Order, User
+from .models import Order, User, Rating
+from .forms import ReviewForm, DeleteConfirmForm
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
+from django.http import HttpResponse
 
 User = get_user_model()
 
@@ -106,40 +111,50 @@ def offers(request):
 
 def reviews(request):
     """
-    Handle customer reviews display and submission.
+    Handle customer reviews display and submission with CRUD functionality.
 
-    GET: Displays all customer reviews ordered by date (newest first)
+    GET: Displays all customer reviews ordered by date (newest first) with edit/delete buttons
     POST: Processes new review submission from authenticated users
 
     Args:
         request (HttpRequest): The HTTP request object
 
     Returns:
-        HttpResponse: Rendered reviews.html template with all reviews
+        HttpResponse: Rendered reviews.html template with all reviews and CRUD buttons
 
     Context:
         reviews (QuerySet): All reviews ordered by date descending
+        show_crud_buttons (bool): Whether to show edit/delete buttons for authenticated users
 
     Note:
-        Only authenticated users can submit reviews
+        Edit/delete buttons are only visible to authenticated users
+        Uses Post-Redirect-Get pattern to prevent duplicate submissions on refresh
     """
     if request.method == 'POST':
         # Extract user information for review
         fname = request.user.first_name
         lname = request.user.last_name
         cmt = request.POST.get('comment')
-        date_today = date.today()
+        datetime_now = datetime.now()
 
         # Create and save new review
         review = Rating(name=fname + ' ' + lname,
                         comment=cmt,
-                        r_date=date_today)
+                        r_date=datetime_now)
         review.save()
+        messages.success(
+            request, 'Your review has been submitted successfully!')
+        
+        # Redirect to prevent duplicate submission on refresh (PRG pattern)
+        return redirect('reviews')
 
     # Get all reviews ordered by newest first
     all_reviews = Rating.objects.all().order_by('-r_date')
-    context = {}
-    context['reviews'] = all_reviews
+    context = {
+        'reviews': all_reviews,
+        'show_crud_buttons': request.user.is_authenticated,
+        'user_authenticated': request.user.is_authenticated
+    }
 
     return render(request, 'reviews.html', context)
 
@@ -701,7 +716,7 @@ def edit_profile(request):
 
     Form Data (POST):
         first_name (str): User's first name
-        last_name (str): User's last name  
+        last_name (str): User's last name
         phone (str): User's phone number
         current_password (str): Current password (required for password change)
         new_password (str): New password (optional)
@@ -736,47 +751,193 @@ def edit_profile(request):
         # Check if phone number is already taken by another user
         if phone != request.user.phone:
             if User.objects.filter(phone=phone).exists():
-                messages.error(request, 'This phone number is already registered!')
+                messages.error(
+                    request, 'This phone number is already registered!')
                 return render(request, 'edit_profile.html')
 
         # Handle password change if requested
         if new_password or confirm_password:
             if not current_password:
-                messages.error(request, 'Current password is required to change password!')
+                messages.error(
+                    request, 'Current password is required to change password!')
                 return render(request, 'edit_profile.html')
-            
+
             if not request.user.check_password(current_password):
                 messages.error(request, 'Current password is incorrect!')
                 return render(request, 'edit_profile.html')
-            
+
             if new_password != confirm_password:
                 messages.error(request, 'New passwords do not match!')
                 return render(request, 'edit_profile.html')
-            
+
             if len(new_password) < 8:
-                messages.error(request, 'New password must be at least 8 characters long!')
+                messages.error(
+                    request, 'New password must be at least 8 characters long!')
                 return render(request, 'edit_profile.html')
 
         # Update user information
         user = request.user
         user.first_name = first_name
-        user.last_name = last_name  
+        user.last_name = last_name
         user.phone = phone
-        
+
         # Update password if provided
         if new_password:
             user.set_password(new_password)
-            
+
         user.save()
 
         # If password was changed, re-authenticate the user
         if new_password:
             from django.contrib.auth import login
             login(request, user)
-            messages.success(request, 'Profile and password updated successfully!')
+            messages.success(
+                request, 'Profile and password updated successfully!')
         else:
             messages.success(request, 'Profile updated successfully!')
-        
+
         return redirect('profile')
 
     return render(request, 'edit_profile.html')
+
+
+def create_review(request):
+    """Create a new review using ReviewForm."""
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.r_date = datetime.now()
+            review.save()
+            messages.success(
+                request, 'Your review has been submitted successfully!')
+            return redirect('home')  # Redirect to home or reviews page
+        else:
+            messages.error(
+                request, 'Please correct the errors in your review.')
+    else:
+        form = ReviewForm()
+
+    # Return form as JSON for AJAX or simple HTML response
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return JsonResponse({
+            'form_html': form.as_p(),
+            'success': form.is_valid() if request.method == 'POST' else None
+        })
+
+    return HttpResponse(f"""
+    <form method="post">
+        <input type="hidden" name="csrfmiddlewaretoken" value="{request.META.get('CSRF_COOKIE')}">
+        {form.as_p()}
+        <button type="submit">Submit Review</button>
+    </form>
+    """)
+
+
+@login_required
+def edit_review(request, review_id):
+    """Edit an existing review using ReviewForm - only allow editing own reviews."""
+    review = get_object_or_404(Rating, id=review_id)
+
+    # Check if the review belongs to the current user
+    current_user_name = f"{request.user.first_name} {request.user.last_name}"
+    if review.name != current_user_name:
+        messages.error(request, 'You can only edit your own reviews!')
+        return redirect('reviews')
+
+    if request.method == 'POST':
+        form = ReviewForm(request.POST, instance=review)
+        if form.is_valid():
+            # Use Django's built-in has_changed method to detect changes
+            if not form.has_changed():
+                messages.info(request, 'No changes were made to your review.')
+                # Don't redirect, stay on the edit page to show the message
+                context = {
+                    'form': form,
+                    'review': review,
+                    'is_editing': True
+                }
+                return render(request, 'edit_review.html', context)
+            else:
+                # Save the changes and update the timestamp
+                updated_review = form.save(commit=False)
+                updated_review.r_date = datetime.now()  # Update timestamp to current time
+                updated_review.save()
+                messages.success(request, 'Review successfully updated!')
+                return redirect('reviews')
+        else:
+            messages.error(
+                request, 'Please correct the errors in your review.')
+    else:
+        form = ReviewForm(instance=review)
+
+    context = {
+        'form': form,
+        'review': review,
+        'is_editing': True
+    }
+    return render(request, 'edit_review.html', context)
+
+
+@login_required
+def delete_review(request, review_id):
+    """Delete a review with confirmation - only allow deleting own reviews."""
+    review = get_object_or_404(Rating, id=review_id)
+
+    # Check if the review belongs to the current user
+    current_user_name = f"{request.user.first_name} {request.user.last_name}"
+    if review.name != current_user_name:
+        messages.error(request, 'You can only delete your own reviews!')
+        return redirect('reviews')
+
+    if request.method == 'POST':
+        form = DeleteConfirmForm(request.POST)
+        if form.is_valid() and form.cleaned_data['confirm']:
+            review_name = review.name
+            review.delete()
+            messages.success(
+                request, 'Your review has been deleted successfully!')
+            return redirect('reviews')
+    else:
+        form = DeleteConfirmForm()
+
+    context = {
+        'form': form,
+        'review': review,
+        'is_deleting': True
+    }
+    return render(request, 'delete_review.html', context)
+
+
+def list_reviews(request):
+    """List all reviews with edit/delete links for authenticated users."""
+    reviews = Rating.objects.all().order_by('-r_date')
+
+    # Display messages if any
+    messages_html = ""
+    if hasattr(request, '_messages'):
+        for message in messages.get_messages(request):
+            messages_html += f'<div class="alert alert-{message.tags}">{message}</div>'
+
+    reviews_html = ""
+    for review in reviews:
+        # Show edit/delete buttons only for authenticated users
+        buttons_html = ""
+        if request.user.is_authenticated:
+            buttons_html = f"""
+            <div style="margin-top: 10px;">
+                <a href="/reviews/edit/{review.id}/" style="background-color: #007bff; color: white; padding: 5px 10px; text-decoration: none; border-radius: 3px; margin-right: 5px;">Edit</a>
+                <a href="/reviews/delete/{review.id}/" style="background-color: #dc3545; color: white; padding: 5px 10px; text-decoration: none; border-radius: 3px;">Delete</a>
+            </div>
+            """
+
+        reviews_html += f"""
+        <div style="border: 1px solid #ddd; padding: 15px; margin: 10px 0; border-radius: 5px; background-color: #f9f9f9;">
+            <h4 style="color: #333; margin: 0 0 10px 0;">{review.name}</h4>
+            <p style="margin: 0 0 10px 0; line-height: 1.5;">{review.comment}</p>
+            <small style="color: #666;">📅 {review.r_date.strftime('%B %d, %Y at %I:%M %p')}</small>
+            {buttons_html}
+        </div>
+        """
+
+    auth_status = f"<p>Authentication Status: {'Logged in' if request.user.is_authenticated else 'Not logged in'}</p>"
