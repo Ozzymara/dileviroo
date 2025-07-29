@@ -681,3 +681,102 @@ def view_bills(request):
     context = {'bills': all_bills}
 
     return render(request, 'bills.html', context)
+
+
+def edit_profile(request):
+    """
+    Handle user profile editing.
+
+    GET: Displays profile editing form
+    POST: Processes profile updates including name, phone, and password changes
+
+    Args:
+        request (HttpRequest): The HTTP request object
+
+    Returns:
+        HttpResponse: Rendered edit_profile.html template or redirect to profile
+
+    Authorization:
+        Requires authenticated user
+
+    Form Data (POST):
+        first_name (str): User's first name
+        last_name (str): User's last name  
+        phone (str): User's phone number
+        current_password (str): Current password (required for password change)
+        new_password (str): New password (optional)
+        confirm_password (str): Confirmation of new password (optional)
+
+    Validation:
+        - Checks if phone number is already taken by another user
+        - Validates current password before allowing password change
+        - Ensures new password and confirmation match
+
+    Note:
+        Phone number serves as username, so changes affect login credentials
+    """
+    if request.user.is_anonymous:
+        messages.error(request, 'Please login first!')
+        return redirect('login')
+
+    if request.method == 'POST':
+        # Get form data
+        first_name = request.POST.get('first_name', '').strip()
+        last_name = request.POST.get('last_name', '').strip()
+        phone = request.POST.get('phone', '').strip()
+        current_password = request.POST.get('current_password', '')
+        new_password = request.POST.get('new_password', '')
+        confirm_password = request.POST.get('confirm_password', '')
+
+        # Validate required fields
+        if not first_name or not last_name or not phone:
+            messages.error(request, 'All fields are required!')
+            return render(request, 'edit_profile.html')
+
+        # Check if phone number is already taken by another user
+        if phone != request.user.phone:
+            if User.objects.filter(phone=phone).exists():
+                messages.error(request, 'This phone number is already registered!')
+                return render(request, 'edit_profile.html')
+
+        # Handle password change if requested
+        if new_password or confirm_password:
+            if not current_password:
+                messages.error(request, 'Current password is required to change password!')
+                return render(request, 'edit_profile.html')
+            
+            if not request.user.check_password(current_password):
+                messages.error(request, 'Current password is incorrect!')
+                return render(request, 'edit_profile.html')
+            
+            if new_password != confirm_password:
+                messages.error(request, 'New passwords do not match!')
+                return render(request, 'edit_profile.html')
+            
+            if len(new_password) < 8:
+                messages.error(request, 'New password must be at least 8 characters long!')
+                return render(request, 'edit_profile.html')
+
+        # Update user information
+        user = request.user
+        user.first_name = first_name
+        user.last_name = last_name  
+        user.phone = phone
+        
+        # Update password if provided
+        if new_password:
+            user.set_password(new_password)
+            
+        user.save()
+
+        # If password was changed, re-authenticate the user
+        if new_password:
+            from django.contrib.auth import login
+            login(request, user)
+            messages.success(request, 'Profile and password updated successfully!')
+        else:
+            messages.success(request, 'Profile updated successfully!')
+        
+        return redirect('profile')
+
+    return render(request, 'edit_profile.html')

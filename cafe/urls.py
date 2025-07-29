@@ -63,6 +63,7 @@ urlpatterns = [
     # User account URLs
     # User profile (auth required)
     path('profile', views.profile, name='profile'),
+    path('edit_profile/', views.edit_profile, name='edit_profile'),
     path('login', views.login_view, name='login'),  # User login
     path('signup', views.signup, name='signup'),  # User registration
     path('logout', views.Logout, name='logout'),  # User logout

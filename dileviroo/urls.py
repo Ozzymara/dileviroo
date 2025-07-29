@@ -23,7 +23,7 @@ Applications Included:
 The cafe application handles:
     - Menu item management and display
     - Customer order processing and tracking
-    - User authentication with phone-based login
+    - User authentication with email-based login
     - Customer review and rating system
     - Bill generation and management
     - Administrative functions for restaurant staff
