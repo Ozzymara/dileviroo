@@ -5,6 +5,25 @@
 
 {% block body %}
 
+<!-- Add CSS for text wrapping only -->
+<style>
+    .review {
+        word-wrap: break-word;
+        word-break: break-word;
+        overflow-wrap: break-word;
+        max-width: 100%;
+    }
+    .review h4 {
+        word-wrap: break-word;
+        word-break: break-word;
+        overflow-wrap: break-word;
+        white-space: normal;
+        line-height: 1.4;
+        max-width: 100%;
+        overflow: hidden;
+    }
+</style>
+
 <!-- Display messages at the very top - CRITICAL for success messages -->
 {% if messages %}
     <div class="container mt-3">
@@ -60,7 +79,7 @@
 </div>
 
 {% for r in reviews %}
-<div class="review" style="border: 2px solid black; margin: 5px 100px 50px; padding: 10px;">
+<div class="review" style="border: 2px solid black; margin: 5px 100px 50px; padding: 10px; word-wrap: break-word;">
     <h3><b>{% if r.name and r.name.strip %}{{ r.name.strip }}{% else %}Anonymous{% endif %}</b></h3>
     <h4>{{ r.comment }}</h4>
     <small class="text-muted">📅 {{ r.r_date|date:"F j, Y" }} at {{ r.r_date|time:"g:i A" }}</small>
@@ -94,19 +113,20 @@
 <script>
 /* global $ */
     $(function() {
-    $('#searchInput').on('input', function() {
-        var value = $(this).val().toLowerCase().trim();
-        var matchCount = 0;
+        // Search functionality only
+        $('#searchInput').on('input', function() {
+            var value = $(this).val().toLowerCase().trim();
+            var matchCount = 0;
 
-        $('.review').each(function() {
-            var text = $(this).text().toLowerCase();
-            var matched = value === '' || text.includes(value);
-            $(this).toggle(matched);
-            if (matched) matchCount++;
+            $('.review').each(function() {
+                var text = $(this).text().toLowerCase();
+                var matched = value === '' || text.includes(value);
+                $(this).toggle(matched);
+                if (matched) matchCount++;
+            });
+
+            $('#noReviewResults').toggle(matchCount === 0 && value !== '');
         });
-
-        $('#noReviewResults').toggle(matchCount === 0 && value !== '');
     });
-});
 </script>
 {% endblock js %}

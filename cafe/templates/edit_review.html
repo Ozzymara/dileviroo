@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}📝 Edit Review
-{% endblock title %}
+{% block title %}📝 Edit Review{% endblock title %}
 
 {% block body %}
 
@@ -27,21 +26,6 @@
         <div class="card-body">
             <form method="POST">
                 {% csrf_token %}
-                
-                <!-- Name Field -->
-                <div class="mb-3">
-                    <div class="form-floating">
-                        {{ form.name }}
-                        <label for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
-                    </div>
-                    {% if form.name.errors %}
-                        <div class="text-danger small mt-1">
-                            {% for error in form.name.errors %}
-                                {{ error }}
-                            {% endfor %}
-                        </div>
-                    {% endif %}
-                </div>
                 
                 <!-- Comment Field -->
                 <div class="mb-4">
@@ -119,3 +103,17 @@
     });
 </script>
 {% endblock js %}
+            counter.style.fontSize = '0.875rem';
+            commentField.parentNode.appendChild(counter);
+            
+            function updateCounter() {
+                const remaining = maxLength - commentField.value.length;
+                counter.textContent = `${commentField.value.length}/${maxLength} characters`;
+                counter.className = remaining < 20 ? 'form-text text-end text-warning' : 'form-text text-end text-muted';
+            }
+            
+            commentField.addEventListener('input', updateCounter);
+            updateCounter(); // Initial update
+        }
+    });
+</script>

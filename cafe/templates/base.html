@@ -75,6 +75,30 @@
             color: #181a1b !important;
         }
 
+        /* Review text colors - Light mode (default) */
+        .review,
+        .review h3,
+        .review h3 b,
+        .review h4 {
+            color: black !important;
+        }
+        
+        .review small {
+            color: #6c757d !important;
+        }
+
+        /* Review text colors - Dark mode */
+        body.dark-mode .review,
+        body.dark-mode .review h3,
+        body.dark-mode .review h3 b,
+        body.dark-mode .review h4 {
+            color: white !important;
+        }
+        
+        body.dark-mode .review small {
+            color: rgba(255, 255, 255, 0.7) !important;
+        }
+
         html,
         body {
             height: 100%;
@@ -212,7 +236,6 @@
 
                 </div>
             </div>
-        </div>
     </nav>
 
     {% block body %}<p style="color: red;">Hello from base.html</p>
