@@ -40,8 +40,8 @@
                     <div class="d-flex flex-row align-items-center mb-4">
                       <i class="fas fa-phone fa-lg me-3 fa-fw"></i>
                       <div class="form-outline flex-fill mb-0">
-                        <input type="text" name='number' id="form3Example3cn" placeholder='Enter Mobile Number' maxlength='11' class="form-control" required>
-                        <label class="form-label" for="form3Example3cn">Mobile Number *</label>
+                        <input type="text" name='number' id="form3Example3cn" placeholder='Enter Mobile Number' maxlength='10' class="form-control" required>
+                        <label class="form-label" for="form3Example3cn">Mobile Number (without leading 0)*</label>
                       </div>
                     </div>
   
@@ -188,16 +188,16 @@ document.addEventListener('DOMContentLoaded', function() {
             return false;
         }
         
-        // Check phone number
+        // Check phone number (back to 10 digits to match database)
         if (!phoneInput.value.trim()) {
             showNotification('Mobile Number is required!');
             phoneInput.focus();
             return false;
         }
         
-        if (phoneInput.value.length > 11) {
-            showNotification('Mobile Number cannot exceed 11 digits!');
-            phoneInput.value = phoneInput.value.substring(0, 11);
+        if (phoneInput.value.length > 10) {
+            showNotification('Mobile Number cannot exceed 10 digits!');
+            phoneInput.value = phoneInput.value.substring(0, 10);
             phoneInput.focus();
             return false;
         }
@@ -246,7 +246,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return true;
     }
     
-    // Phone number validation - only allow numbers
+    // Phone number validation - only allow numbers (10 digits max to match database)
     if (phoneInput) {
         phoneInput.addEventListener('input', function(e) {
             const value = e.target.value;
@@ -257,9 +257,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 e.target.value = numbersOnly;
             }
             
-            if (numbersOnly.length > 11) {
-                showNotification('Phone number cannot exceed 11 digits!');
-                e.target.value = numbersOnly.substring(0, 11);
+            if (numbersOnly.length > 10) {
+                showNotification('Phone number cannot exceed 10 digits!');
+                e.target.value = numbersOnly.substring(0, 10);
             }
         });
         

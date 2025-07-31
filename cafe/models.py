@@ -84,7 +84,7 @@ class User(AbstractUser):
 
     Attributes:
         phone (CharField): Unique phone number
-        (max 10 digits, primary identifier)
+        (max 11 digits, primary identifier)
         phone_verified (BooleanField): Whether phone number is verified
         cafe_manager (BooleanField): Whether user has cafe manager privileges
         order_count (IntegerField): Total number of orders placed by user
@@ -184,7 +184,7 @@ class Order(models.Model):
         order_id (IntegerField): Order identifier (default 0)
         items_json (CharField): JSON string of ordered items (max 5000 chars)
         name (CharField): Customer name (max 30 characters)
-        phone (CharField): Customer phone number (max 10 digits)
+        phone (CharField): Customer phone number (max 11 digits)
         table (CharField): Table number or 'take away' (max 15 characters)
         price (CharField): Total order price as string (max 5 characters)
         order_time (DateTimeField): Timestamp when order was placed
@@ -219,7 +219,7 @@ class Bill(models.Model):
         Consolidated order items as string (max 5000 chars)
         name (CharField): Customer name (max 50 characters)
         bill_total (IntegerField): Total bill amount
-        phone (CharField): Customer phone number (max 10 digits)
+        phone (CharField): Customer phone number (max 11 digits)
         bill_time (DateTimeField): Timestamp when bill was generated
 
     Note:
