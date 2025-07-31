@@ -24,34 +24,34 @@
                     <div class="d-flex flex-row align-items-center mb-4">
                       <i class="fas fa-user fa-lg me-3 fa-fw"></i>
                       <div class="form-outline flex-fill mb-0">
-                        <input type="text" name='fname' id="form3Example1cfn" placeholder='Enter Your First Name' class="form-control">
-                        <label class="form-label" for="form3Example1cfn">First Name</label>
+                        <input type="text" name='fname' id="form3Example1cfn" placeholder='Enter Your First Name' class="form-control" maxlength="10" required>
+                        <label class="form-label" for="form3Example1cfn">First Name *</label>
                       </div>
                     </div>
 
                     <div class="d-flex flex-row align-items-center mb-4">
                       <i class="fas fa-user fa-lg me-3 fa-fw"></i>
                       <div class="form-outline flex-fill mb-0">
-                        <input type="text" name='lname' id="form3Example1cln" placeholder='Enter Your Last Name' class="form-control">
-                        <label class="form-label" for="form3Example1cln">Last Name</label>
+                        <input type="text" name='lname' id="form3Example1cln" placeholder='Enter Your Last Name' class="form-control" maxlength="10" required>
+                        <label class="form-label" for="form3Example1cln">Last Name *</label>
                       </div>
                     </div>
   
                     <div class="d-flex flex-row align-items-center mb-4">
                       <i class="fas fa-phone fa-lg me-3 fa-fw"></i>
                       <div class="form-outline flex-fill mb-0">
-                        <input type="text" name='number' id="form3Example3cn" placeholder='Enter Mobile Number' maxlength='11'>
-                        <label class="form-label" for="form3Example3cn">Mobile Number</label>
+                        <input type="text" name='number' id="form3Example3cn" placeholder='Enter Mobile Number' maxlength='11' class="form-control" required>
+                        <label class="form-label" for="form3Example3cn">Mobile Number *</label>
                       </div>
                     </div>
   
                     <div class="d-flex flex-row align-items-center mb-4">
                       <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
                       <div class="form-outline flex-fill mb-0">
-                        <input type="password" name="password" id="form3Example4cp" placeholder="Enter Password" class="form-control" minlength="8">
-                        <label class="form-label" for="form3Example4cp">Password</label>
+                        <input type="password" name="password" id="form3Example4cp" placeholder="Enter Password" class="form-control" maxlength="8" required>
+                        <label class="form-label" for="form3Example4cp">Password *</label>
                         <div class="alert alert-warning alert-dismissable fade show" role="alert">
-                          <strong>*Minimum length of password must be 8 characters</strong>
+                          <strong>*Password must be exactly 8 characters</strong>
                           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                       </div>
@@ -60,8 +60,8 @@
                     <div class="d-flex flex-row align-items-center mb-4">
                       <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
                       <div class="form-outline flex-fill mb-0">
-                        <input type="password" name="cpassword" id="form3Example4c" placeholder="Confirm Password" class="form-control" minlength="8">
-                        <label class="form-label" for="form3Example4c">Confirm Password</label>
+                        <input type="password" name="cpassword" id="form3Example4c" placeholder="Confirm Password" class="form-control" maxlength="8" required>
+                        <label class="form-label" for="form3Example4c">Confirm Password *</label>
                       </div>
                     </div>  
 
@@ -86,5 +86,211 @@
             </div>
           </div>
   </section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const firstNameInput = document.querySelector('input[name="fname"]');
+    const lastNameInput = document.querySelector('input[name="lname"]');
+    const phoneInput = document.querySelector('input[name="number"]');
+    const passwordInput = document.querySelector('input[name="password"]');
+    const confirmPasswordInput = document.querySelector('input[name="cpassword"]');
+    const form = document.querySelector('form');
+    
+    function showNotification(message, type = 'error') {
+        const existing = document.querySelector('.field-notification');
+        if (existing) existing.remove();
+        
+        const notification = document.createElement('div');
+        notification.className = 'field-notification';
+        notification.textContent = message;
+        notification.style.cssText = `
+            position: fixed; top: 20px; right: 20px; padding: 10px 15px;
+            background: ${type === 'error' ? '#dc3545' : '#28a745'}; color: white;
+            border-radius: 4px; z-index: 1000; font-size: 14px;
+        `;
+        document.body.appendChild(notification);
+        setTimeout(() => notification.remove(), 3000);
+    }
+    
+    // Real-time validation for first name
+    if (firstNameInput) {
+        firstNameInput.addEventListener('input', function(e) {
+            if (this.value.length > 10) {
+                showNotification('First Name cannot exceed 10 characters!');
+                this.value = this.value.substring(0, 10);
+            }
+        });
+    }
+    
+    // Real-time validation for last name
+    if (lastNameInput) {
+        lastNameInput.addEventListener('input', function(e) {
+            if (this.value.length > 10) {
+                showNotification('Last Name cannot exceed 10 characters!');
+                this.value = this.value.substring(0, 10);
+            }
+        });
+    }
+    
+    // Password validation - exactly 8 characters
+    if (passwordInput) {
+        passwordInput.addEventListener('input', function(e) {
+            if (this.value.length > 8) {
+                showNotification('Password must be exactly 8 characters!');
+                this.value = this.value.substring(0, 8);
+            }
+        });
+    }
+    
+    if (confirmPasswordInput) {
+        confirmPasswordInput.addEventListener('input', function(e) {
+            if (this.value.length > 8) {
+                showNotification('Confirm Password must be exactly 8 characters!');
+                this.value = this.value.substring(0, 8);
+            }
+        });
+    }
+    
+    function validateForm() {
+        // Debug: Log all field values and lengths
+        console.log('Form validation - Field lengths:');
+        console.log('First Name:', firstNameInput.value, 'Length:', firstNameInput.value.length);
+        console.log('Last Name:', lastNameInput.value, 'Length:', lastNameInput.value.length);
+        console.log('Phone Number:', phoneInput.value, 'Length:', phoneInput.value.length);
+        console.log('Password:', passwordInput.value, 'Length:', passwordInput.value.length);
+        console.log('Confirm Password:', confirmPasswordInput.value, 'Length:', confirmPasswordInput.value.length);
+        
+        // Check first name
+        if (!firstNameInput.value.trim()) {
+            showNotification('First Name is required!');
+            firstNameInput.focus();
+            return false;
+        }
+        
+        if (firstNameInput.value.length > 10) {
+            showNotification('First Name cannot exceed 10 characters!');
+            firstNameInput.value = firstNameInput.value.substring(0, 10);
+            firstNameInput.focus();
+            return false;
+        }
+        
+        // Check last name
+        if (!lastNameInput.value.trim()) {
+            showNotification('Last Name is required!');
+            lastNameInput.focus();
+            return false;
+        }
+        
+        if (lastNameInput.value.length > 10) {
+            showNotification('Last Name cannot exceed 10 characters!');
+            lastNameInput.value = lastNameInput.value.substring(0, 10);
+            lastNameInput.focus();
+            return false;
+        }
+        
+        // Check phone number
+        if (!phoneInput.value.trim()) {
+            showNotification('Mobile Number is required!');
+            phoneInput.focus();
+            return false;
+        }
+        
+        if (phoneInput.value.length > 11) {
+            showNotification('Mobile Number cannot exceed 11 digits!');
+            phoneInput.value = phoneInput.value.substring(0, 11);
+            phoneInput.focus();
+            return false;
+        }
+        
+        if (!/^[0-9]+$/.test(phoneInput.value)) {
+            showNotification('Only numbers are accepted for phone number!');
+            phoneInput.focus();
+            return false;
+        }
+        
+        // Check password
+        if (!passwordInput.value.trim()) {
+            showNotification('Password is required!');
+            passwordInput.focus();
+            return false;
+        }
+        
+        if (passwordInput.value.length !== 8) {
+            showNotification('Password must be exactly 8 characters!');
+            passwordInput.value = passwordInput.value.substring(0, 8);
+            passwordInput.focus();
+            return false;
+        }
+        
+        // Check confirm password
+        if (!confirmPasswordInput.value.trim()) {
+            showNotification('Confirm Password is required!');
+            confirmPasswordInput.focus();
+            return false;
+        }
+        
+        if (confirmPasswordInput.value.length !== 8) {
+            showNotification('Confirm Password must be exactly 8 characters!');
+            confirmPasswordInput.value = confirmPasswordInput.value.substring(0, 8);
+            confirmPasswordInput.focus();
+            return false;
+        }
+        
+        // Check if passwords match
+        if (passwordInput.value !== confirmPasswordInput.value) {
+            showNotification('Passwords do not match!');
+            confirmPasswordInput.focus();
+            return false;
+        }
+        
+        return true;
+    }
+    
+    // Phone number validation - only allow numbers
+    if (phoneInput) {
+        phoneInput.addEventListener('input', function(e) {
+            const value = e.target.value;
+            const numbersOnly = value.replace(/[^0-9]/g, '');
+            
+            if (value !== numbersOnly) {
+                showNotification('Only numbers are accepted for phone number!');
+                e.target.value = numbersOnly;
+            }
+            
+            if (numbersOnly.length > 11) {
+                showNotification('Phone number cannot exceed 11 digits!');
+                e.target.value = numbersOnly.substring(0, 11);
+            }
+        });
+        
+        phoneInput.addEventListener('keypress', function(e) {
+            if (!/[0-9]/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Delete' && e.key !== 'ArrowLeft' && e.key !== 'ArrowRight' && e.key !== 'Tab') {
+                e.preventDefault();
+                showNotification('Only numbers are accepted for phone number!');
+            }
+        });
+    }
+    
+    // Prevent all form submissions until validation passes
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            
+            if (validateForm()) {
+                showNotification('All validations passed! Submitting form...', 'success');
+                
+                setTimeout(() => {
+                    // Remove the event listener temporarily to allow submission
+                    form.removeEventListener('submit', arguments.callee);
+                    form.submit();
+                }, 1000);
+            }
+            
+            return false;
+        });
+    }
+});
+</script>
 
 {% endblock body %}
