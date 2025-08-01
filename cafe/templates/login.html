@@ -59,4 +59,44 @@
 
 </div>
 
+<script>
+    /* global setTimeout, console */
+document.addEventListener('DOMContentLoaded', function() {
+    const passwordInput = document.querySelector('input[name="password"]');
+    
+    function showNotification(message, type = 'error') {
+        const existing = document.querySelector('.field-notification');
+        if (existing) existing.remove();
+        
+        const notification = document.createElement('div');
+        notification.className = 'field-notification';
+        notification.textContent = message;
+        notification.style.cssText = `
+            position: fixed; top: 20px; right: 20px; padding: 10px 15px;
+            background: ${type === 'error' ? '#dc3545' : '#28a745'}; color: white;
+            border-radius: 4px; z-index: 1000; font-size: 14px;
+        `;
+        document.body.appendChild(notification);
+        setTimeout(() => notification.remove(), 3000);
+    }
+    
+    // Password validation - exactly 8 characters
+    if (passwordInput) {
+        passwordInput.addEventListener('input', function(e) {
+            if (this.value.length > 8) {
+                showNotification('Password cannot exceed 8 characters!');
+                this.value = this.value.substring(0, 8);
+            }
+        });
+        
+        passwordInput.addEventListener('keydown', function(e) {
+            if (this.value.length >= 8 && e.key !== 'Backspace' && e.key !== 'Delete' && e.key !== 'ArrowLeft' && e.key !== 'ArrowRight' && e.key !== 'Tab') {
+                e.preventDefault();
+                showNotification('Password cannot exceed 8 characters!');
+            }
+        });
+    }
+});
+</script>
+
 {% endblock %}

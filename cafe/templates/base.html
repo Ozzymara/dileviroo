@@ -254,6 +254,7 @@
     </script>
 
     <script>
+        /* global setTimeout, console */
         if (localStorage.getItem('cart')==null){
     var cart={};
   }
@@ -342,6 +343,7 @@
 <script>
     /* global document, localStorage, window */
     // Light/Dark mode script
+    /* global setTimeout, console */
       (function() {
         const toggleBtn = document.getElementById('theme-toggle');
         const icon = document.getElementById('theme-toggle-icon');
@@ -382,6 +384,7 @@
 
 {% block scripts %}{% endblock scripts %}
 <script>
+    /* global setTimeout, console */
     // Global logout confirmation
     document.addEventListener('DOMContentLoaded', function() {
         // Find all logout links and add confirmation

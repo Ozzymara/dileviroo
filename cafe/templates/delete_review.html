@@ -64,7 +64,7 @@
                     </div>
                     <div class="col-md-6 d-grid">
                         <button type="submit" class="btn btn-danger btn-lg">
-                            🗑️ Yes, Delete Review
+                            🗑️ Yes, delete review
                         </button>
                     </div>
                 </div>
@@ -89,6 +89,7 @@
 
 {% block js %}
 <script>
+    /* global setTimeout, console */
     // Add confirmation dialog for extra safety
     document.addEventListener('DOMContentLoaded', function() {
         const deleteButton = document.querySelector('button[type="submit"]');

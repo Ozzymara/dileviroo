@@ -52,7 +52,7 @@
                     </div>
                     <div class="col-md-6 d-grid">
                         <button type="submit" class="btn btn-primary btn-lg">
-                            ✅ Update Review
+                            ✅ Update review
                         </button>
                     </div>
                 </div>
@@ -79,28 +79,29 @@
 
 {% block js %}
 <script>
-    // Character counter for comment field
-    document.addEventListener('DOMContentLoaded', function() {
-        const commentField = document.getElementById('{{ form.comment.id_for_label }}');
-        if (commentField) {
-            const maxLength = 250;
-            
-            // Create character counter
-            const counter = document.createElement('div');
-            counter.className = 'form-text text-end';
-            counter.style.fontSize = '0.875rem';
-            commentField.parentNode.appendChild(counter);
-            
-            function updateCounter() {
-                const remaining = maxLength - commentField.value.length;
-                counter.textContent = `${commentField.value.length}/${maxLength} characters`;
-                counter.className = remaining < 20 ? 'form-text text-end text-warning' : 'form-text text-end text-muted';
-            }
-            
-            commentField.addEventListener('input', updateCounter);
-            updateCounter(); // Initial update
-        }
-    });
+document.addEventListener('DOMContentLoaded', function() {
+    const commentField = document.getElementById('{{ form.comment.id_for_label }}');
+    if (commentField) {
+        const maxLength = 250;
+        
+        // Create character counter
+        const counter = document.createElement('div');
+        counter.className = 'form-text text-end';
+        counter.style.fontSize = '0.875rem';
+        commentField.parentNode.appendChild(counter);
+        
+        // Function expression instead of declaration
+        const updateCounter = () => {
+            const remaining = maxLength - commentField.value.length;
+            counter.textContent = `${commentField.value.length}/${maxLength} characters`;
+            counter.className = remaining < 20 ? 'form-text text-end text-warning' : 'form-text text-end text-muted';
+        };
+        
+        commentField.addEventListener('input', updateCounter);
+        updateCounter(); // Initial update
+    }
+});
+
 </script>
 {% endblock js %}
             counter.style.fontSize = '0.875rem';

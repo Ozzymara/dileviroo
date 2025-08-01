@@ -15,6 +15,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.http import HttpResponse
+from .decorators import admin_required
 
 User = get_user_model()
 
@@ -50,6 +51,7 @@ def menu(request):
     return render(request, 'menu.html', context)
 
 
+@admin_required
 def all_orders(request):
     """
     Display all orders in the system grouped by table number.
@@ -575,6 +577,7 @@ def signup(request):
     return render(request, 'signup.html')
 
 
+@admin_required
 def generate_bill(request):
     """
     Generate and display bill for a specific table.
@@ -658,11 +661,12 @@ def generate_bill(request):
     return render(request, 'generate_bill.html', context)
 
 
+@admin_required
 def view_bills(request):
     """
     Display all generated bills for admin users.
 
-    Retrieves and displays all bills in the system, ordered by most recent first. # noqa: E501
+    Retrieves and displays all bills in the system, ordered by most recent first.  # noqa: E501
 
     Restricted to admin users only.
 
@@ -670,7 +674,7 @@ def view_bills(request):
         request (HttpRequest): The HTTP request object
 
     Returns:
-        HttpResponse: Rendered bills.html template or redirect if unauthorized
+        HttpResponse: Rendered bills.html template
 
     Context:
         bills (QuerySet): All bills ordered by bill_time descending
@@ -681,11 +685,6 @@ def view_bills(request):
     Note:
         Converts order_items string representation back to dict for display
     """
-    # Check if user is authenticated (admin check)
-    if request.user.is_anonymous:
-        messages.error(request, 'You Must be an admin user to view this!')
-        return redirect('')
-
     # Get all bills ordered by newest first
     all_bills = Bill.objects.all().order_by('-bill_time')
 
@@ -941,4 +940,5 @@ def list_reviews(request):
         </div>
         """
 
+    auth_status = f"<p>Authentication Status: {'Logged in' if request.user.is_authenticated else 'Not logged in'}</p>"  # noqa: E501
     auth_status = f"<p>Authentication Status: {'Logged in' if request.user.is_authenticated else 'Not logged in'}</p>"  # noqa: E501
