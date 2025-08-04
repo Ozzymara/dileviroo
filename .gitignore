@@ -1,4 +1,4 @@
-env.py
+env2.py
 .venv/
 db.sqlite3
 staticfiles/*
