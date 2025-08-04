@@ -11,9 +11,13 @@
 </div>
 {% endfor %}
 
-<!-- <h1>Cart Page</h1> -->
+<!-- Add the main h1 header here -->
+<div class="container text-center my-4">
+    <h1>🛒 Cart</h1>
+</div>
 
 <div class="container py-2 ">
+    <!-- Change this to h2 for proper hierarchy -->
     <h2>Review your order</h2>
     <div class='col c_cart'>
         <form method='post' action='/cart'>
@@ -86,36 +90,146 @@
     $('#itemsjson').val(JSON.stringify(cart));
     $('#tableValueInput').val(localStorage.getItem('tableValue') || '');
 
-    // On form submit, update hidden fields and clear cart after order placed
-    $('form').on('submit', function () {
+    // Place order with validation and confirmation
+    $('form').on('submit', function (event) {
+      event.preventDefault(); // Prevent default form submission
+      
       var cart = localStorage.getItem('cart') || '{}';
-      var tableValue = localStorage.getItem('tableValue') || '';
-      var total = 0;
       var cartObj = JSON.parse(cart);
-      for (var key in cartObj) {
-        total += cartObj[key][0] * cartObj[key][2];
+      var tableValue = localStorage.getItem('tableValue') || '';
+      
+      // Check if cart is empty or has no items
+      if ($.isEmptyObject(cartObj) || Object.keys(cartObj).length === 0) {
+        showErrorMessage('To place an order, please add items to cart.');
+        return false;
       }
-      $('#itemsjson').val(cart);
-      $('#tableValueInput').val(tableValue);
-      $('#price_input').val(total);
+      
+      // Check if total quantity is 0
+      var totalQuantity = 0;
+      for (var key in cartObj) {
+        totalQuantity += cartObj[key][0];
+      }
+      
+      if (totalQuantity === 0) {
+        showErrorMessage('To place an order, please add items to cart.');
+        return false;
+      }
+      
+      // Confirmation dialog for placing order
+      if (confirm('Are you sure you want to place this order? Please review your items and total.')) {
+        var total = 0;
+        for (var key in cartObj) {
+          total += cartObj[key][0] * cartObj[key][2];
+        }
+        
+        $('#itemsjson').val(cart);
+        $('#tableValueInput').val(tableValue);
+        $('#price_input').val(total);
 
-      // Clear cart after order placed
-      localStorage.removeItem('cart');
+        // Clear cart after order confirmation
+        localStorage.removeItem('cart');
+        
+        // Submit the form
+        this.submit();
+      }
     });
 
+    // Clear cart with confirmation
     $('.clear_cart').click(function (event) {
       event.preventDefault();
-      localStorage.removeItem('cart');
-      $('#items').empty();
-      let mystr = `<li class="list-group-item d-flex justify-content-between align-items-center">
-        Your cart has been cleared. Please add items to order.
-        <span class="badge bg-primary rounded-pill"></span>
-      </li>`;
-      $('#items').append(mystr);
-      $('#price_input').val(0);
-      $('#total').text(0);
-      $('#itemsjson').val('{}');
+      
+      var cart = localStorage.getItem('cart') || '{}';
+      var cartObj = JSON.parse(cart);
+      
+      // Check if cart is already empty
+      if ($.isEmptyObject(cartObj) || Object.keys(cartObj).length === 0) {
+        showWarningMessage('Your cart is already empty.');
+        return false;
+      }
+      
+      // Confirmation dialog for clearing cart
+      if (confirm('Are you sure you want to clear your cart? All items will be removed.')) {
+        localStorage.removeItem('cart');
+        $('#items').empty();
+        let mystr = `<li class="list-group-item d-flex justify-content-between align-items-center">
+          Your cart has been cleared. Please add items to order.
+          <span class="badge bg-primary rounded-pill"></span>
+        </li>`;
+        $('#items').append(mystr);
+        $('#price_input').val(0);
+        $('#total').text(0);
+        $('#itemsjson').val('{}');
+        
+        // Update cart badge in navbar
+        document.getElementById('cart').innerHTML = 0;
+        
+        // Show success message
+        showSuccessMessage('Cart has been cleared successfully.');
+      }
     });
+
+    // Function to show error messages (like Django messages.error)
+    function showErrorMessage(message) {
+      const alertHtml = `
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <strong>${message}</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      `;
+      
+      // Remove existing alerts
+      $('.alert').remove();
+      
+      // Add new alert at the top of the page
+      $('main .container:first').prepend(alertHtml);
+      
+      // Auto-dismiss after 5 seconds
+      setTimeout(function() {
+        $('.alert-danger').fadeOut();
+      }, 5000);
+    }
+
+    // Function to show success messages (like Django messages.success)
+    function showSuccessMessage(message) {
+      const alertHtml = `
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <strong>${message}</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      `;
+      
+      // Remove existing alerts
+      $('.alert').remove();
+      
+      // Add new alert at the top of the page
+      $('main .container:first').prepend(alertHtml);
+      
+      // Auto-dismiss after 3 seconds
+      setTimeout(function() {
+        $('.alert-success').fadeOut();
+      }, 3000);
+    }
+
+    // Function to show warning messages (like Django messages.warning)
+    function showWarningMessage(message) {
+      const alertHtml = `
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <strong>${message}</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      `;
+      
+      // Remove existing alerts
+      $('.alert').remove();
+      
+      // Add new alert at the top of the page
+      $('main .container:first').prepend(alertHtml);
+      
+      // Auto-dismiss after 4 seconds
+      setTimeout(function() {
+        $('.alert-warning').fadeOut();
+      }, 4000);
+    }
   });
 </script>
 

@@ -5,25 +5,6 @@
 
 {% block body %}
 
-<!-- Add CSS for text wrapping only -->
-<style>
-    .review {
-        word-wrap: break-word;
-        word-break: break-word;
-        overflow-wrap: break-word;
-        max-width: 100%;
-    }
-    .review h4 {
-        word-wrap: break-word;
-        word-break: break-word;
-        overflow-wrap: break-word;
-        white-space: normal;
-        line-height: 1.4;
-        max-width: 100%;
-        overflow: hidden;
-    }
-</style>
-
 <!-- Display messages at the very top - CRITICAL for success messages -->
 {% if messages %}
     <div class="container mt-3">
@@ -36,9 +17,14 @@
     </div>
 {% endif %}
 
+<!-- Add the main h1 header here -->
+<div class="container text-center my-4">
+    <h1>🌟 Reviews</h1>
+</div>
+
 {% if user.is_authenticated %}
 <div class="container py-4 col-md-8">
-    <h3 class="text-center mb-3">Write a review</h3>
+    <h2 class="text-center mb-3">Write a review</h2>
     <form method="POST" action="/reviews">
         {% csrf_token %}
         <div class="row align-items-center">
@@ -75,7 +61,8 @@
 </div>
 
 <div class="container" style="padding: 5px;">
-    <h2>Reviews :</h2>
+    <!-- Change this to h2 for proper hierarchy -->
+    <h2>Customer Reviews</h2>
 </div>
 
 {% for r in reviews %}
@@ -91,7 +78,7 @@
                 <div class="review-actions" style="margin-top: 10px;">
                     <a href="{% url 'edit_review' r.id %}" 
                        class="btn btn-sm btn-primary" 
-                       style="background-color: #007bff; color: white; padding: 5px 10px; text-decoration: none; border-radius: 3px; margin-right: 5px;">
+                       style="background-color: #0056B3; color: white; padding: 5px 10px; text-decoration: none; border-radius: 3px; margin-right: 5px;">
                         Edit
                     </a>
                     <a href="{% url 'delete_review' r.id %}" 

@@ -12,12 +12,19 @@
 </div>
 {% endfor %}
 
+<!-- Add the missing h1 heading -->
+<div class="container text-center my-4">
+    <h1>🧾 Bill Invoice</h1>
+</div>
+
 <div class="container col-md-6">
     <div style="display:grid;place-content:center; padding-top:50px">
-        <h3>Bill No : {{inv_id}} </h3>
+        <!-- Changed from h3 to h2 for proper hierarchy -->
+        <h2>Bill No : {{inv_id}}</h2>
         {% if name != "Unknown" %}
-        <h4>Name: {{ name }}</h4>
-        <h4>Phone: {{ phone }}</h4>
+        <!-- Changed from h4 to h3 for proper hierarchy -->
+        <h3>Name: {{ name }}</h3>
+        <h3>Phone: {{ phone }}</h3>
         {% endif %}
     </div>
     <table class="table table-bordered border-dark">
@@ -38,9 +45,11 @@
             {% endfor %}
         </tbody>
     </table>
-    <h3 style="display:grid ;place-items:end">Bill Total: {{ bill_total }}</h3>
+    <!-- Changed from h3 to h4 for proper hierarchy -->
+    <h4 style="display:grid ;place-items:end">Bill Total: {{ bill_total }}</h4>
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
         <button onclick="printBill()" class="btn btn-primary">Print Bill</button>
+        <a href="/all_orders" class="btn btn-secondary">Back to Orders</a>
     </div>
 </div>
 
@@ -49,45 +58,144 @@
 {% block js %}
 <script>
     /* global setTimeout, console */
-    /* global window, history, sessionStorage, location */
+    /* global window, history, sessionStorage, location, document */
+    
     function printBill() {
         window.print();
     }
     
-    // Check if this bill was already generated in this session
+    // Enhanced bill generation prevention system
     const billKey = 'bill_generated_{{ inv_id }}';
-    const currentPath = window.location.pathname;
+    const billTimestamp = 'bill_timestamp_{{ inv_id }}';
+    const currentPath = window.location.pathname + window.location.search;
+    const currentTime = Date.now();
     
-    if (sessionStorage.getItem(billKey) === currentPath) {
-        // Bill already generated, redirect to prevent duplicate
-        window.location.href = '/menu';
+    // Check if this exact bill was already generated recently (within 5 minutes)
+    const lastGenerated = sessionStorage.getItem(billTimestamp);
+    const timeDifference = currentTime - parseInt(lastGenerated || 0);
+    const fiveMinutes = 5 * 60 * 1000; // 5 minutes in milliseconds
+    
+    if (sessionStorage.getItem(billKey) === currentPath && timeDifference < fiveMinutes) {
+        // Bill already generated recently, show warning and redirect
+        alert('This bill was already generated. Redirecting to prevent duplicate billing.');
+        window.location.href = '/all_orders';
     } else {
-        // Mark this bill as generated
+        // Mark this bill as generated with timestamp
         sessionStorage.setItem(billKey, currentPath);
+        sessionStorage.setItem(billTimestamp, currentTime.toString());
     }
     
-    // Prevent refresh from creating new bill
+    // Prevent browser refresh and back button issues
     if (window.history.replaceState) {
-        window.history.replaceState(null, null, window.location.href);
+        // Replace current history entry to prevent back button re-generation
+        const newUrl = window.location.protocol + "//" + window.location.host + 
+                      window.location.pathname + '?viewed=true&inv=' + '{{ inv_id }}';
+        window.history.replaceState({billGenerated: true}, '', newUrl);
     }
     
-    // Disable F5 and Ctrl+R
+    // Enhanced keyboard shortcuts prevention
     document.addEventListener('keydown', function(e) {
-        if (e.key === 'F5' || (e.ctrlKey && e.key === 'r')) {
+        // Prevent F5, Ctrl+R, Ctrl+F5, Shift+F5
+        if (e.key === 'F5' || 
+            (e.ctrlKey && e.key === 'r') || 
+            (e.ctrlKey && e.key === 'R') ||
+            (e.ctrlKey && e.shiftKey && e.key === 'r') ||
+            (e.ctrlKey && e.shiftKey && e.key === 'R')) {
             e.preventDefault();
+            e.stopPropagation();
+            alert('Page refresh is disabled to prevent duplicate bill generation.');
+            return false;
+        }
+        
+        // Prevent Ctrl+Shift+R (hard refresh)
+        if (e.ctrlKey && e.shiftKey && (e.key === 'r' || e.key === 'R')) {
+            e.preventDefault();
+            e.stopPropagation();
             return false;
         }
     });
     
-    // Detect hard refresh and redirect
-    window.addEventListener('beforeunload', function() {
+    // Enhanced beforeunload detection
+    window.addEventListener('beforeunload', function(e) {
+        // Mark that user is attempting to leave/refresh
         sessionStorage.setItem('hard_refresh_' + billKey, 'true');
+        sessionStorage.setItem('leaving_time_' + billKey, Date.now().toString());
+        
+        // Optional: Show warning message
+        const message = 'Refreshing this page may cause duplicate bill generation.';
+        e.returnValue = message;
+        return message;
     });
     
-    if (sessionStorage.getItem('hard_refresh_' + billKey) === 'true') {
-        sessionStorage.removeItem('hard_refresh_' + billKey);
-        window.location.href = '/menu';
+    // Check if user returned from a refresh attempt
+    window.addEventListener('load', function() {
+        const hardRefreshMarker = sessionStorage.getItem('hard_refresh_' + billKey);
+        const leavingTime = parseInt(sessionStorage.getItem('leaving_time_' + billKey) || 0);
+        const returnTime = Date.now();
+        const timeSinceLeaving = returnTime - leavingTime;
+        
+        // If user left and returned within 10 seconds, likely a refresh
+        if (hardRefreshMarker === 'true' && timeSinceLeaving < 10000) {
+            sessionStorage.removeItem('hard_refresh_' + billKey);
+            sessionStorage.removeItem('leaving_time_' + billKey);
+            
+            alert('Duplicate bill generation prevented. Redirecting to orders page.');
+            window.location.href = '/all_orders';
+        }
+    });
+    
+    // Disable right-click context menu to prevent "Reload" option
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        return false;
+    });
+    
+    // Monitor for navigation attempts
+    window.addEventListener('popstate', function(e) {
+        if (e.state && e.state.billGenerated) {
+            // User tried to navigate back to bill generation
+            window.location.href = '/all_orders';
+        }
+    });
+    
+    // Clean up old bill markers (older than 1 hour)
+    function cleanupOldBillMarkers() {
+        const oneHour = 60 * 60 * 1000;
+        const currentTime = Date.now();
+        
+        for (let i = sessionStorage.length - 1; i >= 0; i--) {
+            const key = sessionStorage.key(i);
+            if (key && key.startsWith('bill_timestamp_')) {
+                const timestamp = parseInt(sessionStorage.getItem(key) || 0);
+                if (currentTime - timestamp > oneHour) {
+                    const billKey = key.replace('bill_timestamp_', 'bill_generated_');
+                    sessionStorage.removeItem(key);
+                    sessionStorage.removeItem(billKey);
+                }
+            }
+        }
     }
+    
+    // Run cleanup on page load
+    cleanupOldBillMarkers();
+    
+    // Auto-redirect after 2 minutes of inactivity
+    let inactivityTimer;
+    function resetInactivityTimer() {
+        clearTimeout(inactivityTimer);
+        inactivityTimer = setTimeout(function() {
+            alert('Redirecting to orders page due to inactivity.');
+            window.location.href = '/all_orders';
+        }, 2 * 60 * 1000); // 2 minutes
+    }
+    
+    // Reset timer on user activity
+    document.addEventListener('mousedown', resetInactivityTimer);
+    document.addEventListener('keydown', resetInactivityTimer);
+    document.addEventListener('scroll', resetInactivityTimer);
+    
+    // Start the inactivity timer
+    resetInactivityTimer();
 </script>
 
 {%endblock js%}

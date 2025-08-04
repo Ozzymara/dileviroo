@@ -6,6 +6,11 @@
 
 {% block body %}
 
+<!-- Add the missing h1 heading -->
+<div class="container text-center my-4">
+    <h1>📦 All Orders</h1>
+</div>
+
 <!-- 🔍 Search Bar -->
 <div class="container col-md-6 mt-3">
     <label for="searchInput" class="visually-hidden">Search all orders</label>
@@ -19,25 +24,28 @@
     {% for table, orders in order_by_table.items %}
     <div style="padding: 15px 5px 15px">
         {% if table == 'Take Away' %}
-        <h3>{{ table }}</h3>
+        <!-- Changed from h3 to h2 for proper hierarchy -->
+        <h2>{{ table }}</h2>
         {% else %}
-        <h3>Table No : {{ table }}</h3>
+        <h2>Table No : {{ table }}</h2>
         {% endif %}
         <hr>
         <hr>
 
         {% for o in orders %}
         <div class="order-admin-block" style="margin-bottom:25px;">
-            <h4>Order Time: {{ o.order_time }}</h4>
+            <!-- Changed from h4 to h3 for proper hierarchy -->
+            <h3>Order Time: {{ o.order_time }}</h3>
             {% for item_key, item_values in o.items_json.items %}
             <p><strong>{{ item_values.1 }} : {{ item_values.0 }}</strong></p>
             {% endfor %}
             <p><strong>Total : £{{ o.price }}</strong></p>
             <p><strong>Name: {{ o.name }}</strong></p>
             {% if not o.bill_clear %}
-            <button onclick="generateBill('{{table}}')">Generate Bill</button>
+            <button onclick="generateBill('{{table}}')" class="btn btn-primary">Generate Bill</button>
             {% else %}
-            <h5><strong>Bill Cleared</strong></h5>
+            <!-- Changed from h5 to h4 for proper hierarchy -->
+            <h4><strong>Bill Cleared</strong></h4>
             {% endif %}
         </div>
         {% endfor %}
@@ -54,22 +62,22 @@
     /* global setTimeout, console */
     /* global $, window, document */
     function generateBill(table) {
-    window.location.href = '/generate_bill?table=' + table;
-}
+        window.location.href = '/generate_bill?table=' + table;
+    }
 
-// 🔍 Admin Order Search Logic
-$(document).ready(function() {
-    $('#searchInput').on('input', function() {
-        var value = $(this).val().toLowerCase().trim();
-        var matchCount = 0;
-        $('.order-admin-block').each(function() {
-            var text = $(this).text().toLowerCase();
-            var matched = value === '' || text.includes(value);
-            $(this).toggle(matched);
-            if (matched) matchCount++;
+    // 🔍 Admin Order Search Logic
+    $(document).ready(function() {
+        $('#searchInput').on('input', function() {
+            var value = $(this).val().toLowerCase().trim();
+            var matchCount = 0;
+            $('.order-admin-block').each(function() {
+                var text = $(this).text().toLowerCase();
+                var matched = value === '' || text.includes(value);
+                $(this).toggle(matched);
+                if (matched) matchCount++;
+            });
+            $('#noAdminOrderResults').toggle(matchCount === 0 && value !== '');
         });
-        $('#noAdminOrderResults').toggle(matchCount === 0 && value !== '');
     });
-});
 </script>
 {% endblock js %}

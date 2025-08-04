@@ -12,6 +12,11 @@
     </div>
 {% endfor %}
 
+<!-- Add the h1 header here -->
+<div class="container text-center my-4">
+    <h1>🍽️ Menu</h1>
+</div>
+
 <!-- 🔍 Search Bar for Menu -->
 <div class="container mt-3 col-md-6">
     <label for="searchInput" class="visually-hidden">Search menu items</label>
@@ -22,14 +27,14 @@
 
 {% for category, menu_items in items_by_category.items %}
   <div class="category-section" data-category="{{category|lower}}">
-    <h3 style="margin:40px 25px 5px">{{category}}:</h3>
+    <h2 style="font-size: 1.75rem; margin:40px 25px 5px">{{category}}:</h2>
     <div class="row justify-content-center">
     {%for i in menu_items%}
     <div class="card menu-item" style="width: 18rem; margin:20px 20px 10px;" data-name="{{i.name|lower}}" data-desc="{{i.desc|lower}}" data-category="{{category|lower}}">
-  <img src="{{i.pic.url}}" class="card-img-top" alt="`" style='padding:10px 0px 0px; max-height:250px;'>
+  <img src="{{i.pic.url}}" class="card-img-top" alt="see description below for item {{i.id}}" style='padding:10px 0px 0px; max-height:250px;'>
   <div class="card-body">
-    <h4 class="card-title" id="namepr{{i.id}}" >{{i.name}}</h4>
-    <h5 class="card-title">£<span id="pricepr{{i.id}}" >{{i.price}}</span></h5>
+    <h3 class="card-title" id="namepr{{i.id}}" >{{i.name}}</h3>
+    <h4 class="card-title">£<span id="pricepr{{i.id}}" >{{i.price}}</span></h4>
     <p class="card-text">{{i.desc}}</p>
     {% if user.is_superuser %}
     <form action="{% url 'delete_dish' i.id %}" method="post">

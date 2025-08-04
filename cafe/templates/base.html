@@ -99,6 +99,23 @@
             color: rgba(255, 255, 255, 0.7) !important;
         }
 
+    .review {
+        word-wrap: break-word;
+        word-break: break-word;
+        overflow-wrap: break-word;
+        max-width: 100%;
+    }
+    .review h4 {
+        word-wrap: break-word;
+        word-break: break-word;
+        overflow-wrap: break-word;
+        white-space: normal;
+        line-height: 1.4;
+        max-width: 100%;
+        overflow: hidden;
+    }
+
+    
         html,
         body {
             height: 100%;
@@ -160,6 +177,7 @@
 }
     </style>
 </head>
+<body>
 <main class="flex-grow-1">
     <nav class="navbar navbar-expand-lg navbar-dark custom-navbar sticky-top">
         <div class="container-fluid">
@@ -236,6 +254,7 @@
 
                 </div>
             </div>
+        </div>
     </nav>
 
     {% block body %}<p style="color: red;">Hello from base.html</p>
@@ -281,6 +300,7 @@
          aria-label="LinkedIn - opens in a new tab">
       <img src="/dileviroo/static/linkedin.webp"
          alt="LinkedIn Icon"
+         width="32" height="32"
          class="social-icon">
       </a>
       <a href="https://github.com/"
@@ -289,6 +309,7 @@
          aria-label="GitHub - opens in a new tab">
       <img src="/dileviroo/static/github.webp"
          alt="GitHub Icon"
+         width="32" height="32"
          class="social-icon">
       </a>
       <a href="https://www.instagram.com/"
@@ -297,6 +318,7 @@
          aria-label="Instagram - opens in a new tab">
       <img src="/dileviroo/static/instagram.webp"
          alt="Instagram Icon"
+         width="32" height="32"
          class="social-icon">
       </a>
       <a href="https://x.com/?lang=en"
@@ -305,6 +327,7 @@
          aria-label="Twitter - opens in a new tab">
       <img src="/dileviroo/static/twitter.webp"
          alt="Twitter Icon"
+         width="32" height="32"
          class="social-icon">
       </a>
       <a href="https://www.youtube.com/"
@@ -313,9 +336,11 @@
          aria-label="YouTube - opens in a new tab">
       <img src="/dileviroo/static/youtube.webp"
          alt="YouTube Icon"
+         width="32" height="32"
          class="social-icon">
       </a>
    </div>
+
    <!-- COPYRIGHT -->
 
 <div class="d-flex justify-content-center mt-5">

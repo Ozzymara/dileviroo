@@ -182,6 +182,7 @@ def profile(request):
     return render(request, 'profile.html')
 
 
+@admin_required
 def manage_menu(request):
     """
     Handle menu item management (adding new dishes).
@@ -196,8 +197,8 @@ def manage_menu(request):
         HttpResponse: Rendered manage_menu.html template or redirect to menu
 
     Authorization:
-        - Requires authenticated user
-        - Requires superuser or cafe_manager permissions
+        - Requires admin access via @admin_required decorator
+        - Additional checks for superuser or cafe_manager permissions
 
     Form Data (POST):
         name (str): Dish name
@@ -210,52 +211,43 @@ def manage_menu(request):
         Automatically assigns list_order based on category for proper sorting
     """
     if request.method == 'POST' and request.FILES['img']:
-        # Check user authentication
-        if (request.user.is_anonymous):
-            messages.error(request, 'Please Login to continue!')
-            return redirect('login')
-        # Check user permissions (admin or cafe manager)
-        if not ((request.user.is_superuser) or (request.user.cafe_manager)):
-            messages.error(request, 'Only Staff members are allowed!')
-            return redirect('menu')
-        else:
-            # Extract form data
-            name = request.POST.get('name')
-            price = request.POST.get('price')
-            desc = request.POST.get('desc')
-            cat = request.POST.get('cat')
-            img = request.FILES['img']
+        # Extract form data
+        name = request.POST.get('name')
+        price = request.POST.get('price')
+        desc = request.POST.get('desc')
+        cat = request.POST.get('cat')
+        img = request.FILES['img']
 
-            # Assign list_order based on category for proper menu sorting
-            if cat.lower() == 'pizzas':
-                listing_order = 1
-            elif cat.lower() == 'burgers':
-                listing_order = 2
-            elif cat.lower() == 'rice':
-                listing_order = 3  # Fixed: rice should be 3
-            elif cat.lower() == 'kebabs':
-                listing_order = 4  # Fixed: kebabs should be 4
-            elif cat.lower() == 'wraps':
-                listing_order = 5
-            elif cat.lower() == 'sides':
-                listing_order = 6
-            elif cat.lower() == 'drinks':
-                listing_order = 7
-            elif cat.lower() == 'desserts':
-                listing_order = 8
+        # Assign list_order based on category for proper menu sorting
+        if cat.lower() == 'pizzas':
+            listing_order = 1
+        elif cat.lower() == 'burgers':
+            listing_order = 2
+        elif cat.lower() == 'rice':
+            listing_order = 3
+        elif cat.lower() == 'kebabs':
+            listing_order = 4
+        elif cat.lower() == 'wraps':
+            listing_order = 5
+        elif cat.lower() == 'sides':
+            listing_order = 6
+        elif cat.lower() == 'drinks':
+            listing_order = 7
+        elif cat.lower() == 'desserts':
+            listing_order = 8
 
-            # Create and save new menu item
-            dish = MenuItem(
-                name=name,
-                price=price,
-                desc=desc,
-                category=cat.lower(),
-                pic=img,
-                list_order=listing_order
-            )
-            dish.save()
-            messages.success(request, 'Dish added successfully!')
-            return redirect('manage_menu')
+        # Create and save new menu item
+        dish = MenuItem(
+            name=name,
+            price=price,
+            desc=desc,
+            category=cat.lower(),
+            pic=img,
+            list_order=listing_order
+        )
+        dish.save()
+        messages.success(request, 'Dish added successfully!')
+        return redirect('manage_menu')
 
     # Get all menu items with images for display
     items = MenuItem.objects.filter(pic__isnull=False).exclude(
@@ -349,7 +341,7 @@ def cart(request):
 
         if not cart_dict or sum(item[0] for item in cart_dict.values()) == 0:
             messages.error(
-                request, 'Order unsuccessful: Please add items to cart.')
+                request, 'To place an order, please add items to cart.')
             return redirect('cart')
 
         print(f"🧾 Received total from form: {total}")

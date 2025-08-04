@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{%block title%} Manage Menu {%endblock title%}
+{% block title %}Manage Menu{% endblock title %}
 
 {% block body %}
 
@@ -11,108 +11,61 @@
 </div>
 {% endfor %}
 
+<!-- Add main page h1 heading -->
+<div class="container text-center my-4">
+    <h1>🍽️ Manage Menu</h1>
+</div>
+
 <div class='container py-4 col-md-8'>
 
-    <h1 class='text-center mb-3'>Add a dish</h1>
+    <!-- Change this to h2 for proper hierarchy -->
+    <h2 class='text-center mb-3'>Add a Dish</h2>
 
     <form method='POST' action='/manage_menu' enctype="multipart/form-data" class='row g-3'
         style='display:flex; justify-content:center; align-items : center;'>
         {% csrf_token %}
 
         <div class="form-floating mb-3 col-md-8">
-            <input type="text" name="name" class="form-control" id="name" placeholder="Enter Name of dish">
+            <input type="text" name="name" class="form-control" id="name" placeholder="Enter Name of dish" required>
             <label for="name">Name of dish</label>
         </div>
 
-
-        <div class="form-floating mb-3 col-md-8 ">
-            <select name="cat"  class="form-control dropdown" id="cat">
-          <option value="" disabled selected>Select</option>
-          <option value="pizzas">Pizzas</option>
-          <option value="burgers">Burgers</option>
-          <option value="rice">Rice</option>
-          <option value="kebabs">Kebabs</option>
-          <option value="wraps">Wraps</option>
-          <option value="sides">Sides</option>
-          <option value="drinks">Drinks</option>
-          <option value="desserts">Desserts</option>
-        </select>
+        <div class="form-floating mb-3 col-md-8">
+            <select name="cat" class="form-control dropdown" id="cat" required>
+                <option value="" disabled selected>Select Category</option>
+                <option value="pizzas">Pizzas</option>
+                <option value="burgers">Burgers</option>
+                <option value="rice">Rice</option>
+                <option value="kebabs">Kebabs</option>
+                <option value="wraps">Wraps</option>
+                <option value="sides">Sides</option>
+                <option value="drinks">Drinks</option>
+                <option value="desserts">Desserts</option>
+            </select>
             <label for="cat">Category of dish</label>
         </div>
 
         <div class="form-floating mb-3 col-md-8">
-            <input type="number" name="price" id="dish_price" placeholder="Enter the price of dish" class="form-control">
-            <label class="form-label" for="dish_price">Price</label>
+            <input type="number" name="price" id="dish_price" placeholder="Enter the price of dish" 
+                   class="form-control" step="0.01" min="0" required>
+            <label class="form-label" for="dish_price">Price (£)</label>
         </div>
 
         <div class="form-floating mb-3 col-md-8">
-            <input type="text" name="desc" class="form-control" id="dish_desc" placeholder="Enter description of dish">
+            <input type="text" name="desc" class="form-control" id="dish_desc" 
+                   placeholder="Enter description of dish" maxlength="500" required>
             <label for="dish_desc">Description</label>
         </div>
 
         <div class="form-floating mb-3 col-md-8">
-            <input type="file" name="img" id="dish_img" accept="image/*" class="form-control">
+            <input type="file" name="img" id="dish_img" accept="image/*" class="form-control" required>
             <label class="form-label" for="dish_img">Upload image</label>
         </div>
 
-        <button type='submit' class='btn btn-primary col-md-6'>Submit</button>
+        <button type='submit' class='btn btn-primary col-md-6'>🍽️ Add Dish</button>
 
     </form>
 
 </div>
-
-<div class="row justify-content-center">
-    {%for i in items%}
-    <div class="card" style="width: 18rem; margin:20px 20px 10px; ">
-        <img src="{{i.pic.url}}" class="card-img-top" alt="Food item description in box" style='padding:10px 0px 0px'>
-        <div class="card-body">
-            <!-- <h4 class="card-title">{{i.id}}</h4> -->
-            <h4 class="card-title">{{i.name}}</h4>
-            <h5 class="card-title">£{{i.price}}</h5>
-            <p class="card-text">{{i.desc}}</p>
-            <form action="{% url 'delete_dish' i.id %}" method="post">
-                {% csrf_token %}
-                {% if user.is_superuser %}
-                <!-- <a href="#" class="btn btn-danger">Delete</a> -->
-                <button class="btn btn-danger" type="submit">Delete</button>
-                <button class="btn btn-warning btn-sm" onclick="editDish({{ i.id }})">Edit</button>
-                {%else%}
-                <a href="#" class="btn btn-primary">Add to cart</a>
-                {%endif%}
-            </form>
-        </div>
-    </div>
-    {%endfor%}
-</div>
-
-<!-- JavaScript for handling edit functionality -->
-<script>
-/* global setTimeout, console */
-function editDish(itemId) {
-    // Fetch dish data via AJAX
-    fetch(`/edit-dish/${itemId}/`, {
-        headers: {
-            'X-Requested-With': 'XMLHttpRequest',
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Populate the existing add form with current values
-        document.querySelector('input[name="name"]').value = data.name;
-        document.querySelector('input[name="price"]').value = data.price;
-        document.querySelector('textarea[name="desc"]').value = data.desc;
-        document.querySelector('select[name="cat"]').value = data.category;
-        
-        // Change form action to edit mode
-        document.querySelector('form').action = `/edit-dish/${itemId}/`;
-        
-        // Change submit button text
-        document.querySelector('form button[type="submit"]').textContent = 'Update Dish';
-        
-        // Scroll to form
-        document.querySelector('form').scrollIntoView();
-    });
-}
-</script>
 
 {% endblock body %}

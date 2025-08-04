@@ -6,7 +6,8 @@
 {% block body %}
 
 <div class="container py-4 col-md-8">
-    <h3 class="text-center mb-4">✏️ Edit Your Review</h3>
+    <!-- Add h1 for main page title -->
+    <h1 class="text-center mb-4">📝 Edit Review</h1>
     
     <!-- Display any messages -->
     {% if messages %}
@@ -21,21 +22,21 @@
     <!-- Review Edit Form -->
     <div class="card shadow-sm">
         <div class="card-header bg-primary text-white">
-            <h5 class="card-title mb-0">📝 Update Review</h5>
+            <h2 class="card-title mb-0">📝 Update Review</h2>
         </div>
         <div class="card-body">
-            <form method="POST">
+            <form method="POST" aria-label="Edit review form">
                 {% csrf_token %}
                 
                 <!-- Comment Field -->
                 <div class="mb-4">
                     <div class="form-floating">
                         {{ form.comment }}
-                        <label for="{{ form.comment.id_for_label }}">{{ form.comment.label }}</label>
+                        <label for="{{ form.comment.id_for_label }}">Review Comment</label>
                     </div>
-                    <div class="form-text">Maximum 250 characters</div>
+                    <div class="form-text" id="comment-help" aria-live="polite">Maximum 250 characters</div>
                     {% if form.comment.errors %}
-                        <div class="text-danger small mt-1">
+                        <div class="text-danger small mt-1" role="alert" aria-live="assertive">
                             {% for error in form.comment.errors %}
                                 {{ error }}
                             {% endfor %}
@@ -46,12 +47,16 @@
                 <!-- Action Buttons -->
                 <div class="row">
                     <div class="col-md-6 d-grid">
-                        <a href="{% url 'reviews' %}" class="btn btn-secondary btn-lg">
+                        <a href="{% url 'reviews' %}" 
+                           class="btn btn-secondary btn-lg"
+                           aria-label="Cancel editing and return to reviews">
                             ❌ Cancel
                         </a>
                     </div>
                     <div class="col-md-6 d-grid">
-                        <button type="submit" class="btn btn-primary btn-lg">
+                        <button type="submit" 
+                                class="btn btn-primary btn-lg"
+                                aria-label="Submit updated review">
                             ✅ Update review
                         </button>
                     </div>
@@ -63,11 +68,11 @@
     <!-- Original Review Preview -->
     <div class="card mt-4 shadow-sm">
         <div class="card-header bg-light">
-            <h6 class="card-title mb-0">👀 Original Review</h6>
+            <h3 class="card-title mb-0">👀 Original Review</h3>
         </div>
         <div class="card-body">
             <div style="border: 2px solid #dee2e6; padding: 15px; border-radius: 5px; background-color: #f8f9fa;">
-                <h5><b>{{ review.name }}</b></h5>
+                <h4><b>{{ review.name }}</b></h4>
                 <p class="mb-2">{{ review.comment }}</p>
                 <small class="text-muted">Original Date: {{ review.r_date }}</small>
             </div>
@@ -84,37 +89,32 @@ document.addEventListener('DOMContentLoaded', function() {
     if (commentField) {
         const maxLength = 250;
         
+        // Add accessibility attributes
+        commentField.setAttribute('aria-describedby', 'comment-help');
+        commentField.setAttribute('maxlength', maxLength);
+        commentField.setAttribute('aria-label', 'Review comment text area, maximum 250 characters');
+        
         // Create character counter
         const counter = document.createElement('div');
         counter.className = 'form-text text-end';
         counter.style.fontSize = '0.875rem';
+        counter.setAttribute('aria-live', 'polite');
+        counter.setAttribute('id', 'character-counter');
         commentField.parentNode.appendChild(counter);
         
-        // Function expression instead of declaration
+        // Function to update character counter
         const updateCounter = () => {
             const remaining = maxLength - commentField.value.length;
             counter.textContent = `${commentField.value.length}/${maxLength} characters`;
             counter.className = remaining < 20 ? 'form-text text-end text-warning' : 'form-text text-end text-muted';
+            
+            // Update aria-describedby to include counter
+            commentField.setAttribute('aria-describedby', 'comment-help character-counter');
         };
         
         commentField.addEventListener('input', updateCounter);
         updateCounter(); // Initial update
     }
 });
-
 </script>
 {% endblock js %}
-            counter.style.fontSize = '0.875rem';
-            commentField.parentNode.appendChild(counter);
-            
-            function updateCounter() {
-                const remaining = maxLength - commentField.value.length;
-                counter.textContent = `${commentField.value.length}/${maxLength} characters`;
-                counter.className = remaining < 20 ? 'form-text text-end text-warning' : 'form-text text-end text-muted';
-            }
-            
-            commentField.addEventListener('input', updateCounter);
-            updateCounter(); // Initial update
-        }
-    });
-</script>
