@@ -137,7 +137,7 @@ class MenuItem(models.Model):
     name = models.CharField(max_length=50)
     category = models.CharField(max_length=50, default='')
     desc = models.CharField(max_length=250)
-    pic = models.ImageField(upload_to='fimage')
+    image_name = models.CharField(max_length=50, default='default.webp')
     price = models.CharField(max_length=4, default='0')
     list_order = models.IntegerField(default=0)
 

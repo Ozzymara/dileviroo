@@ -9,7 +9,7 @@ import ast
 
 from itertools import groupby
 from django.db.models import Sum
-from .models import Order, User, Rating
+from .models import Order, User, Rating, MenuItem
 from .forms import ReviewForm, DeleteConfirmForm
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
@@ -39,8 +39,7 @@ def menu(request):
         items_by_category (dict): Menu items grouped by category
     """
     # Get all menu items with images, ordered by list_order for custom ordering
-    menu_items = MenuItem.objects.filter(pic__isnull=False).exclude(
-        pic='').order_by('list_order', 'price', 'name')
+    menu_items = MenuItem.objects.all().order_by('list_order', 'price', 'name')
     items_by_category = {}
 
     # Group menu items by category for organized display
