@@ -33,7 +33,7 @@
     <div class="row justify-content-center">
     {%for i in menu_items%}
     <div class="card menu-item" style="width: 18rem; margin:20px 20px 10px;" data-name="{{i.name|lower}}" data-desc="{{i.desc|lower}}" data-category="{{category|lower}}">
-  <img src="{{ static_prefix }}{{ i.image_name }}" class="card-img-top" alt="see description below for item {{i.id}}" style='padding:10px 0px 0px; max-height:250px;'>
+  <img src="{{ static_prefix }}{{ i.image_name }}" class="card-img-top" alt="see description below for item {{i.id}}" style='padding:10px 0px 0px; width:262px; height:240px; object-fit:cover;'>
   <div class="card-body">
     <h3 class="card-title" id="namepr{{i.id}}" >{{i.name}}</h3>
     <h4 class="card-title">£<span id="pricepr{{i.id}}" >{{i.price}}</span></h4>

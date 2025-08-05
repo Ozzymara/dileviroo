@@ -50,7 +50,6 @@ urlpatterns = [
 
     # Include all cafe application URLs at root level
     path('', include('cafe.urls')),
-    
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
