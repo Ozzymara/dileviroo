@@ -249,8 +249,9 @@ def manage_menu(request):
         return redirect('manage_menu')
 
     # Get all menu items with images for display
-    items = MenuItem.objects.filter(pic__isnull=False).exclude(
-        pic='').order_by('list_order')
+    items = MenuItem.objects.filter(image_name__isnull=False).exclude(
+        image_name__exact=''
+    ).order_by('list_order')
 
     return render(
         request,

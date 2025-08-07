@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}💸 Bill{% endblock title %}
+{% block title %}💸 Bills{% endblock title %}
 
 {% block body %}
 
@@ -11,16 +11,22 @@
   </div>
 {% endfor %}
 
-<!-- c Bar -->
+<!-- Add main h1 heading -->
+<div class="container text-center my-4">
+    <h1>💸 Bills</h1>
+</div>
+
+<!-- Search Bar -->
 <div class="container col-md-6 mt-3">
   <label for="searchInput" class="visually-hidden">Search bill items</label>
-<input type="text" id="searchInput" class="form-control" placeholder="🔍 Search bills">
+  <input type="text" id="searchInput" class="form-control" placeholder="🔍 Search bills">
   <div id="noBillResults" class="text-center text-muted mt-3" style="display:none;">No matching bills found 🧾</div>
 </div>
 
 <div class="container col-md-6">
   <div style="display:grid;place-content:center; padding-top:25px">
-    <h3>All Bills :</h3>
+    <!-- Change to h2 for proper hierarchy -->
+    <h2>All Bills:</h2>
   </div>
 
   {% for b in bills %}
@@ -46,13 +52,15 @@
 
     <div style='padding:50px 0px 10px'>
       <hr>
-      <h4>Invoice number : {{ b.id }}</h4>
-      <h5>Invoice time : {{ b.bill_time }}</h5>
+      <!-- Change to h3 for proper hierarchy -->
+      <h3>Invoice number: {{ b.id }}</h3>
+      <!-- Change to h4 for proper hierarchy -->
+      <h4>Invoice time: {{ b.bill_time }}</h4>
       {% if b.name != "Unknown" %}
-        <h5>Name: {{ b.name }}</h5>
-        <h5>Phone: {{ b.phone }}</h5>
+        <h4>Name: {{ b.name }}</h4>
+        <h4>Phone: {{ b.phone }}</h4>
       {% endif %}
-      <h5>Bill Total : £{{ b.bill_total }}</h5>
+      <h4>Bill Total: £{{ b.bill_total }}</h4>
     </div>
   </div>
   {% endfor %}
