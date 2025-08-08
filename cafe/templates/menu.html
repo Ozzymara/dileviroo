@@ -6,6 +6,32 @@
 
 {% block body %}
 
+<style>
+/* Constrain menu layout on wide screens */
+.menu-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.category-section {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.category-section h2 {
+  margin: 40px 25px 5px;
+  max-width: 1400px;
+}
+
+@media (min-width: 1200px) {
+  .category-section .row {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+}
+</style>
+
 {% get_static_prefix as static_prefix %}
 {% for message in messages %}
     <div class="alert alert-success alert-dismissable fade show" role="alert">
@@ -20,16 +46,18 @@
 </div>
 
 <!-- 🔍 Search Bar for Menu -->
-<div class="container mt-3 col-md-6">
+<div class="menu-container">
+  <div class="col-md-6 mx-auto mt-3">
     <label for="searchInput" class="visually-hidden">Search menu items</label>
     <input type="text" id="searchInput" class="form-control" placeholder="🔍 Search menu items">
     <div id="noMenuResults" class="text-center text-muted mt-3" style="display:none;">No matching menu items found 🍽️
     </div>
+  </div>
 </div>
 
 {% for category, menu_items in items_by_category.items %}
   <div class="category-section" data-category="{{category|lower}}">
-    <h2 style="font-size: 1.75rem; margin:40px 25px 5px">{{category}}:</h2>
+    <h2 style="font-size: 1.75rem;">{{category}}:</h2>
     <div class="row justify-content-center">
     {%for i in menu_items%}
     <div class="card menu-item" style="width: 18rem; margin:20px 20px 10px;" data-name="{{i.name|lower}}" data-desc="{{i.desc|lower}}" data-category="{{category|lower}}">

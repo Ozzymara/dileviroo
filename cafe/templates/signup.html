@@ -97,27 +97,52 @@ document.addEventListener('DOMContentLoaded', function() {
     const confirmPasswordInput = document.querySelector('input[name="cpassword"]');
     const form = document.querySelector('form');
     
-    function showNotification(message, type = 'error') {
-        const existing = document.querySelector('.field-notification');
-        if (existing) existing.remove();
+    function showNotification(message, type = 'error', targetElement = null) {
+        // Remove existing notifications
+        const existing = document.querySelectorAll('.field-notification');
+        existing.forEach(el => el.remove());
         
-        const notification = document.createElement('div');
-        notification.className = 'field-notification';
-        notification.textContent = message;
-        notification.style.cssText = `
-            position: fixed; top: 20px; right: 20px; padding: 10px 15px;
-            background: ${type === 'error' ? '#dc3545' : '#28a745'}; color: white;
-            border-radius: 4px; z-index: 1000; font-size: 14px;
-        `;
-        document.body.appendChild(notification);
-        setTimeout(() => notification.remove(), 3000);
+        if (targetElement) {
+            // Show notification next to the specific input field
+            const notification = document.createElement('div');
+            notification.className = 'field-notification';
+            notification.textContent = message;
+            notification.style.cssText = `
+                color: ${type === 'error' ? '#dc3545' : '#28a745'};
+                font-size: 12px; font-weight: bold; margin-top: 5px;
+                display: block; animation: fadeIn 0.3s ease-in;
+            `;
+            
+            // Insert after the input field's parent container
+            const formGroup = targetElement.closest('.form-outline') || targetElement.parentElement;
+            formGroup.appendChild(notification);
+            
+            // Auto-remove after 3 seconds
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                }
+            }, 3000);
+        } else {
+            // Fallback to original popup style
+            const notification = document.createElement('div');
+            notification.className = 'field-notification';
+            notification.textContent = message;
+            notification.style.cssText = `
+                position: fixed; top: 20px; right: 20px; padding: 10px 15px;
+                background: ${type === 'error' ? '#dc3545' : '#28a745'}; color: white;
+                border-radius: 4px; z-index: 1000; font-size: 14px;
+            `;
+            document.body.appendChild(notification);
+            setTimeout(() => notification.remove(), 3000);
+        }
     }
     
     // Real-time validation for first name
     if (firstNameInput) {
         firstNameInput.addEventListener('input', function(e) {
             if (this.value.length > 10) {
-                showNotification('First Name cannot exceed 10 characters!');
+                showNotification('First Name cannot exceed 10 characters!', 'error', this);
                 this.value = this.value.substring(0, 10);
             }
         });
@@ -127,7 +152,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (lastNameInput) {
         lastNameInput.addEventListener('input', function(e) {
             if (this.value.length > 10) {
-                showNotification('Last Name cannot exceed 10 characters!');
+                showNotification('Last Name cannot exceed 10 characters!', 'error', this);
                 this.value = this.value.substring(0, 10);
             }
         });
@@ -136,18 +161,34 @@ document.addEventListener('DOMContentLoaded', function() {
     // Password validation - exactly 8 characters
     if (passwordInput) {
         passwordInput.addEventListener('input', function(e) {
+            console.log('Password input changed:', this.value, 'Confirm:', confirmPasswordInput.value);
+            
             if (this.value.length > 8) {
-                showNotification('Password must be exactly 8 characters!');
+                showNotification('Password must be exactly 8 characters!', 'error', this);
                 this.value = this.value.substring(0, 8);
+            }
+            
+            // Check if confirm password field has content and doesn't match
+            if (confirmPasswordInput.value.length > 0 && this.value !== confirmPasswordInput.value) {
+                console.log('Password mismatch detected!');
+                showNotification('Passwords do not match!', 'error', confirmPasswordInput);
             }
         });
     }
     
     if (confirmPasswordInput) {
         confirmPasswordInput.addEventListener('input', function(e) {
+            console.log('Confirm password input changed:', this.value, 'Original:', passwordInput.value);
+            
             if (this.value.length > 8) {
-                showNotification('Confirm Password must be exactly 8 characters!');
+                showNotification('Confirm Password must be exactly 8 characters!', 'error', this);
                 this.value = this.value.substring(0, 8);
+            }
+            
+            // Real-time password matching validation
+            if (this.value.length > 0 && passwordInput.value !== this.value) {
+                console.log('Confirm password mismatch detected!');
+                showNotification('Passwords do not match!', 'error', this);
             }
         });
     }
@@ -254,12 +295,12 @@ document.addEventListener('DOMContentLoaded', function() {
             const numbersOnly = value.replace(/[^0-9]/g, '');
             
             if (value !== numbersOnly) {
-                showNotification('Only numbers are accepted for phone number!');
+                showNotification('Only numbers are accepted for phone number!', 'error', this);
                 e.target.value = numbersOnly;
             }
             
             if (numbersOnly.length > 10) {
-                showNotification('Phone number cannot exceed 10 digits!');
+                showNotification('Phone number cannot exceed 10 digits!', 'error', this);
                 e.target.value = numbersOnly.substring(0, 10);
             }
         });
@@ -267,7 +308,7 @@ document.addEventListener('DOMContentLoaded', function() {
         phoneInput.addEventListener('keypress', function(e) {
             if (!/[0-9]/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Delete' && e.key !== 'ArrowLeft' && e.key !== 'ArrowRight' && e.key !== 'Tab') {
                 e.preventDefault();
-                showNotification('Only numbers are accepted for phone number!');
+                showNotification('Only numbers are accepted for phone number!', 'error', phoneInput);
             }
         });
     }
