@@ -2,7 +2,7 @@
 
 **Dileviroo** is a fully responsive, immersive, full-stack web application that creates a fictitious online ordering experience through seamless menu browsing, dynamic cart management, and comprehensive order tracking functionality. Designed to bridge the gap between traditional ordering service and modern digital convenience, Dileviroo empowers both customers and administrators with intuitive tools for managing orders, reviews, and business operations.
 
-Built using HTML5, CSS3, JavaScript, jQuery, Bootstrap 5, and Django Python framework, it showcases dynamic styling and interactive elements that enhance the user experience through real-time search functionality, theme toggling, persistent cart storage, and responsive design patterns. The application demonstrates modern web development principles including django backend with SQLite database integration; secure login/signup system with role-based access control; CRUD operations for menu items and order processing.
+Built using HTML5, CSS3, JavaScript, jQuery, Bootstrap 5, and the Django Python framework, it showcases dynamic styling and interactive elements that enhance the user experience through real-time search functionality, theme toggling, persistent cart storage, and responsive design patterns. The application demonstrates modern web development principles, including a Django backend with SQLite database integration, a secure login/signup system with role-based access control, and CRUD operations for menu items and order processing.
 
 As part of a portfolio project for the [Code Institute Full Stack Software Developer Bootcamp](https://codeinstitute.net/), the project focuses on implementing Django's Model-View-Template architecture, database relationships, user authentication, and modern frontend technologies to create a user-centric web experience that meets industry best practices in responsiveness, accessibility, and aesthetics. The project showcases practical application of full-stack development skills while solving real-world business challenges in the food service industry, demonstrating both technical proficiency and user experience design principles essential for modern web applications. 🍕✨
 
@@ -14,24 +14,56 @@ As part of a portfolio project for the [Code Institute Full Stack Software Devel
 [Live Site](https://dileviroo-d67d65227b08.herokuapp.com/)  
 [User Story Board](https://github.com/users/Ozzymara/projects/14)
 
+<!-- Table of Contents -->
+## 📑 Table of Contents
 
+- [🗺️ Project Outline](#-project-outline)
+- [🎯 Project Aims](#-project-aims)
+- [🚀 Goals](#-goals)
+- [🧐 UX Design](#-ux-design)
+  - [👤 User Stories & MVP Focus](#-user-stories--mvp-focus)
+- [🎨 Colours](#-colours)
+- [📱 Wireframes](#-wireframes)
+- [✨ Features](#-features)
+  - [🏷️ Title and Favicon](#-title-and-favicon)
+  - [🖼️ Imagery](#-imagery)
+  - [🧭 Nav Bar](#-nav-bar)
+  - [🔘 Button System](#-button-system)
+  - [🔍 Advanced Search Functionality](#-advanced-search-functionality)
+  - [🔚 Footer](#-footer)
+  - [🕹️ Responsive Website Implementation](#-responsive-website-implementation)
+- [🔄 CRUD Functionalities](#-crud-functionalities)
+- [🗂️ Entity Relationship Diagram](#entity-relationship-diagram)
+- [🔄 Agile Development Approach](#-agile-development-approach)
+- [📊 Feedback & Retrospectives](#-feedback--retrospectives)
+- [🧭 Five Planes of UX](#-five-planes-of-ux)
+- [🔒 Security](#-security)
+  - [User Authentication and Account Security](#user-authentication-and-account-security)
+  - [Defensive Design](#defensive-design)
+  - [CSRF Protection](#csrf-protection)
+  - [Notification Messages Overview](#notification-messages-overview)
+  - [Additional Security Practices](#additional-security-practices)
+- [🛠️ Built With](#-built-with)
+  - [🖥️ Technologies and Languages](#-technologies-and-languages)
+  - [📚 Libraries and Frameworks](#-libraries-and-frameworks)
+  - [🧰 Tools and Programs](#-tools-and-programs)
+  - [⚙️ Related Technologies Used](#-related-technologies-used)
+  - [Dependencies](#dependencies)
+- [🗃️ File Structure](#-file-structure)
 - [🧪 Testing and Validation](#-testing-and-validation)
   - [✅ Manual Testing](#-manual-testing)
   - [✅ HTML Validation](#-html-validation)
   - [✅ CSS Validation](#-css-validation)
   - [✅ JS Validation](#-js-validation)
+  - [✅ WAVE](#-wave)
   - [✅ Chrome DevTools Lighthouse](#-chrome-devtools-lighthouse)
+  - [✅ SQL Queries](#-sql-queries)
+  - [✅ CI Python Linter](#-ci-python-linter)
   - [✅ Semantic HTML](#-semantic-html)
-- [🚀 Deployment](#-deployment)
-- [🙌 Credits](#-credits)
-  - [⌨️ Code](#%EF%B8%8F-code)
-  - [📝 Content](#-content)
-  - [🎥 Media](#-media)
-  - [🤖 AI Implementation and Orchestration](#-ai-implementation-and-orchestration)
-  - [🧡 Acknowledgements](#-acknowledgements)
-  - [💡 Future Ideas](#-future-ideas)
-  - [🆕 Recent Updates](#-recent-updates)
-  
+  - [✅ Controls testing](#-controls-testing)
+- [🚀 Deployment](#deployment)
+- [🤖 AI Implementation and Orchestration](#-ai-implementation-and-orchestration)
+
 ## 🎯 Project Aims
 
 *   **Demonstrate Full-Stack Proficiency**: Highlight Django-powered workflows, from models and views to templates and admin customisation.
@@ -49,7 +81,7 @@ As part of a portfolio project for the [Code Institute Full Stack Software Devel
 Dileviroo’s template structure isn’t just functional - it’s layered with intention. From strategic goals to visual polish, each page reflects a commitment to clarity, usability, and personality. Whether users are placing an order or admins are managing the menu, the experience is designed to feel intuitive, responsive, and enjoyable.
 
 ### 👤 User Stories & MVP Focus
-Development was guided by user stories that mapped directly to real-world interactions. The MoSCoW method is a popular prioritisation technique used in project management and software development to help decide which requirements or features to focus on. The name stands for Must have, Should have, Could have, and Won't have. This framework helps teams focus on delivering the most important features first and manage stakeholder expectations effectively.
+Development was guided by user stories that mapped directly to real-world interactions. The MoSCoW method is a popular prioritisation technique used in project management and software development to help decide which requirements or features to focus on. The name stands for 'Must' have, 'Should' have, 'Could' have, and 'Won't' have. This framework helps teams focus on delivering the most important features first and manage stakeholder expectations effectively.
 
 | Priority     | Site Owner Perspective                                   | External User Perspective                              |
 |--------------|----------------------------------------------------------|-------------------------------------------------------|
@@ -96,7 +128,7 @@ Each template is developed using user-centred principles: prioritising simplicit
 
 | Template Name       | Description / Purpose          | Expand Feature to View Image                               |
 |---------------------|-------------------------------|------------------------------------------------------------|
-| menu.html           | Display categorized menu items with images and prices | <details><summary>view wireframe</summary><img src="/wireframes/w-menu.png" alt="wireframe" style="width:100%;"></details> |
+| menu.html           | Display categorised menu items with images and prices | <details><summary>view wireframe</summary><img src="/wireframes/w-menu.png" alt="wireframe" style="width:100%;"></details> |
 | signup.html          | User registration page          | <details><summary>view wireframe</summary><img src="/wireframes/Sign up.png" alt="wireframe" style="width:100%;"></details> |
 | login.html           | User authentication page        | <details><summary>view wireframe</summary><img src="/wireframes/w-login.png" alt="wireframe" style="width:100%;"></details> |
 | profile.html         | User profile display and update | <details><summary>view wireframe</summary><img src="/wireframes/w-profile.png" alt="wireframe" style="width:100%;"></details> |
@@ -142,7 +174,7 @@ The site logo was created using [Design.com](https://www.design.com). The logo f
 • The navigation bar is a menu at the top of the website that stays visible as users scroll. This feature makes it easy to move between sections without needing to scroll back to the top.
 
 • The navbar displays the site's logo and a toggle feature to switch between light and dark modes.
-• The navbar includes links to important sections such as the menu, cart, reviews, profile, and my orders as well buttons to sign up, login, and log out.
+• The navbar includes links to important sections such as the menu, cart, reviews, profile, and my orders, as well as buttons to sign up, log in, and log out.
 
 <details>
 <summary>Click to view navbar</summary>
@@ -178,7 +210,7 @@ Dileviroo features a comprehensive button system that enhances user experience a
 |                             | **Review Navigation**          | Character counter displays; Form validation feedback; Success/error message close buttons |
 | **Cart System Buttons**     | **Cart Management**            | Add to Cart (per item); Remove from Cart; Clear entire Cart; Plus/Minus quantity controls; Go to Cart button |
 |                             | **Checkout Process**           | Place Order button; Payment processing; Order confirmation buttons |
-| **Responsive Design**       | **Mobile Optimization**        | Touch-friendly (44px min target); Stacked vertical layout on small screens; Navbar toggler for mobile |
+| **Responsive Design**       | **Mobile Optimisation**        | Touch-friendly (44px min target); Stacked vertical layout on small screens; Navbar toggler for mobile |
 |                             | **Accessibility Features**     | ARIA labels for screen readers; Full keyboard navigation; Visible focus indicators; High contrast ratios |
 | **Dynamic Button States**   | **Loading & Feedback**         | Spinner icons during AJAX calls; Disabled states to prevent double submits; Success feedback with temporary states |
 |                             | **Contextual Variations**      | User role-based visibility (`{% if user.is_superuser %}`); Authentication-dependent display; Cart counter updates |
@@ -187,7 +219,7 @@ Dileviroo features a comprehensive button system that enhances user experience a
 | **Special Integrations**    | **Bootstrap Integration**       | Consistent Bootstrap 5 styling; Colour variants (primary, secondary, success, warning, danger, outline-*) |
 |                             | **Custom Enhancements**        | Brand color `#2D5D81`; Icon integration (Font Awesome); Smooth hover transitions |
 |                             | **UX Enhancements**            | Toast notifications; Progress indicators; Real-time validation feedback; Character limits |
-| **Performance Features**    | **Optimization**               | Lazy loading; Minimal JavaScript handlers; Hardware-accelerated CSS animations; LocalStorage integration |
+| **Performance Features**    | **Optimisation**               | Lazy loading; Minimal JavaScript handlers; Hardware-accelerated CSS animations; LocalStorage integration |
 |                             | **Security Features**          | CSRF token protection; Form validation; Double-submit prevention; Session management |
 <br>
 
@@ -240,14 +272,14 @@ Implementation Details
 ## 🔄 CRUD Functionalities
 
 ### 🎯 Key CRUD Features
-- **Phone-based Authentication**: Users login with phone numbers instead of usernames
+- **Phone-based Authentication**: Users log in with phone numbers instead of usernames
 - **Real-time Cart Updates**: JavaScript handles cart operations with localStorage
 - **Admin Controls**: Superusers can manage menu items and view all orders
-- **User Ownership**: Users can only edit/delete their own reviews
+- **User Ownership**: Users can only edit/delete their reviews
 - **Search Functionality**: Real-time search across menu items, reviews, and orders
 - **Responsive Design**: All CRUD operations work on mobile and desktop
 - **Validation**: Client-side and server-side validation for all forms
-- **Confirmation Dialogs**: Critical actions (delete, logout) require confirmation
+- **Confirmation Dialogues**: Critical actions (delete, logout) require confirmation
 
 
 Below is a comprehensive documentation for various CRUD functionalities.
@@ -332,7 +364,7 @@ Below is a comprehensive documentation for various CRUD functionalities.
 | Action | User Interaction | Description |
 |--------|------------------|-------------|
 | **Create** | Fill form in "Add Item" page and submit | Creates new menu items with images |
-| **Read** | Navigate to Menu page | Displays categorized menu items with search |
+| **Read** | Navigate to Menu page | Displays categorised menu items with search |
 | **Update** | Edit through Django Admin panel | Modifies existing menu items |
 | **Delete** | Click "Delete" button on menu items (superuser) | Removes menu items from database |
 
@@ -390,10 +422,10 @@ Finally, the `Rating` table allows for valuable customer feedback. It captures a
 | **Entity**        | **Purpose**                                         | **Key Fields**                                                             | **Relationships**                                                                                   | **Business Logic**                                                   |
 |-------------------|----------------------------------------------------|---------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------|--------------------------------------------------------------------|
 | **User**          | Manages customer authentication and profiles       | username, email, password, first_name, last_name, date_joined             | One-to-Many with Orders, Reviews, and Bills                                                     | Central identity hub connecting all user activities                |
-| **Menu Item**     | Represents food/beverage products available for purchase | name, description, price, category, image, availability_status, created_date | Many-to-Many with Orders (via OrderItem junction table)                                        | Enables dynamic menu management with categorization and pricing   |
+| **Menu Item**     | Represents food/beverage products available for purchase | name, description, price, category, image, availability_status, created_date | Many-to-Many with Orders (via OrderItem junction table)                                        | Enables dynamic menu management with categorisation and pricing   |
 | **Order**         | Captures customer purchase transactions             | order_id, user_id (FK), order_date, status, total_amount, delivery_address | Many-to-One with User; One-to-Many with OrderItem; One-to-One with Bill                         | Central transaction record linking customers to purchases         |
 | **OrderItem**     | Junction table resolving Many-to-Many Orders↔Menu Items | order_id (FK), menu_item_id (FK), quantity, unit_price, subtotal          | Many-to-One with Order; Many-to-One with MenuItem                                              | Captures specific item quantities and pricing at purchase time    |
-| **Bill**          | Generates invoices for completed orders             | bill_id, order_id (FK), bill_time, customer_name, phone, bill_total, order_items (JSON) | One-to-One with Order                                                                        | Creates permanent financial records with customer and itemized charges |
+| **Bill**          | Generates invoices for completed orders             | bill_id, order_id (FK), bill_time, customer_name, phone, bill_total, order_items (JSON) | One-to-One with Order                                                                        | Creates permanent financial records with customer and itemised charges |
 | **Review**        | Stores customer feedback and ratings                 | review_id, user_id (FK), menu_item_id (FK, optional), rating, comment, review_date, is_anonymous | Many-to-One with User; Many-to-One with MenuItem (optional)                                  | Enables customer engagement and business insights                  |
 
 </details><br>
@@ -403,7 +435,7 @@ Finally, the `Rating` table allows for valuable customer feedback. It captures a
 
 | **Relationship Type** | **Description**                                                                                   |
 |-----------------------|-------------------------------------------------------------------------------------------------|
-| One-to-Many           | User → Orders: single user can place multiple orders                                            |
+| One-to-Many           | User → Orders: a single user can place multiple orders                                            |
 |                       | User → Reviews: user can submit multiple feedback entries                                        |
 |                       | Order → OrderItems: each order has multiple line items                                           |
 |                       | User → Bills: user can have multiple billing records                                             |
@@ -719,7 +751,7 @@ The project is organised into several key directories and files:
 | │   │   ├─ `profile.html`                  | User profile page                              |
 | │   │   ├─ `reviews.html`                  | Reviews page                                   |
 | │   │   ├─ `signup.html`                   | Registration page                              |
-| │   ├─ `__init__.py`                       | Package initializer                            |
+| │   ├─ `__init__.py`                       | Package initialiser                            |
 | │   ├─ `admin.py`                          | Admin configuration                            |
 | │   ├─ `apps.py`                           | App-specific config                            |
 | │   ├─ `decorators.py`                     | Restricts unauthorised users                   |
@@ -733,7 +765,7 @@ The project is organised into several key directories and files:
 | ├─ `dileviroo/`                            | Project-level settings and code                |
 | │   ├─ `__pycache__/`                      | Compiled Python files                          |
 | │   ├─ `static/`                           | Static files (CSS/JS/images)                   |
-| │   ├─ `__init__.py`                       | Package initializer                            |
+| │   ├─ `__init__.py`                       | Package initialiser                            |
 | │   ├─ `asgi.py`                           | ASGI server entry point                        |
 | │   ├─ `settings.py`                       | Main settings (db, apps, etc.)                 |
 | │   ├─ `urls.py`                           | Project root URL routing                       |
@@ -872,7 +904,7 @@ The total time for all 5 SQL queries was 213.68 milliseconds.
 **Queries Table**
 For each query, the table shows:
 •	Query: The SQL command (truncated for display), e.g., SELECT ..., UPDATE, INSERT INTO, etc.
-•	Timeline: A colored bar indicating when during the total page load the query was executed. Each query gets a different color.
+•	Timeline: A colored bar indicating when during the total page load the query was executed. Each query gets a different colour.
 •	Time (ms): How long that individual query took, in milliseconds.
 •	Action: Buttons for viewing the full SQL ("Sel") or the explain plan ("Expl").
 
@@ -906,7 +938,7 @@ For each query, the table shows:
 <summary>Click to view test grid</summary>
 <img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/documentation/responsiveness-test.webp" alt="Test grid" style="width:100%;"></details><br>
 
-This test sheet displays the results of responsiveness and validation tests conducted across various devices and browsers. The tests confirm that key elements such as the buttons, password recognition, and jackpot function correctly on Chrome, Firefox, Safari, iPhone Xr, and iPad. Additionally, CSS and HTML validation have passed successfully.
+This test sheet displays the results of responsiveness and validation tests conducted across various devices and browsers. The tests confirm that key elements such as the buttons, password recognition, and jackpot function correctly on Chrome, Firefox, Safari, iPhone XR, and iPad. Additionally, CSS and HTML validation have passed successfully.
 
 ## [✅ CI Python Linter]
 
@@ -985,7 +1017,7 @@ Templates follow proper h1 → h2 → h3 structure:
 
 ## Semantic HTML Benefits in This Project
 
-1. **SEO Optimization**: Proper heading hierarchy helps search engines understand content structure
+1. **SEO Optimisation**: Proper heading hierarchy helps search engines understand content structure
 2. **Accessibility**: Screen readers can navigate using semantic landmarks
 3. **Code Maintainability**: Clear structure makes templates easier to understand and modify
 4. **Performance**: Semantic elements provide styling hooks without extra CSS classes
@@ -1136,4 +1168,5 @@ The testing aims to verify that each interactive element:
 
 *   **Efficiency Gains:** The use of AI tools significantly reduced development time, automated repetitive tasks, and improved code quality. This allowed for a greater focus on design, accessibility, and user experience. 
 *   **Challenges:** Occasional contextual adjustments were needed for AI-generated code, particularly to align with accessibility standards and project-specific requirements. These were resolved through iterative testing and manual review.
+
 
