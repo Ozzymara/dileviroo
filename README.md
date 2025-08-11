@@ -84,4 +84,5 @@ As part of a portfolio project for the [Code Institute Full Stack Software Devel
 *   **User Retention**: Create intuitive flows for ordering, reviewing, and interacting with the platform to encourage repeat engagement.
 *   **Operational Efficiency:** Streamline admin tasks like order management, bill generation, and review moderation through a customised dashboard.<br><br>
 
-<hr><p align="right" dir="auto"><a href="#-project-outline">Back To Top</a></p>
+<hr><p align="right" dir="auto"><a href="#-table-of-contents">Back to Table of Contents</a></p>
+
