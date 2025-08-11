@@ -72,4 +72,5 @@ As part of a portfolio project for the [Code Institute Full Stack Software Devel
   - [💡 Future Ideas](#-future-ideas)
   - [🆕 Recent Updates](#-recent-updates)<br>
 
-<hr><p align="right" dir="auto"><a href="https://github.com/Ozzymara/CRUD/edit/main/README.md#-table-of-contents">Back To Top</a></p>
+<hr><p align="right" dir="auto"><a href="https://github.com/Ozzymara/CRUD?tab=readme-ov-file#-table-of-contents">Back To Top</a></p>
+
