@@ -85,7 +85,7 @@ As part of a portfolio project for the [Code Institute Full Stack Software Devel
 *   **Operational Efficiency:** Streamline admin tasks like order management, bill generation, and review moderation through a customised dashboard.<br><br>
 
 ## 🧐 UX Design
-Dileviroo’s template structure isn’t just functional - it’s layered with intention. From strategic goals to visual polish, each page reflects a commitment to clarity, usability, and personality. Whether users are placing an order or admins are managing the menu, the experience is designed to feel intuitive, responsive, and enjoyable.
+Dileviroo’s template structure isn’t just functional - it’s layered with intention. From strategic goals to visual polish, each page reflects a commitment to clarity, usability, and personality. Whether users are placing an order or admins are managing the menu, the experience is designed to feel intuitive, responsive, and enjoyable.<br><br>
 
 
 ### 👤 User Stories & MVP Focus
@@ -201,7 +201,8 @@ The site logo was created using [Design.com](https://www.design.com). The logo f
 
 • On mobile mode, the menu turns into a hamburger menu (three horizontal lines). Users can tap on it to open the menu and access different sections.
 <details><summary>Click to view navbar for mobile mode</summary>
-<img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/navbar_mobile.webp" alt="Navbar" style="width:50%;"></details><br><br>
+<img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/navbar_mobile.webp" alt="Navbar" style="width:50%;"></details>
+<br>
 
 ## 🔘 Button System
 
@@ -281,6 +282,505 @@ Implementation Details
 • The [Bootstrap framework](https://getbootstrap.com)  allowed for a responsive design without the need for additional CSS or media queries.  
 • In some instances, responsiveness required fine-tuning and troubleshooting, particularly with the assistance of GitHub Copilot, an AI-powered coding assistant designed to help developers write code more efficiently. It provides real-time code suggestions, automates repetitive tasks, and helps debug and refactor code.  
 • While some awkward elements still exist, the site successfully adapts to various screen sizes.
+<br>
+
+<hr><p align="right" dir="auto"><a href="#-table-of-contents">Back to Table of Contents</a></p>
+
+# 🔄 CRUD Functionalities
+
+### 🎯 Key CRUD Features
+
+- **Phone-based Authentication**: Users log in with phone numbers instead of usernames
+- **Real-time Cart Updates**: JavaScript handles cart operations with localStorage
+- **Admin Controls**: Superusers can manage menu items and view all orders
+- **User Ownership**: Users can only edit/delete their reviews
+- **Search Functionality**: Real-time search across menu items, reviews, and orders
+- **Responsive Design**: All CRUD operations work on mobile and desktop
+- **Validation**: Client-side and server-side validation for all forms
+- **Confirmation Dialogues**: Critical actions (delete, logout) require confirmation
+
+Below is a comprehensive documentation for various CRUD functionalities.
+
+<details><summary>CRUD for 🛒 Shopping Cart Operations</summary>
+
+| Action | User Interaction | Model | Description |
+|--------|------------------|-------|-------------|
+| **Create** | Click "Add to cart" button on menu items | `localStorage` | Add items to cart with quantity and price |
+| **Read** | Click "Go To Cart" button | `localStorage` | Display all cart items with quantities and total price |
+| **Update** | Use "-" or "+" buttons to adjust quantities | `localStorage` | Modify item quantities in cart |
+| **Delete** | Click "Clear cart" button | `localStorage` | Remove all items from cart |
+
+</details><br>
+
+<details><summary>CRUD for ⭐ Customer Reviews</summary>
+
+| Action | User Interaction | Model | Description |
+|--------|------------------|-------|-------------|
+| **Create** | Reviews page → Write comment → Click "Publish" | `Rating` | Authenticated users create reviews |
+| **Read** | Visit "Reviews" page | `Rating` | Display all customer reviews with search functionality |
+| **Update** | Click "Edit" button on own review → Modify → Save | `Rating` | Users can edit their own reviews only |
+| **Delete** | Click "Delete" button on own review → Confirm | `Rating` | Users can delete their own reviews only |
+
+</details><br>
+
+<details><summary>CRUD for 🔍 Search & Filter Operations</summary>
+
+| Feature | User Interaction | Target | Description |
+|---------|------------------|--------|-------------|
+| **Menu Search** | Type in menu search bar | Menu items | Real-time filtering by item name, description, or category |
+| **Review Search** | Type in review search bar | Customer reviews | Filter reviews by content or reviewer name |
+| **Order Search** | Type in order search bars | Orders | Filter orders by items, customer, or details |
+
+</details><br>
+
+<details><summary>CRUD for 🔐 Authentication & Authorisation</summary>
+
+| Action | User Interaction | Model | Description |
+|--------|------------------|-------|-------------|
+| **Login** | Enter phone & password → Click "Log In" | `User` | Phone-based authentication system |
+| **Logout** | Click "Logout" → Confirm | Session | Secure logout with confirmation |
+| **Access Control** | Various admin functions | Permissions | Role-based access (superuser, authenticated, anonymous) |
+
+</details><br>
+
+<details><summary>CRUD for 📝 Reviews (Rating Model)</summary>
+
+| Action | User Interaction | Description |
+|--------|------------------|-------------|
+| **Create** | Click "Publish" button after writing a review | Creates a new customer review in the database |
+| **Read** | Navigate to Reviews page | Displays all customer reviews with search functionality |
+| **Update** | Click "Edit" button on your own review | Allows authenticated users to modify their existing reviews |
+| **Delete** | Click "Delete" button on your own review | Removes your review after confirmation dialog |
+
+</details><br>
+
+<details><summary>CRUD for 🛒 Cart Operations (LocalStorage)</summary>
+
+| Action | User Interaction | Description |
+|--------|------------------|-------------|
+| **Create** | Click "Add to cart" button on menu items | Adds new items to shopping cart |
+| **Read** | Navigate to Cart page | Displays all cart items with quantities and total |
+| **Update** | Click "-" or "+" buttons in cart | Updates quantity of existing cart items |
+| **Delete** | Click "Clear cart" button | Removes all items from cart after confirmation |
+
+</details><br>
+
+<details><summary>CRUD for 📋 Orders (Order Model)</summary>
+
+| Action | User Interaction | Description |
+|--------|------------------|-------------|
+| **Create** | Click "Place order" button in cart | Creates new order record in database |
+| **Read** | Navigate to "My Orders" (users) or "All Orders" (admin) | Displays order history with search functionality |
+| **Update** | Admin marks orders as billed | Updates `bill_clear` status when generating bills |
+| **Delete** | No direct delete (data integrity) | Orders are preserved for record keeping |
+
+</details><br>
+
+<details><summary>CRUD for 🍽️ Menu Items (MenuItem Model) - Admin Only</summary>
+
+| Action | User Interaction | Description |
+|--------|------------------|-------------|
+| **Create** | Fill form in "Add Item" page and submit | Creates new menu items with images |
+| **Read** | Navigate to Menu page | Displays categorised menu items with search |
+| **Update** | Edit through Django Admin panel | Modifies existing menu items |
+| **Delete** | Click "Delete" button on menu items (superuser) | Removes menu items from database |
+
+</details><br>
+
+<details><summary>CRUD for 👤 User Profile (User Model)</summary>
+
+| Action | User Interaction | Description |
+|--------|------------------|-------------|
+| **Create** | Complete signup form | Creates new user account with phone authentication |
+| **Read** | Navigate to Profile page | Displays user information and order count |
+| **Update** | Click "Edit Profile" and modify details | Updates name, phone, and password |
+| **Delete** | No direct delete (account management) | Handled through admin interface |
+
+</details><br>
+
+<details><summary>CRUD for 🧾 Bills (Bill Model) - Admin Only</summary>
+
+| Action | User Interaction | Description |
+|--------|------------------|-------------|
+| **Create** | Click "Generate Bill" for a table | Consolidates orders into single bill |
+| **Read** | Navigate to "View Bills" page | Displays all generated bills with totals |
+| **Update** | No direct update (financial integrity) | Bills are immutable once created |
+| **Delete** | No direct delete (audit trail) | Bills preserved for accounting records |
+
+</details><br>
+
+<hr><p align="right" dir="auto"><a href="#-table-of-contents">Back to Table of Contents</a></p>
+
+# Entity Relationship Diagram
+This section presents a concise overview of the core entities, their purposes, key attributes, relationships, and business logic that form the foundation of the Dileviroo management system's database architecture. It highlights how different components interact to support user management, menu operations, ordering, billing, and customer feedback processes, while addressing data integrity and scalability considerations essential for robust system performance.
+
+<details>
+<summary>Click to view EDR diagram</summary>
+<img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/ERD.webp" alt=" audio toggle feature" style="width:100%;"></details><br>
+
+
+**`MenuItem`**
+This database schema outlines the core components of the Dileviroo management system, starting with the `MenuItem` table, which serves as the `cafe`'s digital menu, detailing each product's `name`, `category`, `desc`, `price`, and `pic`, with a `list_order` to dictate its display sequence.
+
+**`Order`**
+Central to operations is the `Order` table, recording every customer order. Each order has a unique identifier, an `order_id` for potential grouping, and stores the ordered `items_json` which references the `MenuItem` entries. Crucially, it captures customer details like `name` and `phone`, the `table number`, the total `price`, the `order_time`, and a `bill_clear` flag to indicate payment status.
+
+**`Bill`**
+The system then moves to financial tracking with the `Bill` table. This table summarises payments, containing the customer's `phone` and `name`, the `order_items`, the `bill_total`, and the `bill_time` when the transaction occurred. The relationships here are implicit through shared `phone` and `name` fields, where a `bill` is effectively generated for the items in an order, for a specific customer.
+
+**`User`**
+Managing access and tracking customer activity is the `User`table. This comprehensive table stores each user's unique `id`, a unique `phone` number which is `phone_verified`, and whether they possess specific roles like `cafe_manager`, `is_staff`, or `is_superuser`, which dictate their permissions. It also logs their `order_count`, a `password` (hashed for security), and timestamps like `last_login` and `date_joined`. Users are linked to both `Order` and `Bill` records by their `phone` and `name`, forming the backbone of customer and staff interactions within the system.
+
+**`Rating`**
+Finally, the `Rating` table allows for valuable customer feedback. It captures a `comment` left by a customer, the date of the review (`r_date`), and the `name` of the person who provided it. This table implicitly links back to the `users` and their experiences within the cafe, providing insights for service improvement. Together, these tables form an interconnected system, allowing the cafe to manage its menu, process orders, handle billing, keep track of users, and gather feedback, creating a comprehensive digital environment for cafe operations.
+
+<details>
+<summary>Click to read more on logic for entities</summary>
+
+| **Entity**        | **Purpose**                                         | **Key Fields**                                                             | **Relationships**                                                                                   | **Business Logic**                                                   |
+|-------------------|----------------------------------------------------|---------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------|--------------------------------------------------------------------|
+| **User**          | Manages customer authentication and profiles       | username, email, password, first_name, last_name, date_joined             | One-to-Many with Orders, Reviews, and Bills                                                     | Central identity hub connecting all user activities                |
+| **Menu Item**     | Represents food/beverage products available for purchase | name, description, price, category, image, availability_status, created_date | Many-to-Many with Orders (via OrderItem junction table)                                        | Enables dynamic menu management with categorisation and pricing   |
+| **Order**         | Captures customer purchase transactions             | order_id, user_id (FK), order_date, status, total_amount, delivery_address | Many-to-One with User; One-to-Many with OrderItem; One-to-One with Bill                         | Central transaction record linking customers to purchases         |
+| **OrderItem**     | Junction table resolving Many-to-Many Orders↔Menu Items | order_id (FK), menu_item_id (FK), quantity, unit_price, subtotal          | Many-to-One with Order; Many-to-One with MenuItem                                              | Captures specific item quantities and pricing at purchase time    |
+| **Bill**          | Generates invoices for completed orders             | bill_id, order_id (FK), bill_time, customer_name, phone, bill_total, order_items (JSON) | One-to-One with Order                                                                        | Creates permanent financial records with customer and itemised charges |
+| **Review**        | Stores customer feedback and ratings                 | review_id, user_id (FK), menu_item_id (FK, optional), rating, comment, review_date, is_anonymous | Many-to-One with User; Many-to-One with MenuItem (optional)                                  | Enables customer engagement and business insights                  |
+
+</details><br>
+
+<details>
+<summary>Click to read description of relationship types</summary>
+
+| **Relationship Type** | **Description**                                                                                   |
+|-----------------------|-------------------------------------------------------------------------------------------------|
+| One-to-Many           | User → Orders: a single user can place multiple orders                                            |
+|                       | User → Reviews: user can submit multiple feedback entries                                        |
+|                       | Order → OrderItems: each order has multiple line items                                           |
+|                       | User → Bills: user can have multiple billing records                                             |
+| Many-to-Many          | Orders ↔ MenuItems: orders contain multiple items; items appear in many orders                  |
+|                       | Resolved through OrderItem junction table with additional quantity and pricing data             |
+| One-to-One            | Order → Bill: each order has exactly one corresponding invoice                                  |
+</details><br>
+
+<details>
+<summary>Click to read more on data integrity and constraints</summary>
+
+| **Data Integrity and Constraints**                                |
+|-----------------------------------------------------------------|
+| Foreign Key constraints ensure referential integrity and prevent orphaned records |
+| Automatic order total calculation from OrderItem subtotals        |
+| Bill generation triggered upon order completion                   |
+| User authentication required for order placement and reviews      |
+| Menu item availability checked before processing orders           |
+
+</details><br>
+
+<details>
+<summary>Click to read more on scalability considerations</summary>
+
+| **Scalability Considerations**                                   |
+|-----------------------------------------------------------------|
+| Indexing on primary keys, foreign keys, dates, and user fields for efficient queries |
+| Historical order preservation for customer service                |
+| Review aggregation for menu item popularity                       |
+| Bill retention for financial reporting and tax compliance        |
+| Menu item version control to track pricing history                |
+
+</details><br><br>
+
+## 🔄 Agile Development Approach
+
+Dileviroo was developed using an Agile methodology to ensure iterative progress, continuous feedback, and adaptive planning. This approach allowed the project to evolve organically while maintaining a clear focus on user needs, technical robustness, and design integrity.
+
+### 🧩 Sprint Planning & Structure
+
+The project was broken down into manageable sprints, each focused on delivering specific features or improvements. Each sprint began with a planning session to define goals and ended with a review to assess outcomes and gather insights for the next iteration.
+
+| Sprint | Focus Area                  | Key Deliverables                                              |
+|--------|-----------------------------|---------------------------------------------------------------|
+| 1️⃣     | Project setup, database modeling, menu & order flows      | Django setup, menu & order models              |
+| 2️⃣     | Admin dashboard, CRUD operations                        | Admin customisation, order/bill workflows      |
+| 3️⃣     | Reviews, billing logic, accessibility                   | Review system, semantic markup, ARIA fixes     |
+| 4️⃣     | UI polish, messaging, responsive design                 | Responsive design, fallback messaging          |
+
+### 🔁 Iterative Development
+
+Features were built incrementally, allowing for:
+
+*   Early testing and validation of core functionality
+*   Rapid identification and resolution of bugs or UX issues
+*   Continuous integration of feedback from mentors and peers
+
+This iterative cycle ensured that each component, from order placement to administrative workflows, was refined for clarity, performance, and usability.
+
+## 📊 Feedback & Retrospectives
+
+Regular retrospectives were held to reflect on:
+
+*   What went well (e.g. clean admin workflows, intuitive UI)
+*   What could be improved (e.g. accessibility warnings, edge-case handling)
+*   What to try next (e.g. Stripe integration, multi-vendor support)
+
+This feedback loop fostered continuous learning and kept the project aligned with both technical goals and user expectations.
+
+## 🧭 Five Planes of UX
+
+The Five Planes of UX - **Strategy**, **Scope**, **Structure**, **Skeleton**, and **Surface** - guide the development of Dileviroo from abstract goals to tangible interfaces. Each layer builds upon the previous, ensuring a cohesive and user-centred product.
+
+| Plane      | Focus                    | Dileviroo Implementation                                                                                       |
+|------------|--------------------------|----------------------------------------------------------------------------------------------------------------|
+| 1. Strategy | Why are we building this? | - Seamless takeaway ordering experience   - Showcase full-stack skills   - Tribute to mentors          |
+| 2. Scope    | What are we building?     | - Menu, cart, billing, reviews, admin tools   - Content: items, order preview and history, and reviews               |
+| 3. Structure| How is it organised?      | - Clear user/admin template separation   - Logical navigation and page grouping                            |
+| 4. Skeleton | How does it behave?       | - Accessible forms, buttons, and feedback   - Role-based navigation and fallback messaging                 |
+| 5. Surface  | What does it look like?   | - Playful branding, responsive layout   - Semantic HTML and accessible colour contrast              |
+
+<details><summary>1️⃣ Strategy Plane - Why are we building this?</summary>
+
+- **User Needs**
+    - Provide a seamless takeaway ordering experience with intuitive flows and clear feedback.
+- **Business Goals**
+    - Showcase full-stack development skills to potential clients and recruiters.
+- **Tribute Element**
+    - Honour mentors through a playful, meaningful brand identity (“Dileviroo”).</details><br>
+
+<details><summary>2️⃣ Scope Plane - What are we building?</summary>
+
+- **Functional Requirements**
+    - Menu browsing and order placement
+    - Cart management and bill generation
+    - Review the system and user authentication
+    - Admin tools for order and menu management
+
+- **Content Requirements**
+    - Menu items, order preview and history, and user reviews
+    - Messaging for empty states, confirmations, and errors</details><br>
+
+<details><summary>3️⃣ Structure Plane - How is it organised?</summary>
+
+- **Interaction Design**
+    - Clear navigation between `home`, `menu`, `cart`, and `my_orders`
+    - Admin workflows separated via `manage_menu`, `generate_bill`, and `all_orders`
+
+- **Information Architecture**
+    - Logical grouping of templates by user role
+    - Consistent layout via `base.html` for shared UI elements</details><br>
+
+<details><summary>4️⃣ Skeleton Plane - How does it behave?</summary>
+
+- **Interface Design**
+    - Buttons, forms, and links are styled for clarity and accessibility
+    - Fallback messaging for empty carts, no reviews, or missing orders
+
+- **Navigation Design**
+    - Persistent navbar with role-based links
+    - Breadcrumbs or contextual cues for admin pages
+
+- **Information Design**
+    - Bills and orders presented in digestible, structured formats
+    - Reviews to encourage engagement</details><br>
+
+<details><summary>5️⃣ Surface Plane - What does it look like?</summary>
+
+- **Visual Design**
+    - Playful branding with clean typography and intuitive icons
+    - Responsive layout for mobile and desktop users
+
+- **Sensory Design**
+    - Use of emojis, hover effects, and feedback messages to enhance delight
+    - Accessible colour contrasts and semantic HTML for inclusive design</details><br>
+<br>
+<hr><p align="right" dir="auto"><a href="#-table-of-contents">Back to Table of Contents</a></p>
+
+# 🔒 Security
+
+This project implements robust security measures to protect user data and provide a safe, reliable experience. Because users can register, log in, and interact with the site, it is essential to meet strict security standards as outlined below.
+
+<details><summary>User Authentication and Account Security</summary>
+
+**Django AllAuth**  
+[Django AllAuth](https://django-allauth.readthedocs.io/) is integrated for secure user registration, authentication, and permission management. Key steps include:
+- Adding AllAuth to workspace dependencies and `INSTALLED_APPS`
+- Properly configuring authentication backends in `settings.py`
+- Including AllAuth URLs in `urls.py`
+- Performing database migrations to support AllAuth features
+
+**Key AllAuth Security Features:**
+- Secure user registration and login process
+- Password hashing and secure storage
+- Flexible backend and URL routing for authentication
+- Access control for logged-in users (edit/delete icons, restricted content, etc.)</details><br>
+
+<details><summary>Defensive Design</summary>
+
+Defensive design principles help prevent both user error and malicious actions:
+- Input validation is performed on all forms; users receive clear error and feedback messages to guide them
+- Unauthenticated users are redirected to the sign-up or login page when trying to access restricted functions
+- Only content authors can access the edit and delete functionalities for their account
+- Custom error pages guide users out of error states
+- Automated and manual testing/validation ensure security-critical features work as intended</details><br>
+
+<details><summary>CSRF Protection</summary>
+**Cross-Site Request Forgery (CSRF) Tokens**  
+All forms include Django’s built-in CSRF tokens. These tokens are required for every POST request, ensuring that only valid, intentional submissions are processed.  
+This protects users from CSRF attacks that could otherwise allow unauthorised commands to run in their session.</details><br>
+
+<details><summary>Notification Messages Overview</summary>
+
+This section outlines key client-side JavaScript and Django framework notifications, detailing their triggers and purposes.
+
+### Client-Side JavaScript Notifications
+
+| **Notification Message**                                               | **When It Appears**                                     | **Purpose**                                | **Preview** |
+|-----------------------------------------------------------------------|--------------------------------------------------------|--------------------------------------------|-------------|
+| "Password cannot exceed 8 characters!"                               | User types more than 8 characters in password field     | Enforce password length limit               | <details><summary>view notification</summary><img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/notifications/Sign up.png" alt="notification" style="width:100%;"></details> |
+| "Item added to cart!"                                                 | User clicks "Add to Cart" button                         | Confirm successful cart addition            | <details><summary>view notification</summary><img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/notifications/Sign up.png" alt="notification" style="width:100%;"></details> |
+| "Please select a table before placing your order!"                   | User tries to place order without selecting table        | Prevent incomplete orders                    | <details><summary>view notification</summary><img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/notifications/Sign up.png" alt="notification" style="width:100%;"></details> |
+| "Your order has been placed successfully!"                           | Order is successfully submitted                          | Confirm order placement                      | <details><summary>view notification</summary><img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/notifications/Sign up.png" alt="notification" style="width:100%;"></details> |
+| "Please fill in all required fields!"                                | User submits form with missing data                      | Form validation reminder                     | <details><summary>view notification</summary><img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/notifications/Sign up.png" alt="notification" style="width:100%;"></details> |
+| "Are you absolutely sure you want to delete this review? This action cannot be undone." | User clicks the delete (submit) button on a review form | Prevent accidental review deletions          | <details><summary>view notification</summary><img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/notifications/delete-confirmation.png" alt="Delete Confirmation" style="width:100%;"></details> |
+| "Are you sure you want to log out?"                                  | User clicks a logout link                                | Confirm user intent to log out               | <details><summary>view notification</summary><img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/notifications/logout-confirmation.png" alt="Logout Confirmation" style="width:100%;"></details> |
+
+### Django Messages Framework
+
+| **Message Context**     | **When It Appears**               | **Purpose**                | **Preview** |
+|-------------------------|---------------------------------|----------------------------|-------------|
+| Login Success           | Successful user authentication   | Welcome user after login    | <details><summary>view notification</summary><img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/notifications/Sign up.png" alt="notification" style="width:100%;"></details> |
+| Login Error             | Failed authentication attempt    | Inform user of login failure| <details><summary>view notification</summary><img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/notifications/Sign up.png" alt="notification" style="width:100%;"></details> |
+| Order Confirmation      | Order successfully placed        | Confirm order submission    | <details><summary>view notification</summary><img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/notifications/Sign up.png" alt="notification" style="width:100%;"></details> |
+| Form Validation Errors  | Invalid form submission          | Display validation errors   | <details><summary>view notification</summary><img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/notifications/Sign up.png" alt="notification" style="width:100%;"></details> |
+</details><br>
+
+<details><summary>Additional Security Practices</summary>
+
+- Passwords are never stored in plain text–Django’s built-in password hashing and salting is enforced by AllAuth.
+- Sensitive authentication-related views and resources are restricted to the appropriate user roles.
+- Static and media files are served securely (using tools such as WhiteNoise).</details><br>
+
+These combined measures help ensure user data is handled with care and protected from common threats, meeting the requirements for a modern, interactive Django web application.<br>
+
+<hr><p align="right" dir="auto"><a href="#-table-of-contents">Back to Table of Contents</a></p>
+
+# 🛠️ Built With
+
+## 🖥️ Technologies and Languages
+<a href="https://www.w3schools.com/css/"><img src="https://img.shields.io/badge/CSS3-Styling-blue?logo=CSS3" alt="CSS3 Styling"></a> Language used for styling and layout of web content.  
+<a href="https://www.w3schools.com/html/"><img src="https://img.shields.io/badge/HTML5-Language-orange?logo=HTML5" alt="HTML5 Core"></a> The core language for structuring web content.  
+<a href="https://www.w3schools.com/js/default.asp"><img src="https://img.shields.io/badge/JavaScript-Dynamic Language-yellow?logo=javascript" alt="JavaScript"></a> A versatile scripting language used to enable interactivity and dynamic features in browsers  
+<a href="https://www.python.org" rel="nofollow"><img src="https://camo.githubusercontent.com/5c168a73382c1e5f4ad3f0a344b5003ebdb56d2efe0e4d47e6dea1c2197f9259/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f507974686f6e2d677265793f6c6f676f3d707974686f6e266c6f676f436f6c6f723d333737364142" alt="Python" style="max-width: 100%;"></a> Used as the back-end programming language  
+
+## 📚 Libraries and Frameworks
+<a href="https://getbootstrap.com/"><img src="https://img.shields.io/badge/Bootstrap-5.3.3-purple?logo=Bootstrap" alt="Bootstrap 5.3.3"></a> A front-end framework for responsive and mobile-friendly design  
+<a href="https://www.djangoproject.com/">
+  <img src="https://img.shields.io/badge/Django-Web%20Framework-green?logo=django" alt="Django">
+</a> A high-level Python web framework for rapid backend web app development, focused on security and clean, pragmatic design.  
+<a href="https://fontawesome.com/"><img src="https://img.shields.io/badge/Font%20Awesome-Icons-yellow?logo=FontAwesome" alt="Font Awesome Icons"></a> Provides scalable vector icons for UI design  
+
+## 🧰 Tools and Programs
+<a href="https://balsamiq.com/"><img src="https://img.shields.io/badge/Balsamiq-Wireframes-purple?logo=Balsamiq" alt="Balsamiq Wireframes"></a> Used for creating wireframes and planning UI layouts  
+<a href="https://code.visualstudio.com/"><img src="https://img.shields.io/badge/VS%20Code-Editor-blue?logo=VisualStudioCode" alt="VS Code Editor"></a> A code editor used for writing, debugging, and version control. Integrates with GitHub to track changes and manage projects efficiently  
+<a href="https://github.com/marketplace/actions/flake8-lint"><img src="https://img.shields.io/badge/CI%20Python%20Linter-PEP8CI-green?" alt="CI Python Linter"></a> Used for automated style and error checking of Python code during continuous integration (CI) workflows  
+<a href="https://copilot.microsoft.com/"><img src="https://img.shields.io/badge/Microsoft%20Copilot-AI-pink?logo=Microsoft" alt="Microsoft Copilot AI"></a> An AI assistant that enhances productivity and creative workflows  
+<a href="https://developer.chrome.com/docs/devtools"><img src="https://img.shields.io/badge/Chrome%20DevTools-Debugging-yellow?logo=GoogleChrome" alt="Chrome DevTools Debugging"></a> A set of web development tools built directly into Google Chrome for debugging and optimising websites   
+<a href="https://github.com/"><img src="https://img.shields.io/badge/GitHub-Version%20Control-black?logo=GitHub" alt="GitHub Version Control"></a> A platform for version control and collaborative development  
+<a href="https://github.com/features/copilot"><img src="https://img.shields.io/badge/GitHub%20Copilot-AI-black?logo=GitHubCopilot" alt="GitHub Copilot Code Completion"></a> AI-powered code completion to assist with coding tasks  
+<a href="https://git-scm.com" rel="nofollow"><img src="https://camo.githubusercontent.com/7ce2dcf67494fc5a19fe2f395392cac6eec7aaa423aea2bd90fe39a861c3b17f/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4769742d677265793f6c6f676f3d676974266c6f676f436f6c6f723d463035303332" alt="Git" style="max-width: 100%;"></a> Used for version control. (<code>git add</code>, <code>git commit</code>, <code>git push</code>)  
+<a href="https://www.heroku.com" rel="nofollow"><img src="https://camo.githubusercontent.com/cb7581eda2a249704e391af31a1c27befeca8b42e5718e5957ce2422e3b0ba5f/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4865726f6b752d677265793f6c6f676f3d6865726f6b75266c6f676f436f6c6f723d343330303938" alt="Heroku" style="max-width: 100%;"></a> Used for hosting the deployed back-end site  
+<a href="https://www.piclumen.com/"><img src="https://img.shields.io/badge/PicLumen-AI image creator-purple?logo=PicLumen" alt="PicLumen AI image creator"></a> AI text to image creator   
+
+## ⚙️ Related Technologies Used
+<a href="https://ui.dev/amiresponsive?url=https://ozzymara.github.io/pyramidescape/index.html"><img src="https://img.shields.io/badge/Am%20I%20Responsive-Responsivenesss-black?logo=ResponsiveDesign" alt="Am I Responsive Preview"></a> A tool for previewing how websites appear on different screen sizes and devices   
+<a href="https://fontawesome.com" rel="nofollow"><img src="https://camo.githubusercontent.com/833a4acbee994fa7412559ade09e4955a98abab4521b3c2795b6e9ea501d80a8/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f466f6e745f417765736f6d652d677265793f6c6f676f3d666f6e74617765736f6d65266c6f676f436f6c6f723d353238444437" alt="Font Awesome" style="max-width: 100%;"></a> Used for the icons.  
+<a href="https://jigsaw.w3.org/css-validator/"><img src="https://img.shields.io/badge/W3C-CSS%20Validator-blue?logo=W3C" alt="W3C CSS Validator"></a> Ensures the code follows web standards for accessibility and correctness  
+<a href="https://jshint.com/"><img src="https://img.shields.io/badge/JS Hint-Linter-black?logo=JSHint" alt="JS Hint"></a> JavaScript code quality control  
+<a href="https://www.lighthousecharity.org/homepage/"><img src="https://img.shields.io/badge/Lighthouse-Performance%20Testing-orange?logo=Lighthouse" alt="Lighthouse Performance Testing"></a> Used to audit and optimise web applications for speed and accessibility  
+<a href="https://www.piliapp.com/syntax-check/es6/"><img src="https://img.shields.io/badge/PiliApp-ES6 Syntax Check-skyblue?logo=Microsoft" alt="PiliApp"></a> ECMAScript 6 Checker  
+<a href=""><img src="https://img.shields.io/badge/WAVE-Web Accessibility Evaluation Tools-blue?logo=WAVE" alt="WAVE evaluation result"></a> Evaluation tool that helps authors make their web content more accessible to individuals with disabilities  
+<a href="https://validator.w3.org/"><img src="https://img.shields.io/badge/W3C-HTML%20Validator-blue?logo=W3C" alt="W3C HTML Validator"></a> Helps visualise and plan web designs before development  
+
+## Dependencies
+External libraries and packages that must be installed or managed to run the project include:
+
+| Package                                                                                     | Purpose                                                                                                     |
+|---------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------|
+| <a href="https://pypi.org/project/asgiref/3.9.0/"><img src="https://img.shields.io/badge/asgiref-3.9.0-blue?logo=python" alt="asgiref 3.9.0"></a>             | ASGI (Asynchronous Server Gateway Interface) reference implementation, for async Django.                    |
+| <a href="https://pypi.org/project/crispy-bootstrap5/2025.6/"><img src="https://img.shields.io/badge/crispy--bootstrap5-2025.6-blue?logo=bootstrap" alt="crispy-bootstrap5 2025.6"></a> | Django Crispy Forms template pack for Bootstrap 5, improves form rendering.                               |
+| <a href="https://pypi.org/project/diff-match-patch/20241021/"><img src="https://img.shields.io/badge/diff--match--patch-20241021-blue?logo=python" alt="diff-match-patch 20241021"></a> | Library to compute the differences and patches between texts.                                               |
+| <a href="https://pypi.org/project/dj-database-url/3.0.1/"><img src="https://img.shields.io/badge/dj--database--url-3.0.1-blue?logo=django" alt="dj-database-url 3.0.1"></a>           | Utility to use database URLs in Django settings, simplifies DB config (e.g. for Heroku).                    |
+| <a href="https://www.djangoproject.com/download/4.2.23/"><img src="https://img.shields.io/badge/Django-4.2.23-green?logo=django" alt="Django 4.2.23"></a>             | The main Django web framework (long-term support version in 4.2 branch).                                    |
+| <a href="https://pypi.org/project/django-allauth/65.10.0/"><img src="https://img.shields.io/badge/django--allauth-65.10.0-blue?logo=django" alt="django-allauth 65.10.0"></a>         | Integrated Django authentication app for registration, login, social auth, etc.                             |
+| <a href="https://pypi.org/project/django-crispy-forms/2.4/"><img src="https://img.shields.io/badge/django--crispy--forms-2.4-blue?logo=django" alt="django-crispy-forms 2.4"></a>     | Enhanced Django form rendering with customisable layout support.                                            |
+| <a href="https://pypi.org/project/django-debug-toolbar/5.2.0/"><img src="https://img.shields.io/badge/django--debug--toolbar-5.2.0-blue?logo=django" alt="django-debug-toolbar 5.2.0"></a> | Tool to display debug information about the Django app in the browser (dev only).                           |
+| <a href="https://pypi.org/project/gunicorn/20.1.0/"><img src="https://img.shields.io/badge/gunicorn-20.1.0-orange?logo=python" alt="gunicorn 20.1.0"></a>           | Production WSGI HTTP server for Python web applications, often used with Django.                            |
+| <a href="https://pypi.org/project/Pillow/11.3.0/"><img src="https://img.shields.io/badge/Pillow-11.3.0-red?logo=python" alt="Pillow 11.3.0"></a>                 | Powerful fork of PIL for image processing in Python.                                                        |
+| <a href="https://pypi.org/project/psycopg/3.2.9/"><img src="https://img.shields.io/badge/psycopg-3.2.9-blue?logo=postgresql" alt="psycopg 3.2.9"></a>             | Modern PostgreSQL client library for Python, new async support (psycopg3).                                  |
+| <a href="https://pypi.org/project/psycopg-binary/3.2.9/"><img src="https://img.shields.io/badge/psycopg--binary-3.2.9-blue?logo=postgresql" alt="psycopg-binary 3.2.9"></a>         | Pre-built binary package version of psycopg3 for easy install.                                              |
+| <a href="https://pypi.org/project/psycopg2-binary/2.9.10/"><img src="https://img.shields.io/badge/psycopg2--binary-2.9.10-blue?logo=postgresql" alt="psycopg2-binary 2.9.10"></a>   | Pre-compiled binary version of psycopg2, common PostgreSQL adapter for Python.                              |
+| <a href="https://pypi.org/project/setuptools/80.9.0/"><img src="https://img.shields.io/badge/setuptools-80.9.0-blue?logo=python" alt="setuptools 80.9.0"></a>         | Essential utility for packaging and distributing Python packages.                                          |
+| <a href="https://pypi.org/project/sqlparse/0.5.3/"><img src="https://img.shields.io/badge/sqlparse-0.5.3-blue?logo=postgresql" alt="sqlparse 0.5.3"></a>           | Non-validating SQL parser for formatting and splitting SQL statements (used by Django).                     |
+| <a href="https://pypi.org/project/tablib/3.8.0/"><img src="https://img.shields.io/badge/tablib-3.8.0-blue?logo=python" alt="tablib 3.8.0"></a>                 | Format-agnostic tabular dataset library, used for import/export (e.g., Excel, CSV, JSON).                 |
+| <a href="https://pypi.org/project/tzdata/2025.2/"><img src="https://img.shields.io/badge/tzdata-2025.2-blue?logo=python" alt="tzdata 2025.2"></a>               | Up-to-date IANA timezone database for Python.                                                               |
+| <a href="https://pypi.org/project/whitenoise/6.9.0/"><img src="https://img.shields.io/badge/whitenoise-6.9.0-blue?logo=python" alt="whitenoise 6.9.0"></a>         | Serves static files directly from WSGI apps, useful for deploying Django on Heroku, etc.                    |
+
+> [!TIP]
+> Run `pip3 install -r requirements.txt` to quickly install all project dependencies.
+
+<hr><p align="right" dir="auto"><a href="#-table-of-contents">Back to Table of Contents</a></p>
+
+# 🗃️ File Structure
+
+The project is organised into several key directories and files:
+
+| Path                                      | Description                                    |
+|--------------------------------------------|------------------------------------------------|
+| `Dileviroo/`                              | Project root folder                            |
+| ├─ `cafe/`                                | Django app for cafe features (menus, orders)   |
+| │   ├─ `__pycache__/`                      | Compiled Python files                          |
+| │   ├─ `migrations/`                       | Database migration files                       |
+| │   ├─ `templates/`                        | HTML templates for this app                    |
+| │   │   ├─ `all_orders.html`               | Page with all orders                           |
+| │   │   ├─ `base.html`                     | Base layout template                           |
+| │   │   ├─ `bills.html`                    | Bills display template                         |
+| │   │   ├─ `cart.html`                     | Shopping cart page                             |
+| │   │   ├─ `delete_rewiews.html`           | Confirmation page to delete a review           |
+| │   │   ├─ `edit_profile.html`             | Edit profile page                              |
+| │   │   ├─ `edit_review.html`              | Edit review page                               |
+| │   │   ├─ `generate_bill.html`            | Bill generation template                       |
+| │   │   ├─ `login.html`                    | Login page                                     |
+| │   │   ├─ `manage_menu.html`              | Menu management page                           |
+| │   │   ├─ `menu.html`                     | Menu display for users                         |
+| │   │   ├─ `my_orders.html`                | User's orders page                             |
+| │   │   ├─ `profile.html`                  | User profile page                              |
+| │   │   ├─ `reviews.html`                  | Reviews page                                   |
+| │   │   ├─ `signup.html`                   | Registration page                              |
+| │   ├─ `__init__.py`                       | Package initialiser                            |
+| │   ├─ `admin.py`                          | Admin configuration                            |
+| │   ├─ `apps.py`                           | App-specific config                            |
+| │   ├─ `decorators.py`                     | Restricts unauthorised users                   |
+| │   ├─ `forms.py`                          | Defines Django form classes                    |
+| │   ├─ `manager.py`                        | Custom managers/utilities                      |
+| │   ├─ `models.py`                         | Data models (database tables)                  |
+| │   ├─ `tests.py`                          | Unit tests                                     |
+| │   ├─ `urls.py`                           | URL routing for cafe app                       |
+| │   ├─ `views.py`                          | Request handlers                               |
+| ├─ `dileviroo/`                            | Project-level settings and code                |
+| │   ├─ `__pycache__/`                      | Compiled Python files                          |
+| │   ├─ `static/`                           | Static files (CSS/JS/images)                   |
+| │   ├─ `__init__.py`                       | Package initialiser                            |
+| │   ├─ `asgi.py`                           | ASGI server entry point                        |
+| │   ├─ `settings.py`                       | Main settings (db, apps, etc.)                 |
+| │   ├─ `urls.py`                           | Project root URL routing                       |
+| │   ├─ `wsgi.py`                           | WSGI server entry point                        |
+| ├─ `staticfiles/`                          | Collected static files for deployment          |
+| ├─ `fimage/`                               | Image uploads/processing                       |
+| ├─ `db.sqlite3`                            | SQLite database (dev)                          |
+| ├─ `manage.py`                             | Django command-line utility                    |
+| ├─ `Procfile`                              | Heroku run instructions                        |
+| ├─ `README.md`                             | Project documentation                          |
+| ├─ `requirements.txt`                      | Python dependencies                            |
+| ├─ `.gitignore`                            | Git ignore rules                               |
+| ├─ `.python-version`                       | Python version file                            |
+| ├─ `env2.py`                               | Environment variables/settings                 |
 <br>
 
 <hr><p align="right" dir="auto"><a href="#-table-of-contents">Back to Table of Contents</a></p>
