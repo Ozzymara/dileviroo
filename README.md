@@ -784,3 +784,493 @@ The project is organised into several key directories and files:
 <br>
 
 <hr><p align="right" dir="auto"><a href="#-table-of-contents">Back to Table of Contents</a></p>
+
+# 🧪 Testing and Validation
+
+**Overview**  
+Throughout the course of the project, testing and validation were conducted to ensure functionality, responsiveness, and usability. Importantly, testing in Incognito Mode is crucial because it provides a clean testing environment without cached data, stored cookies, or browser extensions interfering with the site’s URL. Essentially, it mimics a first-time visitor's experience, making sure the site works as expected for new users without any hidden browser influences.
+
+**Testing Methods**  
+• *Debugging and Browser Tools*: Regular debugging and testing were performed using [Chrome DevTools](https://developer.chrome.com/docs/devtools) to analyse and troubleshoot issues efficiently.  
+<!-- • Testing Sheet: A structured approach was followed using the MHA testing sheet (Google read-only) to verify compliance and accessibility.   -->
+• *Peer Code Review*: My colleagues provided a "fresh set of eyes" through peer code reviews, helping identify potential issues that were overlooked.
+
+## ✅ Manual Testing
+**Overview**
+
+This section summarises the results of user interface (UI) element functionality testing for the website. The focus is on key interactive elements such as buttons, links, toggles, menus, cart actions, review functions, and search bars, to ensure they work correctly.
+
+**✅ User experience critera testing**
+
+In-depth testing has been carried out to ensure that user criteria were met.
+
+<details>
+<summary>Click to view user experience critera testing results</summary>
+<img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/ux.webp" alt="Test grid" style="width:100%;"></details><br>
+
+**✅Responsiveness testing**
+   All tests were conducted in [Chrome DevTools](https://developer.chrome.com/docs/devtools), using the device toolbar for the following customised dimensions:
+
+   o Mobile from 360x640 to 414x896  
+   o Tablets from 601x962 to 1280x800  
+   o Laptops 1280x720 to 1920x1080
+
+<details>
+<summary>Click to view responsiveness test grid</summary>
+<img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/testgrid.webp" alt="Test grid" style="width:100%;"></details><br>
+
+**✅ Controls testing**
+
+1. **Navigation**  
+   o Verified links hover effects  
+   o Verified all navigation links work correctly  
+   o Tested responsiveness on multiple devices  
+
+**Tested UI Elements**
+The following types of UI controls were tested:
+
+*   **Navbar Elements**: Toggles, navigation menus, cart, login, sign up
+*   **Buttons**: Add to cart, publish, edit, delete, clear cart, update review, generate bill
+*   **Links**: Search links, filtered search
+*   **Search Bars**: Search your orders, search reviews, and general filtered search
+*   **Admin Functions**: Editing menus, image uploads, adding dishes
+*   **Order Operations**: Generate bill, search bill
+
+**Purpose**
+The testing aims to verify that each interactive element:
+
+*   Is present and correctly displayed
+*   Responds appropriately when clicked or tapped
+*   Performs the expected action (e.g., adding to cart, publishing a review)
+*   Provides clear feedback (e.g., button changes, result of action)
+
+**Results Summary**
+*   All tested elements passed successfully.
+*   This indicates the UI components are functioning as intended and meet quality standards.
+
+This test sheet displays the results of responsiveness and validation tests conducted across various devices and browsers.
+
+<details>
+<summary>Click to view controls test grid</summary>
+<img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/controls.webp" alt="Test grid" style="width:100%;"></details><br>
+
+## [✅ HTML Validation](https://validator.w3.org/#validate_by_input)
+
+The website currently has <span style="color:#39FF14">no errors or warnings</span>.
+
+<details>
+<summary>Click to view HTML validation results</summary>
+<img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/htmlval.webp" alt="HTML validation results" style="width:50%;">
+
+</details><br>
+
+When MS Copilot generated code, occasional stray elements like <span style="font-family:monospace;">&lt;/span&gt;</span> and other closing tags appeared due to the way it predicted and completed code snippets. These errors were flagged during HTML validation and were corrected in [VS Code](https://code.visualstudio.com/download).
+
+Additionally, the use of explicit ARIA role attributes (e.g. role="button", role="main") on HTML elements was initially guided by recommendations from the WAVE accessibility tool. However, these roles are inherently implied by the semantic HTML5 elements themselves. The Nu HTML Validator correctly flags them as unnecessary. To ensure leaner, more semantic code and to align with modern best practices, we chose to deselect checking redundant role attributes. 
+
+## ✅ CSS Validation
+<details>
+<summary>Click to view CSS validation results</summary>
+<img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/cssval.webp" alt="CSS validation results" style="width:80%;">
+</details><br>
+
+<span style="color:#39FF14">No errors found</span>
+
+This document validates as CSS level 3 + SVG.
+
+## ✅ JS Validation
+
+*Process*: JavaScript files were validated using several validators.
+
+The longer the work on a project, the larger the codebase becomes, so by validating JavaScript code regularly, the benefits include:  
+•	Catch fundamental errors  
+•	Prevents potentially disastrous bugs  
+•	Have cleaner, safer, and maintainable code  
+•	Speed up the code-writing process  
+•	Save many hours of debugging  
+
+To ensure code clarity, consistency, and maintainability across all modern environments, I ran the project through [JS Hint](https://jshint.com/).
+
+<details>
+<summary>Click to view JS Hint validation results</summary>
+<img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/jshint.webp" alt="JS validation results" style="width:10
+%;"></details><br>
+
+Because this project uses a modern script, JS Hint was configured to allow 'New JavaScript features (ES6)'. <span style="color:#39FF14">No errors</span> are found in the current version of the site.
+
+## ✅ WAVE
+WAVE (Web Accessibility Evaluation Tool) Accessibility was used to audit the HTML and UI, which scans the rendered page for issues like missing alt text, poor contrast, and improper heading structure. The focus is on the way the output serves users with disabilities. 
+<span style="color:#39FF14">No errors or warnings</span> are detected in the current version.
+
+<details>
+<summary>Click to view WAVE results</summary>
+<img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/wave.webp" alt="Wave results" style="width:100%;"></details><br>
+
+
+## ✅ Chrome DevTools Lighthouse
+• A [Lighthouse](https://developers.google.com/web/tools/lighthouse/) audit was conducted using the tool on Chrome DevTools for each web page.  
+• Categories *Accessibility*, *Best Practices*, and *SEO* all have a score of <span style="color:#39FF14">100</span>.
+• The *Performance* scores for the various pages ranged between <span style="color:#39FF14">91-100</span>.
+
+**Desktop**
+<details>
+<summary>Click to view Lighthouse results for desktop</summary>
+<img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/lighthouse.webp" alt="Lighthouse results for mobile" style="width:100%;"></details><br>
+
+**Mobile**
+<details>
+<summary>Click to view Lighthouse results for mobile</summary>
+<img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/mobile.webp" alt="Lighthouse results for mobile" style="width:100%;"></details><br>
+
+## ✅ SQL Queries
+
+Using `django-debug-toolbar 5.2.0`, various Django template pages were tested by generating [SQL queries](https://django-debug-toolbar.readthedocs.io/en/latest/changes.html#id2). The tests were run in production mode locally with `DEBUG=True`. 0.1 second is about the limit for having the user feel that the system is reacting instantaneously, meaning that no special feedback is necessary except to display the result. 1.0 second is about the limit for the user's flow of thought to stay uninterrupted. With 1 to 4 queries per page, the load time did remained less than 0.213 ms, which is considered to be highly effective.
+
+<details>
+<summary>Click to view test grid</summary>
+<img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/sqlquries.webp" alt="Test grid" style="width:100%;"></details><br>
+
+**Findings**
+•	Low Query Count: Most pages execute only a few queries (0–3).
+
+•	`Login`/`Signup` Efficiency: These critical paths have zero queries, which translates to swift performance and efficiency during user onboarding and authentication.
+
+•	`Profile`, `Cart`, `Orders`, and `Review`-related pages: Most pages execute 2-3 queries, which is reasonable for standard CRUD operations. The timing (70–115ms) could be considered moderate, but this should be interpreted based on expected user load and desired page responsiveness.
+
+•	`generate_bill.html`: This page executes 5 queries with a total time of over 200 ms. This page represents more complex logic, aggregations, joins, and multiple lookups to generate a bill.
+
+<details>
+<summary>Click for detailed timings and SQL structure of database queries for the “generate bill” page.</summary>
+<img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/sqlgenbill.webp" alt="Test grid" style="width:100%;">
+
+**Testing Results**
+**Breakdown**
+•	Title:
+SQL queries from 1 connection
+Indicates all queries came from a single database connection handling this request.
+•	default 213.68 ms (5 queries):
+The total time for all 5 SQL queries was 213.68 milliseconds.
+
+**Queries Table**
+For each query, the table shows:
+•	Query: The SQL command (truncated for display), e.g., SELECT ..., UPDATE, INSERT INTO, etc.
+•	Timeline: A colored bar indicating when during the total page load the query was executed. Each query gets a different colour.
+•	Time (ms): How long that individual query took, in milliseconds.
+•	Action: Buttons for viewing the full SQL ("Sel") or the explain plan ("Expl").
+
+**List of Queries in Order**
+1.	SELECT FROM django_session
+•	Filters sessions by expire_date and session_key.
+•	Time: 37.67 ms
+2.	SELECT FROM cafe_user
+•	Used to retrieve user info.
+•	Time: 37.49 ms
+3.	SELECT FROM cafe_order
+•	Gets an order that isn’t "bill_clear" and has table = Take Away.
+•	Time: 38.96 ms
+4.	UPDATE cafe_order
+•	Updates an order with new items, table as "Take Away", price, etc.
+•	Time: 47.82 ms
+5.	INSERT INTO cafe_bill
+•	Inserts a new bill record, with items, total, timestamp, etc.
+•	Time: 51.74 ms
+
+**Interpretation**
+•	**Query Timing**: None of the queries are extremely slow on their own (all under 52 ms).
+•	**Type of Queries**: The sequence shows the logical flow: get user/session, check or fetch orders, update them, then record a bill. This matches a bill-generation workflow.
+•	**Good Practice**: Having just 5 queries, even for a complex flow like generating a bill, is efficient in terms of logic/structure.
+
+</details><br>
+
+## ✅ CI Python Linter
+To check code quality and adherence to python style guidelines, all python files were checked using the [Code Institute’s Python Linter](https://pep8ci.herokuapp.com/), which uses [PEP8](https://peps.python.org/pep-0008/) (8th Python Enhancement Proposal (PEP) document).
+
+The result "<span style="color:#39FF14">All clear, no errors found</span>" across all files means that there are no stylistic or syntax errors and the code complies with Python linting standards.
+
+<details>
+<summary>Click to view test grid</summary>
+<img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/cipython.webp" alt="Test grid" style="width:100%;"></details><br>
+
+## ✅ Semantic HTML
+
+### Current Semantic HTML Implementation
+
+<details><summary>1. Proper Document Structure </summary>
+
+```html
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="...">
+</head>
+```
+</details><br>
+
+<details><summary>2. Semantic Layout Elements</summary>
+
+- **`<nav>`**: Used for navigation bar with proper ARIA attributes
+- **`<main>`**: Wraps the main content area with `flex-grow-1` class
+- **`<footer>`**: Contains social media links and copyright information
+
+</details><br>
+
+<details><summary>3. Proper Heading Hierarchy</summary>
+Templates follow proper h1 → h2 → h3 structure:
+
+```html
+<h1>🍽️ Menu</h1>              <!-- Page title -->
+<h2>pizzas:</h2>              <!-- Category -->
+<h3 class="card-title">Pizza Name</h3>  <!-- Item name -->
+```
+</details><br>
+
+<details><summary>4. Form Semantics</summary>
+- Proper `<label>` associations with form controls
+- Required field indicators
+- ARIA attributes for accessibility:
+
+```html
+<label for="form3Example3c">Write a comment</label>
+<input type="text" name="comment" id="form3Example3c" required>
+```
+</details><br>
+
+<details><summary>5. Table Semantics</summary>
+
+```html
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Item name</th>
+            <th>Qty</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- data rows -->
+    </tbody>
+</table>
+```
+</details><br>
+
+<details><summary>6. List Semantics</summary>
+
+```html
+<ul class="list-group">
+    <li class="list-group-item">Menu items</li>
+</ul>
+```
+</details><br>
+
+<details><summary>7. Accessibility Features</summary>
+
+- ARIA labels for screen readers
+- Visually hidden labels for search inputs
+- Proper button and link semantics
+- Focus management and keyboard navigation
+</details><br>
+
+### Semantic HTML Benefits in This Project
+
+1. **SEO Optimisation**: Proper heading hierarchy helps search engines understand content structure
+2. **Accessibility**: Screen readers can navigate using semantic landmarks
+3. **Code Maintainability**: Clear structure makes templates easier to understand and modify
+4. **Performance**: Semantic elements provide styling hooks without extra CSS classes
+5. **Future-Proofing**: Standards-compliant markup ensures compatibility with new technologies
+
+### Key Semantic Patterns Used
+
+- **Progressive Enhancement**: Forms work without JavaScript
+- **ARIA Landmarks**: Navigation, main content, and complementary sections
+- **Descriptive Text**: Alt attributes for images, meaningful link text
+- **Form Labels**: Proper association between labels and inputs
+- **Error Messaging**: ARIA live regions for dynamic content updates
+
+The site demonstrates semantic HTML practices with consistent heading hierarchies, proper form semantics, and accessibility considerations throughout the user interface.
+
+## ✅ Controls testing
+
+**Overview**
+
+This section summarises the results of user interface (UI) element functionality testing for the website. The focus is on key interactive elements such as buttons, links, toggles, menus, cart actions, review functions, and search bars, to ensure they work correctly.
+
+<details>
+<summary>Click to view controls test grid</summary>
+<img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/controls.webp" alt="Test grid" style="width:100%;"></details><br>
+
+**Tested UI Elements**
+The following types of UI controls were tested:
+
+*   **Navbar Elements**: Toggles, navigation menus, cart, login, sign up
+*   **Buttons**: Add to cart, publish, edit, delete, clear cart, update review, generate bill
+*   **Links**: Search links, filtered search
+*   **Search Bars**: Search your orders, search reviews, and general filtered search
+*   **Admin Functions**: Editing menus, image uploads, adding dishes
+*   **Order Operations**: Generate bill, search bill
+
+**Purpose**
+The testing aims to verify that each interactive element:
+
+*   Is present and correctly displayed
+*   Responds appropriately when clicked or tapped
+*   Performs the expected action (e.g., adding to cart, publishing a review)
+*   Provides clear feedback (e.g., button changes, result of action)
+
+**Results Summary**
+*   All tested elements passed successfully.
+*   This indicates the UI components are functioning as intended and meet quality standards.
+
+<hr><p align="right" dir="auto"><a href="#-table-of-contents">Back to Table of Contents</a></p>
+
+# 🚀 Deployment
+
+<details><summary>1. Initial Setup</summary>
+* Create a new folder in your Projects directory for your Django project (use underscores in the name).  
+* Open the folder in VS Code (File > Open Folder).</details><br>
+
+<details><summary>2. Git & GitHub</summary>
+* On GitHub, create a new repository (same name as your folder for consistency).
+* Initialise the repo locally:
+    * Open terminal in VS Code.
+    * Paste the "create a new repository on the command line" commands from GitHub.        
+    * Push your initial commit.
+* In VS Code, create a `.gitignore` file and add `.venv/` and `env.py` to it.</details><br>
+    
+<details><summary>3. Python Environment</summary>
+* Create a virtual environment (Command Palette: “Python: Create Environment” > venv).
+* Activate the environment.</details><br>
+
+<details><summary>4. Django Installation</summary>
+* Install Django (e.g., `pip3 install django~=4.2.1`).
+* Add Django to requirements: `pip3 freeze --local > requirements.txt`.</details><br>
+
+<details><summary>5. Create Django Project & App</summary>
+* Start your project:
+    * `django-admin startproject your_project_name .`
+* Create a new app:
+    * `python3 manage.py startapp app_name`
+* In `settings.py`, add `'app_name'` to `INSTALLED_APPS`.</details><br>
+
+<details><summary>6. Database & Admin Setup</summary>
+* Make and apply migrations:
+    * `python3 manage.py migrate`
+    * `python3 manage.py makemigrations` (if needed)
+* Create a superuser: `python3 manage.py createsuperuser`</details><br>
+
+<details><summary>7. Secure Environment Variables</summary>
+* Create `env.py` in the project root with your `DATABASE_URL` and `SECRET_KEY`.
+* Ensure `env.py` is in `.gitignore`.</details><br>
+
+<details><summary>8. Prepare for Heroku Deployment</summary>
+* Install deployment requirements:
+    * `pip3 install gunicorn~=20.1`
+    * `pip3 freeze --local > requirements.txt`
+* Create a `Procfile` with:
+        * `web: gunicorn your_project_name.wsgi`  
+* Set `DEBUG = False` in `settings.py`.
+* Add `'.herokuapp.com'` to `ALLOWED_HOSTS`.</details><br>
+
+<details><summary>9. Deploy on Heroku</summary>
+* Log in or sign up at Heroku.
+* Create a new app (unique name, select region).
+* In Heroku’s “Settings”, use “Reveal Config Vars” to add:
+    * `DISABLE_COLLECTSTATIC=1`
+    * `DATABASE_URL` (as provided)
+    * `SECRET_KEY` (generated)
+* Connect Heroku to your GitHub repo (Deploy tab).
+* Push your code to GitHub.
+* On Heroku, deploy the connected branch and click “View” to see your live site.</details><br>
+
+<details><summary>10. Working With Repos</summary>
+* Clone: On GitHub, copy the repo URL; in terminal: `git clone <repository-url>`.
+* Fork: On GitHub, click “Fork” to make a copy to your account.</details><br>
+
+<details><summary>11. Run Locally</summary>
+* Start server: `python3 manage.py runserver`
+* To stop: `CTRL+C` (Windows) or `⌘+C` (Mac)
+* Make migrations if needed and apply them as above.
+* Create a superuser if needed.</details><br>
+
+<hr><p align="right" dir="auto"><a href="#-table-of-contents">Back to Table of Contents</a></p>
+
+# 🙌 Credits
+
+## ⌨️ Code
+
+• The initial GitHub project was built using the [Code Institute](https://codeinstitute.net/ie/) template to start.  
+• The navigation bar, cards, buttons, and the modal form were built with [Bootstrap feature](https://getbootstrap.com/docs/5.3).  
+• The website utilises the Bootstrap framework for responsive design and styling components like the navigation bar and cards.  
+• I took inspiration from previous projects shared with us, especially from the works of [Jeremy Greig](https://jeremygreig.github.io/CI_Project_1_JG/index.html) and [Megan Otton](https://meganotton.github.io/Mental_Health_Website/).  
+• Learning and parts of the code were supplied by GitHub Copilot.
+
+## 📝 Content
+
+The text content was generated using AI and Google search.
+
+## 🎥 Media
+Images were either selected from a a vast collection of royalty-free image sites or AI generated using [PicLumen](https://piclumen.com/).
+Static badges for README documentation [Shields.io](https://shields.io/badges/static-badge) & [Simple Icons](https://simpleicons.org/)
+
+## **🤖 AI Implementation and Orchestration**
+
+**Use Cases and Reflections** 
+
+**Code Creation** 
+
+*   **Reflection:** AI tools, especially GitHub Copilot, were leveraged to accelerate the development of HTML, CSS, JavaScript, and Python components, Bootstrap layouts, and responsive design patterns. This enabled rapid prototyping and allowed for more time to focus on accessibility and user experience. 
+*   **Examples:** Copilot generated initial structures for the navigation bar, information cards, and other interactive buttons. It also provided suggestions for semantic HTML and ARIA attributes to improve accessibility. 
+
+**Debugging** 
+
+*   **Reflection:** AI assistance was instrumental in identifying and resolving validation for HTML, CSS, JavaScript, and Python errors, fixing accessibility issues, and ensuring proper tag nesting and structure. 
+*   **Examples:** Copilot Chat helped troubleshoot issues such as unclosed tags, improper heading order, and missing alt text. It also suggested fixes for responsive layout bugs and CSS specificity conflicts. 
+
+**Performance and UX Optimisation** 
+
+*   **Reflection:** AI-driven recommendations were used to enhance site performance and user experience, particularly around responsive design and accessibility best practices. 
+*   **Examples:** Copilot suggested improvements like using stronger security and ensuring keyboard navigability for all interactive elements. 
+
+**Automated Testing and Validation** 
+
+*   **Reflection:** AI tools supported the validation process by providing checklists and reminders for HTML and CSS validation, as well as accessibility audits. 
+*   **Examples:** Copilot generated code snippets for manual testing steps and validation routines, ensuring that all links, buttons, and navigation elements were accessible and functional across devices. 
+
+**Documentation Writing** 
+
+*   **Reflection:** AI tools streamlined the creation of project documentation, offering clear and concise explanations for setup, deployment, and feature descriptions. 
+*   **Examples:** Copilot was used to draft README sections, including installation instructions, feature overviews, and accessibility notes, ensuring the documentation was comprehensive and user-friendly. 
+
+**Overall Impact** 
+
+*   **Efficiency Gains:** The use of AI tools significantly reduced development time, automated repetitive tasks, and improved code quality. This allowed for a greater focus on design, accessibility, and user experience. 
+*   **Challenges:** Occasional contextual adjustments were needed for AI-generated code, particularly to align with accessibility standards and project-specific requirements. These were resolved through iterative testing and manual review.
+
+## 🧡 Acknowledgements
+
+• [Dillon](https://github.com/dillon-mccaffrey-ci) - for supporting with debugging, security features, and overall guidance throughout the project.  
+• [Kevin](https://github.com/kevin-ci) - for providing tips on logic.  
+• [Roo](https://github.com/roomacarthur) - for explaining how to conduct effective testing  
+• [Mark](https://github.com/mbriscoe) - for advice on EDR.  
+• [Roman]() - for advice on effective use of AI.  
+• [Harry]() - for providing feedback on the design, alternative layout, and responsiveness.  
+• [Andrea](https://github.com/AndreaFitz) - for providing feedback on the user experience  
+
+## 💡 Future ideas:
+
+● Enhance security measures to prevent unauthorised access during social auth.  
+● Support social login via OAuth (Google, GitHub) with account linking/unlinking in profiles.  
+● Synchronise Django server time with local time dynamically per user's timezone.  
+● Detect and store user time zones for personalised time displays across the app.  
+● Enable users to download their data in CSV format from their dashboard.  
+● Generate and return CSV files based on user-specific records/models.  
+● Implement real-time online user display using WebSocket or Django Channels for scalability.  
+● Improve dark mode features with better UI/UX consistency and toggle options.  
+● Expand social authentication providers beyond Google and GitHub as needed.  
+
+## 🆕 Recent Updates
+
+Updates have yet to be implemented since the site's deployment on 12th August 2025.
+
+<hr><p align="right" dir="auto"><a href="#-table-of-contents">Back to Table of Contents</a></p>
