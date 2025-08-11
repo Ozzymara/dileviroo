@@ -13,9 +13,8 @@ As part of a portfolio project for the [Code Institute Full Stack Software Devel
 
 🔗 Quick Links  
 [Live Site](https://dileviroo-d67d65227b08.herokuapp.com/)  
-[User Story Board](https://github.com/users/Ozzymara/projects/14)
-
-
+[User Story Board](https://github.com/users/Ozzymara/projects/14)<br>
+<!-- Table of Contents -->
 ## 📑 Table of Contents
 
 - [🗺️ Project Outline](#-project-outline)
@@ -72,5 +71,17 @@ As part of a portfolio project for the [Code Institute Full Stack Software Devel
   - [💡 Future Ideas](#-future-ideas)
   - [🆕 Recent Updates](#-recent-updates)<br>
 
-<hr><p align="right" dir="auto"><a href="https://github.com/Ozzymara/CRUD?tab=readme-ov-file#-table-of-contents">Back To Top</a></p>
+## 🎯 Project Aims
 
+*   **Demonstrate Full-Stack Proficiency**: Highlight Django-powered workflows, from models and views to templates and admin customisation.
+*   **Engage a Dual Audience**: Appeal to both developers seeking inspiration and clients evaluating full-stack talent.
+*   **Celebrate Mentorship**: Embed playful and meaningful gestures for the educators who shaped my journey.<br><br>
+
+## 🚀 Goals
+
+*   **Scalability**: Architect the project to support future features like multi-vendor support, real-time tracking, or payment integration.
+*   **Accessibility**: Ensure semantic markup, ARIA best practices, and responsive design for inclusive user experiences.
+*   **User Retention**: Create intuitive flows for ordering, reviewing, and interacting with the platform to encourage repeat engagement.
+*   **Operational Efficiency:** Streamline admin tasks like order management, bill generation, and review moderation through a customised dashboard.<br><br>
+
+<hr><p align="right" dir="auto"><a href="">Back To Top</a></p>
