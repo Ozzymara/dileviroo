@@ -1202,7 +1202,6 @@ The testing aims to verify that each interactive element:
 • The initial GitHub project was built using the [Code Institute](https://codeinstitute.net/ie/) template to start.  
 • The navigation bar, cards, buttons, and the modal form were built with [Bootstrap feature](https://getbootstrap.com/docs/5.3).  
 • The website utilises the Bootstrap framework for responsive design and styling components like the navigation bar and cards.  
-• I took inspiration from previous projects shared with us, especially from the works of [Jeremy Greig](https://jeremygreig.github.io/CI_Project_1_JG/index.html) and [Megan Otton](https://meganotton.github.io/Mental_Health_Website/).  
 • Learning and parts of the code were supplied by GitHub Copilot.
 
 ## 📝 Content
@@ -1274,3 +1273,4 @@ Static badges for README documentation [Shields.io](https://shields.io/badges/s
 Updates have yet to be implemented since the site's deployment on 12th August 2025.
 
 <hr><p align="right" dir="auto"><a href="#-table-of-contents">Back to Table of Contents</a></p>
+
