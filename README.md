@@ -151,5 +151,6 @@ Each template is developed using user-centred principles: prioritising simplicit
 | reviews.html         | Customer reviews and comments   | <details><summary>view wireframe</summary><img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/w-reviews.png" alt="wireframe" style="width:100%;"></details> |
 <br>
 
-<hr><p align="right" dir="auto"><a href="#-dileviroo-project-overview">Back To Top</a></p>
+<hr><p align="right" dir="auto"><a href="#-table-of-contents">Back to Table of Contents</a></p>
+
 
