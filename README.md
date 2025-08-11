@@ -153,4 +153,134 @@ Each template is developed using user-centred principles: prioritising simplicit
 
 <hr><p align="right" dir="auto"><a href="#-table-of-contents">Back to Table of Contents</a></p>
 
+# ✨ Features
 
+This website is designed for clarity and ease of use and is structured to encourage interaction.<br><br>
+
+## 🏷️ Title and Favicon
+
+<details>
+<summary>Click to view browser title</summary>
+<img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/tab.webp" alt="Browser title" style="width:50%;"></details><br>
+
+• The title of the website `🍕 Dileviroo` appears at the top of the browser tab and the top of the page. This makes it easy for users to recognise and understand the site's purpose. Furthermore, the section that the user is visiting is also reflected. For instance, the menu page is shown as `Menu 🍕 Dileviroo`.
+
+• The favicon (the small icon next to the site title in the browser tab) is the Dileviroo logo icon. The icon helps users quickly identify the site when they have multiple tabs open.<br><br>
+
+## 🖼️ Imagery
+
+Dileviroo utilises 42 images that were either selected from a a vast collection of royalty-free image sites or AI generated using [PicLumen](https://piclumen.com/).
+
+<details>
+<summary>Click to view collage of images</summary>
+<img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/collage.webp" alt="collage of images" style="width:100%;"></details>
+<br>
+
+<details>
+<summary>Click to view logo</summary>
+<img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/logo.png" alt="dileviroo logo" style="width:50%;"></details>
+<br>
+
+The site logo was created using [Design.com](https://www.design.com). The logo features a stylised slice of pizza in shades of blue to reinforce the site's colours. Below the pizza, in light-blue capital letters, the slogan reads "TAKE A `<BR>`" - a valuable piece of advice that we were frequently reminded of by Dillon during the capstone project.<br><br>
+
+## 🧭 Nav Bar
+• The navigation bar is a menu at the top of the website that stays visible as users scroll. This feature makes it easy to move between sections without needing to scroll back to the top.
+
+• The navbar displays the site's logo and a toggle feature to switch between light and dark modes.
+• The navbar includes links to important sections such as the menu, cart, reviews, profile, and my orders, as well as buttons to sign up, log in, and log out.
+
+<details>
+<summary>Click to view navbar</summary>
+<img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/navbar.webp" alt="Navbar" style="width:100%;"></details><br>
+</details>
+
+• The navbar for the admin account includes additional links to edit menu, add item, view all orders, and to generate bills.
+
+<details><summary>Click to view admin navbar</summary>
+<img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/admin_navbar.webp" alt="Navbar" style="width:100%;"></details><br>
+
+• On mobile mode, the menu turns into a hamburger menu (three horizontal lines). Users can tap on it to open the menu and access different sections.
+<details><summary>Click to view navbar for mobile mode</summary>
+<img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/navbar_mobile.webp" alt="Navbar" style="width:50%;"></details><br><br>
+
+## 🔘 Button System
+
+Dileviroo features a comprehensive button system that enhances user experience across all pages with consistent styling and intuitive functionality.
+
+<details><summary>Click to view details on button system</summary>
+  
+| Category                    | Subcategory / Feature          | Description / Key Features                                                                                         |
+|-----------------------------|-------------------------------|--------------------------------------------------------------------------------------------------------------------|
+| **Primary Action Buttons** | **Authentication Buttons**    | Login/Signup: Bootstrap primary buttons with smooth hover transitions; Logout with confirmation modal; Submit forms with validation |
+|                             | **Menu & Cart Interactions**   | Add to Cart buttons with instant feedback; Dynamic cart counter in navbar; Clear Cart button; Place Order button; Plus/Minus quantity buttons |
+| **Administrative Controls** | **Menu Management**            | Add New Item button (primary style); Edit Items button (warning color); Delete Items button (danger style with confirmation); Submit/Update Dish buttons |
+|                             | **Order Management**           | View Bills buttons (outline-success style); Process Orders buttons; All Orders navigation; Database management buttons |
+| **Navigation Buttons**      | **Primary Navigation**         | Menu, Cart, Reviews, Profile navigation buttons; Home/Logo button; Mobile hamburger menu toggle |
+|                             | **Conditional Navigation**     | Admin-only buttons (Add Item, Orders, Bills); User-specific buttons (My Orders, Profile editing) |
+| **Form Control Buttons**    | **Form Actions**               | Submit buttons for all forms; Cancel buttons (secondary style); Save Changes buttons; Form validation triggers |
+|                             | **Profile Management**         | Edit Profile button; Update Password button; Delete Account confirmation buttons |
+| **Interactive Features**    | **Theme Toggle**               | Dark/Light mode toggle with moon/sun icons (🌙/☀️); Smooth CSS animation; User preference persistence |
+|                             | **Search & Filter**            | Search input clear functionality; Real-time search filtering; Category-based filtering |
+| **Review System Buttons**   | **Review Actions**             | Add Review button; Edit Review button (✅ Update review); Delete Review button with warning modal; Cancel Review editing |
+|                             | **Review Navigation**          | Character counter displays; Form validation feedback; Success/error message close buttons |
+| **Cart System Buttons**     | **Cart Management**            | Add to Cart (per item); Remove from Cart; Clear entire Cart; Plus/Minus quantity controls; Go to Cart button |
+|                             | **Checkout Process**           | Place Order button; Payment processing; Order confirmation buttons |
+| **Responsive Design**       | **Mobile Optimisation**        | Touch-friendly (44px min target); Stacked vertical layout on small screens; Navbar toggler for mobile |
+|                             | **Accessibility Features**     | ARIA labels for screen readers; Full keyboard navigation; Visible focus indicators; High contrast ratios |
+| **Dynamic Button States**   | **Loading & Feedback**         | Spinner icons during AJAX calls; Disabled states to prevent double submits; Success feedback with temporary states |
+|                             | **Contextual Variations**      | User role-based visibility (`{% if user.is_superuser %}`); Authentication-dependent display; Cart counter updates |
+| **Alert & Modal Buttons**   | **Dismissible Alerts**         | Alert close buttons (`btn-close`); Message dismissal; Form error clearing |
+|                             | **Confirmation Dialogs**       | Logout confirmation; Delete confirmation; Destructive action warnings |
+| **Special Integrations**    | **Bootstrap Integration**       | Consistent Bootstrap 5 styling; Colour variants (primary, secondary, success, warning, danger, outline-*) |
+|                             | **Custom Enhancements**        | Brand color `#2D5D81`; Icon integration (Font Awesome); Smooth hover transitions |
+|                             | **UX Enhancements**            | Toast notifications; Progress indicators; Real-time validation feedback; Character limits |
+| **Performance Features**    | **Optimisation**               | Lazy loading; Minimal JavaScript handlers; Hardware-accelerated CSS animations; LocalStorage integration |
+|                             | **Security Features**          | CSRF token protection; Form validation; Double-submit prevention; Session management |
+</details>
+
+### 🔍 **Advanced Search Functionality**
+
+One of Dileviroo's standout features is its comprehensive search system that enhances user experience across multiple pages:
+
+<details>
+<summary>Click to view search feature</summary>
+<img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/menusearch.gif" alt="Navbar" style="width:100%;">
+
+| Feature                | Page                | Key Capabilities                                        | No-Results Message                      |
+|------------------------|---------------------|---------------------------------------------------------|---------------------------------------|
+| **Menu Search**         | menu.html           | Real-time filtering as you type; search by name, description, or category; dynamic category hiding/showing | "No matching menu items found 🍽️"    |
+| **Order History Search**| my_orders.html      | Filter by order details, items, or dates; instant search | "No matching orders found 🧾"          |
+| **Reviews Search**      | reviews.html        | Search by review content or reviewer name               | "No matching reviews found 💬"         |
+| **Bills Search** (Admin)| bills.html          | Search by customer info, amount, or bill details        | "No matching bills found 🧾"         |
+</details><br><br>
+
+## 🔚 Footer
+
+Dileviroo features a clean, uncluttered footer that maintains consistent branding and provides essential social media connectivity across all pages.
+
+* The footer includes professionally designed social media icons * Links to the main Dileviroo GitHub repository
+* Direct link to the developer's GitHub profile* 
+* Consistent colour `#2D5D81` to match the navbar scheme
+* All content centred for visual balance
+
+<details>
+<summary>Click to view footer</summary>
+<img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/footer.webp" alt=" audio toggle feature" style="width:50%;"></details><br><br>
+
+## 🕹️ Responsive Website Implementation
+
+This website is fully responsive, meaning it automatically adjusts to different screen sizes, whether viewed on a mobile phone, tablet, or desktop.
+
+<details>
+<summary>Click to view responsiveness
+</summary>
+<img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/responsiveness.webp" alt="Responsiveness" style="width:100%;"></details>
+
+Implementation Details
+
+• The [Bootstrap framework](https://getbootstrap.com)  allowed for a responsive design without the need for additional CSS or media queries.  
+• In some instances, responsiveness required fine-tuning and troubleshooting, particularly with the assistance of GitHub Copilot, an AI-powered coding assistant designed to help developers write code more efficiently. It provides real-time code suggestions, automates repetitive tasks, and helps debug and refactor code.  
+• While some awkward elements still exist, the site successfully adapts to various screen sizes.
+<br>
+
+<hr><p align="right" dir="auto"><a href="#-table-of-contents">Back to Table of Contents</a></p>
